@@ -1,0 +1,235 @@
+---
+/**
+ * * pricing sections with toggle for monthly or yearly payments
+ * This is designed for 3 pricing items, but can be modified to support more
+ */
+
+import { Icon } from "astro-icon/components";
+
+// components
+import Button from "@components/button/Button.astro";
+import Switch from "@components/starwind/switch";
+
+// utils
+import { getLocaleFromUrl } from "@js/localeUtils";
+
+// get the current page locale to use in links to other pages
+const currLocale = getLocaleFromUrl(Astro.url);
+
+interface PricingFeature {
+  text: string;
+  included: boolean;
+}
+
+interface PricingPlan {
+  name: string;
+  baseRate?: number;
+  monthlyPrice?: number;
+  yearlyPrice?: number;
+  description: string;
+  isPopular?: boolean;
+  features: PricingFeature[];
+}
+
+const webPlans: PricingPlan[] = [
+  {
+    name: "Basic",
+    baseRate: 3000,
+    description:
+      'For those that just want the website and all assets. This option is "bring your own hosting"',
+    features: [
+      { text: "Website Development", included: true },
+      { text: "Hosting and Maintenance", included: false },
+      { text: "Custom Domain", included: false },
+      { text: "Simple Change Requests", included: false },
+      { text: "Priority Support", included: false },
+      { text: "Analytics", included: false },
+    ],
+  },
+  {
+    name: "Pro",
+    baseRate: 3000,
+    monthlyPrice: 40,
+    yearlyPrice: 400,
+    description: "Perfect for Individuals and Small Projects",
+    isPopular: true,
+    features: [
+      { text: "Website Development", included: true },
+      { text: "Hosting and Maintenance", included: true },
+      { text: "Custom Domain", included: true },
+      { text: "Simple Change Requests", included: true },
+      { text: "Priority Support", included: false },
+      { text: "Analytics", included: false },
+    ],
+  },
+  {
+    name: "Expert",
+    monthlyPrice: 400,
+    yearlyPrice: 4000,
+    description: "Ideal for Startups and Small Businesses.",
+    features: [
+      { text: "Everything in Pro plus...", included: true },
+      { text: "Website Changes", included: true },
+      { text: "Priority Support", included: true },
+      {
+        text: "No base rate here, We partner with you to ensure you get the best possible service and product.",
+        included: true,
+      },
+      {
+        text: "Connect/Manage other online business presence (eg. Google Business Profile)",
+        included: true,
+      },
+      { text: "Analytics", included: true },
+    ],
+  },
+];
+---
+
+<section
+  id="pricing-three-cards"
+  class="bg-base-100 dark:bg-background text-foreground relative py-16 md:py-32"
+>
+  <div class="site-container">
+    <h2 class="h2 mb-4 text-center">Pricing Plans</h2>
+    <p class="description mb-16 text-center text-lg">
+      Choose the perfect plan for your needs
+    </p>
+
+    <div class="mb-16 flex items-center justify-center gap-4">
+      <span class="description">Monthly</span>
+      <Switch variant="primary" id="pricing-three-cards__toggle" size="lg" />
+      <span class="description"
+        >Yearly <span class="text-primary text-sm">(Save 20%)</span></span
+      >
+    </div>
+
+    <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-3">
+      {
+        webPlans.map((plan) => (
+          <di
+            class:list={[
+              "relative rounded-2xl p-8 transition-all duration-300",
+              "hover:border-primary/30 hover:shadow-primary/5 dark:bg-base-900 border bg-white hover:shadow-xl",
+              plan.isPopular
+                ? [
+                    "border-primary/30 shadow-primary/5 shadow-xl",
+                    "lg:-translate-y-2 lg:scale-105",
+                  ]
+                : ["border-border"],
+            ]}
+          >
+            {plan.isPopular && (
+              <div class="bg-primary absolute -top-4 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-sm font-medium text-white">
+                Most Popular
+              </div>
+            )}
+
+            <div class="mb-8 text-center">
+              <h3 class="font-heading mb-2 text-2xl">{plan.name}</h3>
+              <p class="description text-sm">{plan.description}</p>
+            </div>
+
+            <div class="mb-8 text-center">
+              <div class="relative">
+                {plan.baseRate !== undefined && (
+                  <p class="pricing-base text-primary text-4xl font-bold">
+                    ${plan.baseRate}
+                    <span class="text-base-500 text-lg font-normal">
+                      {" "}
+                      one-time
+                    </span>
+                  </p>
+                )}
+                {plan.monthlyPrice !== undefined && (
+                  <p class="pricing-monthly text-primary text-4xl font-bold">
+                    ${plan.monthlyPrice}
+                    <span class="text-base-500 text-lg font-normal">/mo</span>
+                  </p>
+                )}
+                {plan.yearlyPrice !== undefined && (
+                  <p class="pricing-yearly text-primary hidden text-4xl font-bold">
+                    ${plan.yearlyPrice}
+                    <span class="text-base-500 text-lg font-normal">/yr</span>
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <ul class="mb-8 space-y-4">
+              {plan.features.map((feature) => (
+                <li class="description flex items-center text-base">
+                  <span
+                    class:list={[
+                      "mr-2",
+                      feature.included ? "text-primary" : "text-base-400",
+                    ]}
+                  >
+                    <Icon
+                      name={feature.included ? "tabler/check" : "tabler/x"}
+                      class="h-5 w-5"
+                    />
+                  </span>
+                  <span class:list={[feature.included ? "" : "opacity-70"]}>
+                    {feature.text}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            <Button
+              href="#contact"
+              variant={plan.isPopular ? "primary" : "secondary"}
+              class="w-full"
+            >
+              Get Started
+            </Button>
+          </di>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const setupPricingToggle = () => {
+    const pricingSection = document.getElementById("pricing-three-cards");
+    const toggle = pricingSection?.querySelector(
+      "#pricing-three-cards__toggle",
+    );
+    const monthlyPrices = pricingSection?.querySelectorAll(".pricing-monthly");
+    const yearlyPrices = pricingSection?.querySelectorAll(".pricing-yearly");
+
+    if (!toggle || !monthlyPrices || !yearlyPrices) return;
+
+    // Create a new MutationObserver to watch for aria-checked changes
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "aria-checked"
+        ) {
+          const isYearly = toggle.getAttribute("aria-checked") === "true";
+          monthlyPrices.forEach((price) =>
+            price.classList.toggle("hidden", isYearly),
+          );
+          yearlyPrices.forEach((price) =>
+            price.classList.toggle("hidden", !isYearly),
+          );
+        }
+      });
+    });
+
+    // Start observing the toggle button for attribute changes
+    observer.observe(toggle, {
+      attributes: true,
+      attributeFilter: ["aria-checked"], // only watch for aria-checked changes
+    });
+  };
+
+  setupPricingToggle();
+
+  document.addEventListener("astro:after-swap", () => {
+    setupPricingToggle();
+  });
+</script>
+

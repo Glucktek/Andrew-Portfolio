@@ -1,0 +1,193 @@
+{
+  "$ref": "#/definitions/resume",
+  "definitions": {
+    "resume": {
+      "type": "object",
+      "properties": {
+        "diplomas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "school": {
+                "type": "string"
+              },
+              "year": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "title",
+              "school",
+              "year"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "certifications": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "year": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "title",
+              "year"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "experience": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "company": {
+                "type": "string"
+              },
+              "companyImage": {
+                "type": "string"
+              },
+              "dates": {
+                "type": "string"
+              },
+              "location": {
+                "type": "string"
+              },
+              "responsibilities": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "title",
+              "company",
+              "companyImage",
+              "dates",
+              "location",
+              "responsibilities"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "hardSkills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "skill": {
+                "type": "string"
+              },
+              "percentage": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            },
+            "required": [
+              "skill",
+              "percentage"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "softSkills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "skill": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "skill",
+              "icon"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string"
+              },
+              "level": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 10
+              }
+            },
+            "required": [
+              "language",
+              "level"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "image": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "name",
+              "category",
+              "image",
+              "link"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "diplomas",
+        "certifications",
+        "experience",
+        "hardSkills",
+        "softSkills",
+        "languages",
+        "tools"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

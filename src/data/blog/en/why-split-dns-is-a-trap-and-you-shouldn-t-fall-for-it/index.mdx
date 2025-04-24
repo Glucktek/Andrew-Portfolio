@@ -1,0 +1,87 @@
+---
+title: Why Split DNS Is a Trap (and You Shouldn’t Fall for It)
+description: A cautionary tale of hair-pulling debug sessions and invisible firewalls
+draft: false
+authors:
+  - main-author
+pubDate: 2025-04-24
+heroImage: ../why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/heroImage.jpg
+categories:
+  - dns
+  - DevOps
+  - Homelab
+  - Networking
+---
+I recently had some serious troubles using split DNS in my home network. My prduction workloads are hybrid, some being in the cloud and some in local server rack. I thought I would be clever and implement split dns. Sounds harmless, right? Like maybe you're just *splitting* up the responsibility nicely between your internal and external zones. It even sounds a little... organized?
+
+Nah. It's a trap. A shiny, deliciously deceptive trap that seems like a good idea until it makes you question reality, DNS, and your life choices.
+
+---
+
+### What *Is* Split DNS?
+
+Split DNS is when you configure your internal DNS servers to resolve certain domains (usually internal names or internal versions of public services) differently than the public DNS.
+
+For example:
+
+* Internal `api.example.com` → 10.10.1.42
+* External `api.example.com` → 203.0.113.42
+
+To a human? Totally logical. To systems, automation tools, VPNs, and your future self? A recipe for tears.
+
+---
+
+### Why It’s a Bad Idea
+
+#### 1. **Inconsistent State, Inconsistent Bugs**
+
+Everything works fine… until it doesn’t. One laptop on the wrong network path, a recursive DNS server that leaks the wrong answer, or a VPN client that does something "weird" — suddenly you're troubleshooting a ghost.
+
+> "It works for me."\
+> "Well, it doesn't work on my phone over LTE."\
+> "What DNS server are you using?"\
+> **Cue the spiral.**
+
+---
+
+#### 2. **Breaks Zero Trust and Modern Networking Models**
+
+Split DNS assumes you *know* who's inside and who's outside. That’s cute. But in 2025, we’ve got hybrid networks, Tailscale, cloud-hosted services, remote employees, and microservices talking across clusters.
+
+Split DNS doesn’t fit. You want auth-based access, not “can this IP resolve the hostname?”
+
+---
+
+#### 3. **Certificate Misery**
+
+Trying to use Let’s Encrypt or any ACME-based cert issuance when your internal DNS points to an internal IP? Good luck. Your public resolver can’t hit it, and now you're proxying validation requests or running DNS challenges with duct tape.
+
+SSL termination becomes a hellscape of split zones and reverse proxy hacks. Every cert renewal is a ticking time bomb.
+
+---
+
+#### 4. **Caching Nightmares**
+
+This was the worst nightmare of them all. DNS caching makes split DNS *extra spicy*. Your laptop switches from your office to a café, but it’s still got that internal IP cached. Now your curl command hangs, trying to reach an address that doesn’t exist outside your internal network.
+
+Wanna debug that? Hope you love `dig`, `nslookup`, `systemd-resolved`, and crying, lots of crying.
+
+---
+
+### Okay, So What’s the Alternative?
+
+**Use a single, consistent DNS zone** and control access at the **network** or **application** level:
+
+* Use only public DNS entries, even for internal services. (Bad Idea)
+* Hard separations between internal and external services. For internal services internal-only subdomains (`internal.example.com`) instead of dual-purposing a public domain.
+* Embrace Tailscale or VPNs to securely expose internal services without DNS sleight-of-hand.
+
+---
+
+### TL;DR
+
+Split DNS *seems* like a good idea; until it becomes the source of untraceable bugs, inconsistent behavior, and broken cert automation. Don’t fall into the trap.
+
+If you need different access levels for different users or locations, solve that with **auth**, not **alternate realities of DNS**.
+
+Because the moment you’re deep into a split DNS debugging session at 2AM, you’ll understand why this post exists.
