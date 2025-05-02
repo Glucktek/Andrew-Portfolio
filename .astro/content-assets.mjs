@@ -1,6 +1,6 @@
 
-import __ASTRO_IMAGE_IMPORT_1Qzqsg from "../main-author/avatar.jpeg?astroContentImageFlag=&importer=src%2Fdata%2Fauthors%2Fmain-author%2Findex.mdx";
 import __ASTRO_IMAGE_IMPORT_ZtR4Ij from "../why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/heroImage.jpg?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fwhy-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it%2Findex.mdx";
+import __ASTRO_IMAGE_IMPORT_1Qzqsg from "../main-author/avatar.jpeg?astroContentImageFlag=&importer=src%2Fdata%2Fauthors%2Fmain-author%2Findex.mdx";
 import __ASTRO_IMAGE_IMPORT_1zR6sO from "../mr-builders/image.png?astroContentImageFlag=&importer=src%2Fdata%2Fprojects%2Fen%2Fmr-builders%2Findex.mdx";
-export default new Map([["../main-author/avatar.jpeg?astroContentImageFlag=&importer=src%2Fdata%2Fauthors%2Fmain-author%2Findex.mdx", __ASTRO_IMAGE_IMPORT_1Qzqsg], ["../why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/heroImage.jpg?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fwhy-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it%2Findex.mdx", __ASTRO_IMAGE_IMPORT_ZtR4Ij], ["../mr-builders/image.png?astroContentImageFlag=&importer=src%2Fdata%2Fprojects%2Fen%2Fmr-builders%2Findex.mdx", __ASTRO_IMAGE_IMPORT_1zR6sO]]);
+export default new Map([["../why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/heroImage.jpg?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fwhy-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it%2Findex.mdx", __ASTRO_IMAGE_IMPORT_ZtR4Ij], ["../main-author/avatar.jpeg?astroContentImageFlag=&importer=src%2Fdata%2Fauthors%2Fmain-author%2Findex.mdx", __ASTRO_IMAGE_IMPORT_1Qzqsg], ["../mr-builders/image.png?astroContentImageFlag=&importer=src%2Fdata%2Fprojects%2Fen%2Fmr-builders%2Findex.mdx", __ASTRO_IMAGE_IMPORT_1zR6sO]]);
 		
