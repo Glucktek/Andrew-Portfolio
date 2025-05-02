@@ -1,65 +1,46 @@
 import { type TestimonialItem } from "../types/configDataTypes";
 
-import BowTiedFocus from "@images/testimonials/BowTiedFocus.jpg";
-import TravisB from "@images/testimonials/travis-b.png";
-import Connor from "@images/testimonials/connor.webp";
-import Aniket from "@images/testimonials/aniket_p.jpg";
-import David from "@images/testimonials/david-g-davedev.png";
-import Damiano from "@images/testimonials/damiano.jpg";
+import Jordon from "@images/testimonials/jordon.jpeg";
+import Savpril from "@images/testimonials/savpril.jpeg";
+import Nicholas from "@images/testimonials/nick.jpeg";
+import Wally from "@images/testimonials/wally.jpeg";
 
 export const testimonialData: TestimonialItem[] = [
-	{
-		avatar: Connor,
-		name: "Connor D",
-		title: "Developer",
-		testimonial: `Cosmic Themes offers more than stunning templates built on a rock-solid Astro
-     foundation—it fosters a vibrant community. With value-added perks like Discord and GitHub 
-     invites, Cosmic Themes is a no-brainer for anyone launching a new Astro project.
-      `,
-	},
+  {
+    avatar: Jordon,
+    name: "Jordon Kersey | Senior DevOps Engineer",
+    title: "",
+    link: "https://www.linkedin.com/in/jordonkersey/",
+    testimonial: `Andrew has a drive like no other. I have not seen a problem that Andrew has turned down. He is always willing to learn more and takes 
+    failure as fuel to become better. Not only was he an amazing coworker who always strived to become better, he also became a close friend. Andrew is 
+    someone that anyone would be lucky to have on their team.
+    `,
+  },
 
-	{
-		avatar: Damiano,
-		name: "Damiano L",
-		title: "C++ Developer",
-		testimonial: `Cosmic Themes provides some of the best Astro themes out there. They are well designed, easy to customize and, 
-    most importantly, the team is very responsive concerning support and feature requests. Using their themes allows you to focus on content creation.
-      `,
-	},
-	{
-		avatar: David,
-		name: "David G",
-		title: "Web Developer",
-		testimonial: `It's the cleanest template standup experience ever! I've never used Astro, but looking at the demo, code, it
-    should be fairly simple pickup on top of my existing React and NextJS experience.
-      `,
-	},
-	{
-		avatar: TravisB,
-		name: "Travis B",
-		title: "Developer",
-		testimonial: `Cosmic themes are for webdevs and marketers who don't want to waste time reinventing the wheel. 
-    Their themes have great examples of some of the creative things you can accomplish with Astro. 
-      `,
-	},
-	{
-		avatar: Aniket,
-		name: "Aniket P",
-		title: "Data Scientist",
-		testimonial: `I'm not a front-end dev, but I wanted to rebuild my personal site with Astro. If you're in the same shoes,
-      I can't recommend enough Cosmic Themes.
-      `,
-	},
-
-	{
-		avatar: BowTiedFocus,
-		name: "BowTiedFocus",
-		title: "Freelance Web Developer",
-		testimonial: `The theme is ridiculously well put together and documented.
-      I learned a ton about Astro engineering by studying it, and I've already used some of the components
-      for my web design clients. Plus, it shaved hours off my dev time.
-      `,
-	},
+  {
+    avatar: Savpril,
+    name: "Savpril Salwan | Director",
+    title: "",
+    testimonial: `I worked with Andrew during my stint at Quanterix. He is a great professional and a human being to work with. His competency in technical 
+    skills was high and managing work from different operation streams was done very smoothly. The skills that stands him out include empathy, hard work and 
+    listening to the problem. I thoroughly enjoyed working with him and he will always be a great addition to any organization.
+    `,
+  },
+  {
+    avatar: Nicholas,
+    name: "Nicholas Mifflin | IT Manager",
+    title: "",
+    testimonial: `Andrew has an innate passion for all things Electronic and Information Technology. He is always working on side projects for his own joy without thought of 
+    monetization. Working with Andrew was always a pleasure as he pours his very soul into his work. I am certain with time, he will become very proficient at 
+    anything he sets his mind to.
+    `,
+  },
+  {
+    avatar: Wally,
+    name: "Wally Tukis | Director of Software QA",
+    title: "",
+    testimonial: `Andrew is a great Devops engineer. I enjoyed working with him,`,
+  },
 ];
 
 export default testimonialData;
