@@ -23,22 +23,13 @@ const navConfig: navItem[] = [
     text: "Blog",
     link: "/blog/",
   },
-  {
-    text: "Resume",
-    link: "/resume/",
-  },
+  // {
+  //   text: "Resume",
+  //   link: "/resume/",
+  // },
   {
     text: "Collaborate",
-    dropdown: [
-      {
-        text: "Website Development",
-        link: "/work",
-      },
-      {
-        text: "DevOps Consultant",
-        link: "/work",
-      },
-    ],
+    link: "/work",
   },
 ];
 

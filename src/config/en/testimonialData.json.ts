@@ -1,16 +1,25 @@
 import { type TestimonialItem } from "../types/configDataTypes";
 
 import Jordon from "@images/testimonials/jordon.jpeg";
+import Trevor from "@images/testimonials/trevor.jpeg";
 import Savpril from "@images/testimonials/savpril.jpeg";
 import Nicholas from "@images/testimonials/nick.jpeg";
 import Wally from "@images/testimonials/wally.jpeg";
 
 export const testimonialData: TestimonialItem[] = [
   {
+    avatar: Trevor,
+    name: "Trevor St. Claire | IT Manager",
+    title: "",
+    testimonial: `I had the pleasure of working with Andrew on a highly complex programming project that required not only technical expertise and our 
+    workflows. From day one, Andrew demonstrated an exceptional ability to analyze our requirements, architect a robust solution, and deliver clean, efficient 
+    code on time and with zero fluff.
+    `,
+  },
+  {
     avatar: Jordon,
     name: "Jordon Kersey | Senior DevOps Engineer",
     title: "",
-    link: "https://www.linkedin.com/in/jordonkersey/",
     testimonial: `Andrew has a drive like no other. I have not seen a problem that Andrew has turned down. He is always willing to learn more and takes 
     failure as fuel to become better. Not only was he an amazing coworker who always strived to become better, he also became a close friend. Andrew is 
     someone that anyone would be lucky to have on their team.

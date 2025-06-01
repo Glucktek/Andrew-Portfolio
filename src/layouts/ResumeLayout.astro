@@ -12,68 +12,80 @@ import Diplomas from "@components/resume/Diplomas.astro";
 import Certifications from "@components/resume/Certifications.astro";
 import Experience from "@components/resume/Experience.astro";
 import HardSkills from "@components/resume/HardSkills.astro";
-import SoftSkills from "@components/resume/SoftSkills.astro";
 import Languages from "@components/resume/Languages.astro";
 import Tools from "@components/resume/Tools.astro";
 
 // utils
 import { getLocaleFromUrl } from "@js/localeUtils";
 interface Props {
-	title: string;
-	description: string;
-	resume: CollectionEntry<"resume">;
+  title: string;
+  description: string;
+  resume: CollectionEntry<"resume">;
 }
 
 const { title, description, resume } = Astro.props as Props;
-const { diplomas, experience, hardSkills, softSkills, certifications, languages, tools } =
-	resume.data;
+const {
+  diplomas,
+  experience,
+  hardSkills,
+  softSkills,
+  certifications,
+  languages,
+  tools,
+} = resume.data;
 
 const currLocale = getLocaleFromUrl(Astro.url);
 ---
 
 <BaseLayout type="general" title={title} description={description}>
-	<div class="site-container mt-24 md:mt-36">
-		<div class="mx-auto max-w-4xl">
-			<!-- Header -->
-			<div class="mb-16 flex flex-col items-center justify-between gap-6 sm:flex-row">
-				<div class="text-center sm:text-left">
-					<h1 class="font-heading mb-4 text-4xl">{title}</h1>
-					<p class="description opacity-80">{description}</p>
-				</div>
+  <div class="site-container mt-24 md:mt-36">
+    <div class="mx-auto max-w-4xl">
+      <!-- Header -->
+      <div
+        class="mb-16 flex flex-col items-center justify-between gap-6 sm:flex-row"
+      >
+        <div class="text-center sm:text-left">
+          <h1 class="font-heading mb-4 text-4xl">{title}</h1>
+          <p class="description opacity-80">{description}</p>
+        </div>
 
-				<Button href="/ExampleResume.pdf" download="ExampleResume.pdf" variant="secondary">
-					<div class="flex items-center gap-2">
-						<span>Download CV</span>
-						<Icon name="tabler/download" aria-hidden="true" class="size-5" />
-					</div>
-				</Button>
-			</div>
+        <Button
+          href="/ExampleResume.pdf"
+          download="ExampleResume.pdf"
+          variant="secondary"
+        >
+          <div class="flex items-center gap-2">
+            <span>Download CV</span>
+            <Icon name="tabler/download" aria-hidden="true" class="size-5" />
+          </div>
+        </Button>
+      </div>
 
-			<!-- Resume Sections -->
-			<div class="space-y-16 pb-10">
-				<Diplomas {diplomas} />
+      <!-- Resume Sections -->
+      <div class="space-y-16 pb-10">
+        <Experience {experience} />
 
-				<Experience {experience} />
+        <Diplomas {diplomas} />
 
-				<div class="grid gap-8 md:grid-cols-2">
-					<Certifications {certifications} />
-					<Languages {languages} />
-				</div>
+        <div class="grid gap-8 md:grid-cols-2">
+          <Certifications {certifications} />
+          <Languages {languages} />
+        </div>
 
-				<div class="grid gap-8 md:grid-cols-2">
-					<HardSkills {hardSkills} />
-					<SoftSkills {softSkills} />
-				</div>
+        <div class="grid gap-8 md:grid-cols-2">
+          <HardSkills {hardSkills} />
+        </div>
 
-				<Tools {tools} />
-				<!-- you can also limit the number of tools to display here -->
-				<!-- <Tools {tools} limit={4} /> -->
-				<!-- <Button variant="secondary" href={"/tools"} arrow="right">
+        <Tools {tools} />
+        <!-- you can also limit the number of tools to display here -->
+        <!-- <Tools {tools} limit={4} /> -->
+        <!-- <Button variant="secondary" href={"/tools"} arrow="right">
 					See all tools
 				</Button> -->
-			</div>
-		</div>
-	</div>
+      </div>
+    </div>
+  </div>
 
-	<slot />
+  <slot />
 </BaseLayout>
+

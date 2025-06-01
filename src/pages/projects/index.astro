@@ -7,7 +7,6 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 // components
 import ProjectCard from "@/components/projects/ProjectCard.astro";
 import FilterButton from "@components/button/FilterButton.astro";
-import ContactSectionSimple from "@components/contact/ContactSectionSimple.astro";
 
 // utils
 import { filterCollectionByLanguage } from "@js/localeUtils";
@@ -86,8 +85,6 @@ const allTechnologies = [
       </div>
     </div>
   </div>
-
-  <ContactSectionSimple />
 </BaseLayout>
 
 <script>
@@ -214,4 +211,3 @@ const allTechnologies = [
   // runs on view transitions navigation
   document.addEventListener("astro:after-swap", setupProjectsFiltering);
 </script>
-
