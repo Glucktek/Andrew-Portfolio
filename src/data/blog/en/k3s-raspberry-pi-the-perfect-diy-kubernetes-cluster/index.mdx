@@ -1,0 +1,122 @@
+---
+title: 'k3s and Raspberry Pi: The Perfect DIY Kubernetes Cluster'
+description: >-
+  Run k3s Kubernetes on Raspberry Pi! This guide shows you how to build a
+  lightweight cluster for home or homelab. Easy setup & powerful results.
+draft: false
+authors:
+  - main-author
+pubDate: 2025-06-17
+heroImage: ../k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/heroImage.png
+categories:
+  - Homelab
+  - Kubernetes
+  - DevOps
+---
+### Kubernetes, But Make It Snack-Sized&#x20;
+
+I love Kubernetes, and I absolutely love pie. However, let's be real here, if you tried to run Kubernetes on a stack of raspberry pis, they would be more stuffed than me at thanksgiving dinner. Your poor little SBCs start sweating, and no way to loosen the belt.
+
+Enter k3s. The lightweight, certified Kubernetes distribution that’s so slim, it would make a fashion model feel inadequate. Designed by Rancher, k3s is just like Kubernetes: same power, way less bloat.
+
+### Why k3s Rocks My (and Your) Socks off
+
+* Tiny Footprint: k3s is a single binary under 100MB. It’s like Kubernetes, but on a diet.
+* Fast and Furious: Installs in under a minute, even on a Pi. You’ll spend more time making coffee.
+* Low Resource Usage: Perfect for ARM devices and low-power hardware. Your Pis will thank you.
+* Batteries Included: Comes with containerd, Flannel, Traefik, and more, but you can swap them out if you’re picky.
+* Certified K8s: It’s not a toy. k3s passes all CNCF conformance tests. You get the real deal.
+
+What Can You Do With a Pi Cluster Running k3s?
+
+* Home automation (Home Assistant, Node-RED, etc.)
+* Self-hosted services (Nextcloud, Gitea, Jellyfin, Immich)
+* Learning and experimentation (CI/CD, GitOps, edge computing)
+* Bragging rights at your next nerd meetup
+
+### How to Use k3s on a Raspberry Pi Cluster
+
+What You’ll Need
+
+* 2+ Raspberry Pis (any model works, but 4 or newer is best)
+* SD cards or USB to SSD (Recommended)
+* Network (wired is best, but WiFi works)
+* SSH access to each Pi
+* A little patience and a lot of coffee
+
+Step 1: Prep Your Pis
+
+1. Flash Raspberry Pi OS Lite (or your favorite flavor) onto each SD card.
+2. Enable SSH by dropping an empty file named `ssh` in the `/boot` partition.
+3. Boot up and SSH in to each Pi.
+4. Update everything (because you’re not a monster):
+
+   ```sh
+   sudo apt update && sudo apt upgrade -y
+   ```
+5. Set hostnames so you know who’s who:
+
+   ```sh
+   sudo hostnamectl set-hostname pi-master
+   # or pi-node1, pi-node2, etc.
+   ```
+6. Reboot for good measure.
+
+Step 2: Install k3s on the Master Node
+
+On your “master” Pi (let’s call it `pi-master`):
+
+```sh
+curl -sfL https://get.k3s.io | sh -
+```
+
+This installs k3s and starts the server.
+Grab the node token for your agents:
+
+```sh
+sudo cat /var/lib/rancher/k3s/server/node-token
+```
+
+Step 3: Install k3s on the Worker Nodes
+
+On each worker Pi:
+
+```sh
+curl -sfL https://get.k3s.io | K3S_URL=https://<MASTER_IP>:6443 K3S_TOKEN=<NODE_TOKEN> sh -
+```
+
+Replace `<MASTER_IP>` with your master’s IP.
+Replace `<NODE_TOKEN>` with the token you copied.
+
+Step 4: Check Your Cluster
+
+Back on the master:
+
+```sh
+sudo k3s kubectl get nodes
+```
+
+You should see all your Pis listed as happy, ready nodes. If not, check your network/firewall and make sure the token/IPs are correct.
+
+Step 5: Deploy Something Cool
+
+Let’s deploy a classic Nginx pod:
+
+```sh
+sudo k3s kubectl create deployment nginx --image=nginx
+sudo k3s kubectl expose deployment nginx --port=80 --type=NodePort
+```
+
+Find the NodePort:
+
+```sh
+sudo k3s kubectl get svc
+```
+
+Now hit your Pi’s IP at that port in your browser. Boom! You’re running Kubernetes on a cluster of $35 computers. You absolute legend.
+
+### Final Thoughts
+
+k3s makes Kubernetes accessible, fun, and practical for tinkerers, homelabbers, and edge deployments. Running it on a Raspberry Pi cluster is a fantastic way to learn, experiment, and build cool stuff without breaking the bank or your brain.
+
+So go forth, cluster up, and may your pods always be healthy and your nodes never taint(ed).

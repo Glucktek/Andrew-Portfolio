@@ -1,16 +1,12 @@
 ---
-import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
-
-// components
 import Button from "@components/button/Button.astro";
 
 // utils
 import { getLocaleFromUrl } from "@js/localeUtils";
-const currLocale = getLocaleFromUrl(Astro.url);
+getLocaleFromUrl(Astro.url);
 ---
 
-<section id="hero-gradient" clas s="bg-primary-950 dark:bg-base-950">
+<section id="hero-gradient" class="bg-primary-950 dark:bg-base-950">
   <div
     class:list={[
       "relative flex min-h-[100svh] items-center justify-center overflow-hidden",
@@ -61,9 +57,9 @@ const currLocale = getLocaleFromUrl(Astro.url);
             data-aos-trigger="#hero-gradient"
             data-aos-duration="1.2"
           >
-            Whether it's deploying infrastructure, crafting APIs, or building
-            AI-driven experiences, I engineer solutions that are fast, flexible,
-            and built to scale.
+            I create reliable and scalable systems, from foundational
+            infrastructure to advanced AI implementations, ensuring optimal
+            performance, seamless integration, and measurable business impact.
           </p>
 
           <!-- Call to Action Buttons -->

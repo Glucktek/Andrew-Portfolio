@@ -1,9 +1,452 @@
 {
-  "diplomas": [],
-  "certifications": [],
-  "experience": [],
-  "hardSkills": [],
-  "softSkills": [],
-  "languages": [],
-  "tools": []
+  "diplomas": [
+    {
+      "title": "Associate of Science - Computer Programming Technologies",
+      "school": "Vincennes University",
+      "year": 2016
+    }
+  ],
+  "certifications": [
+    {
+      "title": "AWS Solutions Architect",
+      "year": 2021
+    },
+    {
+      "title": "MTA: Software Development Fundamentals",
+      "year": 2018
+    },
+    {
+      "title": "MTA: Networking Fundamentals",
+      "year": 2018
+    },
+    {
+      "title": "CompTIA Security+",
+      "year": 2017
+    }
+  ],
+  "experience": [
+    {
+      "title": "Sr Software DevOps Engineer",
+      "company": "Magnit",
+      "companyImage": "./magnit-logo.png",
+      "dates": "September 2022 - August 2025",
+      "location": "California, United States",
+      "responsibilities": [
+        "Orchestrated end-to-end cloud automation for an entire department using Pulumi (TypeScript), delivering fully reproducible, policy-compliant infrastructure with zero-touch environments.",
+        "Engineered robust CI/CD pipelines for a microservices ecosystem, standardizing builds, testing, security scanning, and deployments to dramatically increase release reliability and speed.",
+        "Stood up a Rancher-managed Kubernetes platform (RKE2/k3s), automating management-cluster bootstrap and downstream cluster provisioning with Ansible and Terraform for repeatable, auditable cluster lifecycle management.",
+        "Implemented a production-grade GitOps operating model with ArgoCD, enforcing declarative deployments, drift detection, and automated rollbacks across environments.",
+        "Automated 30% of developer workflows, eliminating manual toil, accelerating feedback loops, and enabling self-service delivery for product teams.",
+        "Established guardrails and golden paths (templates, pipelines, policies) that scaled across teams, improving security posture and consistency without slowing delivery."
+      ]
+    },
+    {
+      "title": "Senior DevOps Engineer",
+      "company": "Voxr AI Corp",
+      "companyImage": "./voxr-logo.png",
+      "dates": "February 2024 - June 2025",
+      "location": "Louisville Metropolitan Area",
+      "responsibilities": [
+        "Weekend and evening contract work",
+        "Built out entire CI/CD process",
+        "Designed scalable robust cloud platform to allow for cost effectiveness in early stages of application development",
+        "Consulted on DevOps best practices"
+      ]
+    },
+    {
+      "title": "Principal DevOps Engineer",
+      "company": "Quanterix",
+      "companyImage": "./quanterix-logo.png",
+      "dates": "September 2021 - August 2022",
+      "location": "Boston, Massachusetts, United States",
+      "responsibilities": [
+        "Pioneered DevOps across the organization—established the philosophy, operating model, and end-to-end pipelines; evangelized best practices to leadership and engineering to drive company-wide adoption.",
+        "Converted manual, days-long release processes into fully automated pipelines, shrinking deployments and validations to minutes while increasing reliability and repeatability.",
+        "Designed developer-centric workflows (branching, reviews, environments, artifact/version strategy) that streamlined delivery, improved feedback loops, and unlocked self-service.",
+        "Implemented Infrastructure as Code with Pulumi, enabling consistent, policy-compliant provisioning and rapid environment spin-up across teams.",
+        "Built and evolved hybrid cloud foundations in AWS and Azure, including networking, identity, security guardrails, and platform services to support product growth."
+      ]
+    },
+    {
+      "title": "Lead DevOps Engineer",
+      "company": "EAGLE6",
+      "companyImage": "./rocket-icon.png",
+      "dates": "March 2018 - September 2021",
+      "location": "Louisville, Kentucky Area",
+      "responsibilities": [
+        "Developed custom tools to meet organizational needs in Golang and Python",
+        "Developed build scripts to allow developers to build the product locally using Ansible",
+        "Developed automated configuration of entire AWS infrastructure using AWX, RedHat's open-source variant of Ansible tower",
+        "Converted the provisioning of all legacy infrastructure to Terraform and AWX",
+        "Continued development of CI/CD pipeline with Jenkins to ensure security and quality are maintained with all software releases",
+        "Managed Octopus Server to orchestrate releases to all environments from development to Demo servers",
+        "Managed a fleet of over 200 Linux servers",
+        "Performed monthly red team security attacks against products to ensure no externally facing vulnerabilities"
+      ]
+    },
+    {
+      "title": "Full-stack Developer",
+      "company": "ALTOUR",
+      "companyImage": "./rocket-icon.png",
+      "dates": "September 2017 - January 2018",
+      "location": "Louisville, Kentucky Area",
+      "responsibilities": [
+        "Acted as DevOps engineer for the team",
+        "Managed on-premises Linux environments from development to production",
+        "Automated deployments to production systems",
+        "Internal corporate development",
+        "HTML5/JavaScript Front End Design",
+        "Built MVC web applications on the CodeIgniter framework",
+        "Linux system administration (CentOS, RedHat enterprise derivative)"
+      ]
+    }
+  ],
+  "hardSkills": [
+    {
+      "skill": "AWS/Cloud Platforms",
+      "percentage": 96
+    },
+    {
+      "skill": "Kubernetes",
+      "percentage": 95
+    },
+    {
+      "skill": "CI/CD Pipelines",
+      "percentage": 95
+    },
+    {
+      "skill": "Linux Administration",
+      "percentage": 95
+    },
+    {
+      "skill": "Pulumi/Terraform",
+      "percentage": 90
+    },
+    {
+      "skill": "Docker/Containers",
+      "percentage": 90
+    },
+    {
+      "skill": "Python",
+      "percentage": 85
+    },
+    {
+      "skill": "Golang",
+      "percentage": 85
+    },
+    {
+      "skill": "GitOps/ArgoCD",
+      "percentage": 85
+    },
+    {
+      "skill": "TypeScript/JavaScript",
+      "percentage": 75
+    },
+    {
+      "skill": "Astro",
+      "percentage": 65
+    },
+    {
+      "skill": "React/React Native",
+      "percentage": 50
+    }
+  ],
+  "softSkills": [
+    {
+      "skill": "Leadership",
+      "icon": "tabler:user-star"
+    },
+    {
+      "skill": "Team Collaboration",
+      "icon": "tabler:users"
+    },
+    {
+      "skill": "Mentoring",
+      "icon": "tabler:school"
+    },
+    {
+      "skill": "Problem Solving",
+      "icon": "tabler:bulb"
+    },
+    {
+      "skill": "Process Improvement",
+      "icon": "tabler:trending-up"
+    },
+    {
+      "skill": "Strategic Planning",
+      "icon": "tabler:target"
+    }
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "level": 10
+    }
+  ],
+  "tools": [
+    {
+      "name": "AWS",
+      "category": "Cloud",
+      "image": "./aws-logo.png",
+      "link": "https://aws.amazon.com"
+    },
+    {
+      "name": "Python",
+      "category": "Programming",
+      "image": "./python-logo.png",
+      "link": "https://python.org"
+    },
+    {
+      "name": "Golang",
+      "category": "Programming",
+      "image": "./golang-logo.png",
+      "link": "https://golang.org"
+    },
+    {
+      "name": "TypeScript",
+      "category": "Programming",
+      "image": "./typescript-logo.png",
+      "link": "https://typescriptlang.org"
+    },
+    {
+      "name": "JavaScript",
+      "category": "Programming",
+      "image": "./javascript-logo.png",
+      "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    },
+    {
+      "name": "Bash",
+      "category": "Programming",
+      "image": "./bash-logo.png",
+      "link": "https://www.gnu.org/software/bash/"
+    },
+    {
+      "name": "Astro",
+      "category": "Programming",
+      "image": "./astro-logo.svg",
+      "link": "https://astro.build"
+    },
+    {
+      "name": "Bun",
+      "category": "Programming",
+      "image": "./bun-logo.svg",
+      "link": "https://bun.sh"
+    },
+    {
+      "name": "React",
+      "category": "Programming",
+      "image": "./react-logo.png",
+      "link": "https://react.dev"
+    },
+    {
+      "name": "React Native",
+      "category": "Programming",
+      "image": "./react-logo.png",
+      "link": "https://reactnative.dev"
+    },
+    {
+      "name": "TailwindCSS",
+      "category": "Programming",
+      "image": "./tailwind-logo.png",
+      "link": "https://tailwindcss.com"
+    },
+    {
+      "name": "HTML5",
+      "category": "Programming",
+      "image": "./html5-logo.png",
+      "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
+    },
+    {
+      "name": "CSS3",
+      "category": "Programming",
+      "image": "./css3-logo.png",
+      "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+    },
+    {
+      "name": "ECS",
+      "category": "Cloud",
+      "image": "./ecs-logo.png",
+      "link": "https://aws.amazon.com/ecs/"
+    },
+    {
+      "name": "EKS",
+      "category": "Cloud",
+      "image": "./eks-logo.png",
+      "link": "https://aws.amazon.com/eks/"
+    },
+    {
+      "name": "CloudFormation",
+      "category": "Cloud",
+      "image": "./aws-logo.png",
+      "link": "https://aws.amazon.com/cloudformation/"
+    },
+    {
+      "name": "Docker",
+      "category": "DevOps",
+      "image": "./docker-logo.png",
+      "link": "https://docker.com"
+    },
+    {
+      "name": "Kubernetes",
+      "category": "DevOps",
+      "image": "./kubernetes-logo.png",
+      "link": "https://kubernetes.io"
+    },
+    {
+      "name": "Helm",
+      "category": "DevOps",
+      "image": "./helm-logo.png",
+      "link": "https://helm.sh"
+    },
+    {
+      "name": "Jenkins",
+      "category": "DevOps",
+      "image": "./jenkins-logo.png",
+      "link": "https://jenkins.io"
+    },
+    {
+      "name": "GitHub Actions",
+      "category": "DevOps",
+      "image": "./github-logo.png",
+      "link": "https://github.com/features/actions"
+    },
+    {
+      "name": "GitLab CI",
+      "category": "DevOps",
+      "image": "./gitlab-logo.png",
+      "link": "https://docs.gitlab.com/ee/ci/"
+    },
+    {
+      "name": "ArgoCD",
+      "category": "DevOps",
+      "image": "./argocd-logo.png",
+      "link": "https://argoproj.github.io/cd"
+    },
+    {
+      "name": "FluxCD",
+      "category": "DevOps",
+      "image": "./fluxcd-logo.png",
+      "link": "https://fluxcd.io"
+    },
+    {
+      "name": "Linux",
+      "category": "DevOps",
+      "image": "./linux-logo.png",
+      "link": "https://kernel.org"
+    },
+    {
+      "name": "Terraform",
+      "category": "DevOps",
+      "image": "./terraform-logo.png",
+      "link": "https://terraform.io"
+    },
+    {
+      "name": "Pulumi",
+      "category": "DevOps",
+      "image": "./pulumi-logo.svg",
+      "link": "https://pulumi.com"
+    },
+    {
+      "name": "Ansible",
+      "category": "DevOps",
+      "image": "./ansible-logo.png",
+      "link": "https://ansible.com"
+    },
+    {
+      "name": "Grafana",
+      "category": "DevOps",
+      "image": "./grafana-logo.png",
+      "link": "https://grafana.com"
+    },
+    {
+      "name": "Prometheus",
+      "category": "DevOps",
+      "image": "./prometheus-logo.png",
+      "link": "https://prometheus.io"
+    },
+    {
+      "name": "Vault",
+      "category": "DevOps",
+      "image": "./vault-logo.svg",
+      "link": "https://vaultproject.io"
+    },
+    {
+      "name": "Packer",
+      "category": "DevOps",
+      "image": "./packer-logo.svg",
+      "link": "https://packer.io"
+    },
+    {
+      "name": "Loki",
+      "category": "DevOps",
+      "image": "./logo-loki.svg",
+      "link": "https://grafana.com/oss/loki"
+    },
+    {
+      "name": "Redis",
+      "category": "DevOps",
+      "image": "./redis-logo.png",
+      "link": "https://redis.io"
+    },
+    {
+      "name": "Rancher",
+      "category": "DevOps",
+      "image": "./rancher-logo.svg",
+      "link": "https://rancher.com"
+    },
+    {
+      "name": "Podman",
+      "category": "DevOps",
+      "image": "./podman-logo.svg",
+      "link": "https://podman.io"
+    },
+    {
+      "name": "New Relic",
+      "category": "DevOps",
+      "image": "./newrelic-logo.svg",
+      "link": "https://newrelic.com"
+    },
+    {
+      "name": "PostgreSQL",
+      "category": "DevOps",
+      "image": "./postgresql-logo.png",
+      "link": "https://postgresql.org"
+    },
+    {
+      "name": "MySQL",
+      "category": "DevOps",
+      "image": "./mysql-logo.png",
+      "link": "https://mysql.com"
+    },
+    {
+      "name": "SQLite",
+      "category": "DevOps",
+      "image": "./sqlite-logo.png",
+      "link": "https://sqlite.org"
+    },
+    {
+      "name": "K3s",
+      "category": "DevOps",
+      "image": "./k3s-logo.svg",
+      "link": "https://k3s.io"
+    },
+    {
+      "name": "RKE2",
+      "category": "DevOps",
+      "image": "./rke2-logo.svg",
+      "link": "https://docs.rke2.io"
+    },
+    {
+      "name": "MinIO",
+      "category": "DevOps",
+      "image": "./prometheus-logo.png",
+      "link": "https://min.io"
+    },
+    {
+      "name": "Traefik",
+      "category": "DevOps",
+      "image": "./traefik-logo.png",
+      "link": "https://traefik.io"
+    }
+  ]
 }

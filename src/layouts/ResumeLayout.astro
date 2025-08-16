@@ -12,7 +12,7 @@ import Diplomas from "@components/resume/Diplomas.astro";
 import Certifications from "@components/resume/Certifications.astro";
 import Experience from "@components/resume/Experience.astro";
 import HardSkills from "@components/resume/HardSkills.astro";
-import Languages from "@components/resume/Languages.astro";
+
 import Tools from "@components/resume/Tools.astro";
 
 // utils
@@ -30,7 +30,6 @@ const {
   hardSkills,
   softSkills,
   certifications,
-  languages,
   tools,
 } = resume.data;
 
@@ -50,12 +49,12 @@ const currLocale = getLocaleFromUrl(Astro.url);
         </div>
 
         <Button
-          href="/ExampleResume.pdf"
-          download="ExampleResume.pdf"
+          href="/Andrew-Gluck-Resume-2025.pdf"
+          download="Andrew-Gluck-Resume-2025.pdf"
           variant="secondary"
         >
           <div class="flex items-center gap-2">
-            <span>Download CV</span>
+            <span>Download Resume</span>
             <Icon name="tabler/download" aria-hidden="true" class="size-5" />
           </div>
         </Button>
@@ -63,18 +62,13 @@ const currLocale = getLocaleFromUrl(Astro.url);
 
       <!-- Resume Sections -->
       <div class="space-y-16 pb-10">
+        <HardSkills {hardSkills} />
+
         <Experience {experience} />
 
         <Diplomas {diplomas} />
 
-        <div class="grid gap-8 md:grid-cols-2">
-          <Certifications {certifications} />
-          <Languages {languages} />
-        </div>
-
-        <div class="grid gap-8 md:grid-cols-2">
-          <HardSkills {hardSkills} />
-        </div>
+        <Certifications {certifications} />
 
         <Tools {tools} />
         <!-- you can also limit the number of tools to display here -->

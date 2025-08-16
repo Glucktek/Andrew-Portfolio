@@ -160,4 +160,9 @@
   .pause {
     animation-play-state: paused !important;
   }
+
+  /* preserve brand colors for logos in dark mode */
+  .brand-logo {
+    @apply !opacity-100 !grayscale-0 !invert-0;
+  }
 }
