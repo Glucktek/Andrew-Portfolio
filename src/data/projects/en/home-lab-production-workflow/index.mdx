@@ -1,0 +1,61 @@
+---
+title: Home Lab Production Workflow
+description: Hybrid on-prem and VPS production setup with Proxmox, Portainer, Cloudflare Tunnels, segmented networking, and a path to Kubernetes.
+image: ../home-lab-production-workflow/image.png
+technologies:
+  - Proxmox VE
+  - Portainer
+  - Docker
+  - Cloudflare Tunnels
+  - VLAN Segmentation
+  - IPS/Firewall
+  - ZFS (Redundant Storage)
+  - Raspberry Pi (K8s target)
+  - VPS (Hybrid)
+completionDate: 2025-08-01
+keyFeatures:
+  - Hybrid architecture across on-prem and VPS
+  - Segmented production networking with VLANs and edge IPS
+  - Proxmox + Portainer stacks for container orchestration
+  - Redundant storage for data integrity
+  - Public access via Cloudflare Tunnels and domain separation
+  - Stable multi-user operations for 2+ years
+order: 3
+draft: false
+---
+
+### Overview
+
+I architected my production home lab to run stable, low-maintenance services for daily use while leaving room to evolve. The platform combines an on‑prem Proxmox host managing Portainer stacks with select VPS workloads for reach and redundancy. The current focus is on the Proxmox segment, which has been in production for more than two years with around fifteen active users.
+
+### Why this design
+
+I chose a hybrid approach to balance control, latency, and availability. On‑prem gives me performance and data locality for storage-heavy services like my self‑hosted photos server. VPS nodes give me global ingress and burst capacity without exposing my entire home network. This split lets me move services to the best environment for their needs.
+
+### Proxmox and Portainer
+
+I run Proxmox VE as the virtualization layer and use Portainer on top to manage containers as versioned stacks. I like Portainer because it centralizes environment variables, health checks, and lifecycle operations in a way that keeps recovery fast and predictable. Most production services live here today while I plan a gradual migration to Kubernetes.
+
+- Workloads: media and data services, internal apps, utility services.
+- Orchestration: Portainer stacks with compose files checked into Git.
+- Operations: rolling restarts, labels for routing, and per‑stack resource limits.
+
+### Networking and security
+
+I designed the network to reduce blast radius and keep sensitive segments isolated.
+
+- Segmentation: production services run in dedicated VLANs; east‑west access is restricted.
+- Edge protection: an IPS at the perimeter inspects traffic before it reaches internal tiers.
+- Public access: Cloudflare Tunnels publish selected services, mapped to separate top‑level domains for clean separation by audience and risk profile.
+
+### Storage and reliability
+
+I use redundant storage on the Proxmox host to preserve data integrity. This protects large, stateful services like the photos server and reduces maintenance risk during updates or reboots.
+
+### Operations and stability
+
+This environment has been stable for over two years. I monitor service health through Portainer, keep images current, and stage changes as stack updates. The design keeps day‑to‑day work simple while supporting iterative upgrades.
+
+### Roadmap
+
+I am migrating production workloads toward a Raspberry Pi Kubernetes cluster and keeping some services on VPS for reach. I will add a dedicated section for the Pi cluster and VPS details next, covering scheduling, storage classes, and ingress.
