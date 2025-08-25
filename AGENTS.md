@@ -1,17 +1,20 @@
 # AGENTS.md (for agentic contributors)
 
-- Install/run: use Bun or npm. Build: `bun run build`. Dev: `bun run dev`. Preview: `bun run preview`. Lint: `bun run lint`. Format: `bun run format`. Type-check: no dedicated script; TS runs via editors/ESLint.
-- Testing: no framework configured in this repo. If you add tests, prefer Vitest; run all: `bunx vitest run`; single test: `bunx vitest run path/to/file.test.ts -t "test name"`. Do not commit test runners without scripts unless you also update package.json.
-- Single-file tasks: keep edits minimal; run lint+format after changes. Do not introduce breaking changes to Astro i18n, Tailwind v4, or Netlify adapter config.
-- Imports: prefer path aliases from tsconfig (`@components/*`, `@js/*`, `@layouts/*`, `@config/*`, `@assets/*`, `@images/*`, `@videos/*`, `@/*`). Use type-only imports when applicable. Group: std libs, third-party, internal; keep sorted.
-- Languages/framework: Astro 5 + React 18 + TypeScript strictNullChecks. JSX: react-jsx with jsxImportSource "react". Astro islands only where needed.
-- Formatting: Prettier is authoritative; run `bun run format`. Keep CSS/Tailwind utility classes reasonably grouped; prefer semantic class extraction to components when repeated.
-- Linting: ESLint 9 with astro and typescript-eslint. Important rules are relaxed: no-explicit-any OFF, no-unused-vars OFF, ban-ts-comment OFF, anchor-is-valid OFF in .astro. Still fix obvious issues and accessibility problems.
-- Naming: files/folders kebab-case; components PascalCase; variables/functions camelCase; constants UPPER_SNAKE. Astro pages under `src/pages` define routes; content/config under `src/config`.
-- Types: prefer explicit return types for exported functions; narrow unknowns; avoid any except template plumbing. Use discriminated unions for variant props. Keep null/undefined handling explicit (strictNullChecks is on).
-- Error handling: fail fast on config/content errors; surface user-facing issues with friendly messages. In UI, guard against undefined data, and avoid throwing in Astro frontmatter unless build should fail.
-- Data/content: use Astro Content Collections and Keystatic per existing patterns. Keep i18n locales aligned with `astro.config.mjs` and `src/config/translationData.json.ts`.
-- Performance: keep islands small; prefer SSR/static over client JS. Use dynamic imports for heavy React components. Images via Astro assets; don’t re-enable CSS compression in compress() unless verified.
-- Accessibility: keep jsx-a11y best practices even if some rules are off. Ensure focus states and aria- attributes on interactive elements.
-- Commit hygiene: small, focused commits; no secrets; run lint+format before committing. Respect existing Docker/Netlify configs.
-- Cursor/Copilot rules: none found (.cursor/rules, .cursorrules, .github/copilot-instructions.md not present). If added later, mirror key points here.
+- Build/dev/preview/lint/format: `bun run build|dev|preview|lint|format`. Type-check: via editors/ESLint; no script.
+- Testing: none configured. If adding Vitest: run all `bunx vitest run`; single `bunx vitest run path/to/file.test.ts -t "test name"`.
+- Projects structure: list page `src/pages/projects/index.astro`; detail route `src/pages/projects/[...slug].astro`; layout `src/layouts/ProjectLayout.astro`; card `src/components/projects/ProjectCard.astro`; tech/features components in same folder.
+- Projects data: Astro Content Collections from `src/data/projects/<locale>/<slug>/index.mdx` + `image.png`. Schema in `src/content.config.ts` collection `projects` (title, description, image, technologies[], demoUrl?, githubUrl?, completionDate: date, keyFeatures[], order?, draft?).
+- Data flow: list page `getCollection("projects")` -> filter drafts -> `filterCollectionByLanguage()` using locale from URL -> sort by `order` -> render `ProjectCard`. Detail page `getStaticPaths()` filters by defaultLocale, returns `props: project`; in page, `render(project)` to get `<Content />` (MDX body) and pass to `ProjectLayout`.
+- Slugs/locales: content files live under `src/data/projects/<locale>/...`; `filterCollectionByLanguage` removes locale prefix from `id` so routes are `/projects/<slug>`. Use `slugify` for card links.
+- Images: use `astro:assets` Image with MDX-imported `image` path; see `.astro/content-assets.mjs` mapping.
+- i18n: configured in `astro.config.mjs` (defaultLocale "en"); keep `siteSettings.json.ts` locales aligned; use `getLocaleFromUrl()` for runtime locale.
+- Imports: use tsconfig aliases (`@components/*`, `@js/*`, `@layouts/*`, `@config/*`, `@assets/*`, `@images/*`, `@videos/*`, `@/*`). Order: std, third-party, internal. Prefer `import type` for types.
+- Formatting: Prettier is source of truth; run `bun run format`. Keep Tailwind classes tidy; extract repeated patterns.
+- Linting: ESLint 9 with astro/typescript-eslint. Relaxed rules: no-explicit-any OFF, no-unused-vars OFF, ban-ts-comment OFF; in .astro, anchor-is-valid OFF. Fix a11y issues regardless.
+- Naming: files/folders kebab-case; components PascalCase; vars/functions camelCase; constants UPPER_SNAKE. Astro pages define routes under `src/pages`.
+- Types: strictNullChecks on. Prefer explicit return types for exported functions; narrow unknown; avoid any except template glue. Use discriminated unions for variants.
+- Error handling: fail fast for config/content issues; show friendly UI messages. Avoid throwing in Astro frontmatter unless build should fail.
+- Performance: keep islands small; prefer SSR/static; dynamic import heavy React; images via Astro assets; don’t enable CSS compression in compress() without testing.
+- Accessibility: maintain focus states and aria-* on interactive elements.
+- Commit hygiene: small, focused commits; no secrets; run lint+format before commit; respect Docker/Netlify configs.
+- Cursor/Copilot: none found (.cursor/rules, .cursorrules, .github/copilot-instructions.md absent). Mirror them here if added later.
