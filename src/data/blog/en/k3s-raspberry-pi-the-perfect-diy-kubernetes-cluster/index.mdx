@@ -1,5 +1,5 @@
 ---
-title: 'k3s and Raspberry Pi: The Perfect DIY Kubernetes Cluster'
+title: "k3s and Raspberry Pi: The Perfect DIY Kubernetes Cluster"
 description: >-
   Run k3s Kubernetes on Raspberry Pi! This guide shows you how to build a
   lightweight cluster for home or homelab. Easy setup & powerful results.
@@ -13,6 +13,7 @@ categories:
   - Kubernetes
   - DevOps
 ---
+
 ### Kubernetes, But Make It Snack-Sized&#x20;
 
 I love Kubernetes, and I absolutely love pie. However, let's be real here, if you tried to run Kubernetes on a stack of raspberry pis, they would be more stuffed than me at thanksgiving dinner. Your poor little SBCs start sweating, and no way to loosen the belt.
@@ -21,28 +22,28 @@ Enter k3s. The lightweight, certified Kubernetes distribution that’s so slim, 
 
 ### Why k3s Rocks My (and Your) Socks off
 
-* Tiny Footprint: k3s is a single binary under 100MB. It’s like Kubernetes, but on a diet.
-* Fast and Furious: Installs in under a minute, even on a Pi. You’ll spend more time making coffee.
-* Low Resource Usage: Perfect for ARM devices and low-power hardware. Your Pis will thank you.
-* Batteries Included: Comes with containerd, Flannel, Traefik, and more, but you can swap them out if you’re picky.
-* Certified K8s: It’s not a toy. k3s passes all CNCF conformance tests. You get the real deal.
+- Tiny Footprint: k3s is a single binary under 100MB. It’s like Kubernetes, but on a diet.
+- Fast and Furious: Installs in under a minute, even on a Pi. You’ll spend more time making coffee.
+- Low Resource Usage: Perfect for ARM devices and low-power hardware. Your Pis will thank you.
+- Batteries Included: Comes with containerd, Flannel, Traefik, and more, but you can swap them out if you’re picky.
+- Certified K8s: It’s not a toy. k3s passes all CNCF conformance tests. You get the real deal.
 
 What Can You Do With a Pi Cluster Running k3s?
 
-* Home automation (Home Assistant, Node-RED, etc.)
-* Self-hosted services (Nextcloud, Gitea, Jellyfin, Immich)
-* Learning and experimentation (CI/CD, GitOps, edge computing)
-* Bragging rights at your next nerd meetup
+- Home automation (Home Assistant, Node-RED, etc.)
+- Self-hosted services (Nextcloud, Gitea, Jellyfin, Immich)
+- Learning and experimentation (CI/CD, GitOps, edge computing)
+- Bragging rights at your next nerd meetup
 
 ### How to Use k3s on a Raspberry Pi Cluster
 
 What You’ll Need
 
-* 2+ Raspberry Pis (any model works, but 4 or newer is best)
-* SD cards or USB to SSD (Recommended)
-* Network (wired is best, but WiFi works)
-* SSH access to each Pi
-* A little patience and a lot of coffee
+- 2+ Raspberry Pis (any model works, but 4 or newer is best)
+- SD cards or USB to SSD (Recommended)
+- Network (wired is best, but WiFi works)
+- SSH access to each Pi
+- A little patience and a lot of coffee
 
 Step 1: Prep Your Pis
 
@@ -54,12 +55,14 @@ Step 1: Prep Your Pis
    ```sh
    sudo apt update && sudo apt upgrade -y
    ```
+
 5. Set hostnames so you know who’s who:
 
    ```sh
    sudo hostnamectl set-hostname pi-master
    # or pi-node1, pi-node2, etc.
    ```
+
 6. Reboot for good measure.
 
 Step 2: Install k3s on the Master Node

@@ -15,6 +15,6 @@
 - Types: strictNullChecks on. Prefer explicit return types for exported functions; narrow unknown; avoid any except template glue. Use discriminated unions for variants.
 - Error handling: fail fast for config/content issues; show friendly UI messages. Avoid throwing in Astro frontmatter unless build should fail.
 - Performance: keep islands small; prefer SSR/static; dynamic import heavy React; images via Astro assets; don’t enable CSS compression in compress() without testing.
-- Accessibility: maintain focus states and aria-* on interactive elements.
+- Accessibility: maintain focus states and aria-\* on interactive elements.
 - Commit hygiene: small, focused commits; no secrets; run lint+format before commit; respect Docker/Netlify configs.
 - Cursor/Copilot: none found (.cursor/rules, .cursorrules, .github/copilot-instructions.md absent). Mirror them here if added later.

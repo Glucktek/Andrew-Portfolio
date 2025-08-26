@@ -29,4 +29,3 @@ export const siteSettings: SiteSettingsProps = {
 };
 
 export default siteSettings;
-

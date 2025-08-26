@@ -6,8 +6,8 @@ import InputWrapper from "./InputWrapper.astro";
 export { InputWrapper, InputLabel, Input, InputFeedback };
 
 export default {
-	Root: InputWrapper,
-	Label: InputLabel,
-	Input: Input,
-	Feedback: InputFeedback,
+  Root: InputWrapper,
+  Label: InputLabel,
+  Input: Input,
+  Feedback: InputFeedback,
 };

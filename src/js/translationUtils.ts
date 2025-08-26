@@ -2,9 +2,9 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 
 // data
 import {
-	textTranslations,
-	dataTranslations,
-	routeTranslations,
+  textTranslations,
+  dataTranslations,
+  routeTranslations,
 } from "@/config/translationData.json";
 import { locales, defaultLocale } from "@/config/siteSettings.json";
 
@@ -23,9 +23,11 @@ import { locales, defaultLocale } from "@/config/siteSettings.json";
  * ```
  */
 export function useTranslations(locale: keyof typeof textTranslations) {
-	return function t(key: keyof (typeof textTranslations)[typeof locale]) {
-		return textTranslations[locale][key] || textTranslations[defaultLocale][key];
-	};
+  return function t(key: keyof (typeof textTranslations)[typeof locale]) {
+    return (
+      textTranslations[locale][key] || textTranslations[defaultLocale][key]
+    );
+  };
 }
 
 type Locale = keyof typeof dataTranslations;
@@ -46,10 +48,12 @@ type DataKey<T extends Locale> = keyof (typeof dataTranslations)[T];
  * ```
  */
 export function getTranslatedData<T extends Locale, K extends DataKey<T>>(
-	data: K,
-	locale: T,
+  data: K,
+  locale: T,
 ): (typeof dataTranslations)[T][K] {
-	return dataTranslations[locale][data] || dataTranslations[defaultLocale as T][data];
+  return (
+    dataTranslations[locale][data] || dataTranslations[defaultLocale as T][data]
+  );
 }
 
 /**
@@ -60,39 +64,50 @@ export function getTranslatedData<T extends Locale, K extends DataKey<T>>(
  * @param url: current URL (Astro.url)
  * @returns new URL pathname as a string
  */
-export function getLocalizedPathname(locale: (typeof locales)[number], url: URL): string {
-	// figure out if the current URL has a language in it's path
-	const [, lang, ...rest] = url.pathname.split("/");
+export function getLocalizedPathname(
+  locale: (typeof locales)[number],
+  url: URL,
+): string {
+  // figure out if the current URL has a language in it's path
+  const [, lang, ...rest] = url.pathname.split("/");
 
-	const getKeyByValue = (obj: Record<string, string>, value: string): string | undefined => {
-		return Object.keys(obj).find((key) => obj[key] === value.replace(/\/$/, "").replace(/^\//, ""));
-	};
+  const getKeyByValue = (
+    obj: Record<string, string>,
+    value: string,
+  ): string | undefined => {
+    return Object.keys(obj).find(
+      (key) => obj[key] === value.replace(/\/$/, "").replace(/^\//, ""),
+    );
+  };
 
-	let oldPath: string, currLocale: (typeof locales)[number];
-	// @ts-expect-error the whole point of this is to check if lang is a valid locale
-	if (locales.includes(lang)) {
-		// remove locale from URL if it's already there
-		oldPath = rest.join("/");
-		currLocale = lang as (typeof locales)[number];
-		// newPath = getRelativeLocaleUrl(locale, rest.join("/"));
-	} else {
-		// otherwise, just create the URL from the existing path
-		// this is the case if default locale and Astro config has `prefixDefaultLocale: false`
-		oldPath = url.pathname;
-		currLocale = defaultLocale;
-		// newPath = getRelativeLocaleUrl(locale, url.pathname);
-	}
+  let oldPath: string, currLocale: (typeof locales)[number];
+  // @ts-expect-error the whole point of this is to check if lang is a valid locale
+  if (locales.includes(lang)) {
+    // remove locale from URL if it's already there
+    oldPath = rest.join("/");
+    currLocale = lang as (typeof locales)[number];
+    // newPath = getRelativeLocaleUrl(locale, rest.join("/"));
+  } else {
+    // otherwise, just create the URL from the existing path
+    // this is the case if default locale and Astro config has `prefixDefaultLocale: false`
+    oldPath = url.pathname;
+    currLocale = defaultLocale;
+    // newPath = getRelativeLocaleUrl(locale, url.pathname);
+  }
 
-	// trim any starting and ending slashes for comparison
-	const routeStringTrimmed = oldPath.replace(/\/$/, "").replace(/^\//, "");
+  // trim any starting and ending slashes for comparison
+  const routeStringTrimmed = oldPath.replace(/\/$/, "").replace(/^\//, "");
 
-	// first find out if the passed value maps to a key for route translations
-	const routeTranslationsKey = getKeyByValue(routeTranslations[currLocale], routeStringTrimmed);
+  // first find out if the passed value maps to a key for route translations
+  const routeTranslationsKey = getKeyByValue(
+    routeTranslations[currLocale],
+    routeStringTrimmed,
+  );
 
-	// if there is a key, then use that key to get the translated route
-	const translatedRoute = routeTranslationsKey
-		? routeTranslations[locale][routeTranslationsKey]
-		: routeStringTrimmed;
+  // if there is a key, then use that key to get the translated route
+  const translatedRoute = routeTranslationsKey
+    ? routeTranslations[locale][routeTranslationsKey]
+    : routeStringTrimmed;
 
-	return getRelativeLocaleUrl(locale, translatedRoute);
+  return getRelativeLocaleUrl(locale, translatedRoute);
 }

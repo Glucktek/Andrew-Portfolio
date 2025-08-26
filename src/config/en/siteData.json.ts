@@ -22,4 +22,3 @@ const siteData: SiteDataProps = {
 };
 
 export default siteData;
-

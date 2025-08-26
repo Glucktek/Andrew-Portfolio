@@ -73,4 +73,3 @@ export interface SiteSettingsProps {
   useViewTransitions?: boolean;
   useAnimations?: boolean;
 }
-

@@ -13,13 +13,12 @@ import faqDataEn from "./en/faqData.json";
 import testimonialDataEn from "./en/testimonialData.json";
 
 export const dataTranslations = {
-	en: {
-		siteData: siteDataEn,
-		navData: navDataEn,
-		faqData: faqDataEn,
-		testimonialData: testimonialDataEn,
-	},
-	
+  en: {
+    siteData: siteDataEn,
+    navData: navDataEn,
+    faqData: faqDataEn,
+    testimonialData: testimonialDataEn,
+  },
 } as const;
 
 /**
@@ -38,14 +37,13 @@ export const dataTranslations = {
  * ```
  */
 export const textTranslations = {
-	en: {
-		hero_text: "Crafting Digital Experiences",
-		hero_description: `Transforming ideas into beautiful, functional designs that leave lasting impressions.`,
-		back_to_all_posts: "Back to all posts",
-		updated: "Updated",
-		share_this_article: "Share this article",
-	},
-	
+  en: {
+    hero_text: "Crafting Digital Experiences",
+    hero_description: `Transforming ideas into beautiful, functional designs that leave lasting impressions.`,
+    back_to_all_posts: "Back to all posts",
+    updated: "Updated",
+    share_this_article: "Share this article",
+  },
 } as const;
 
 /**
@@ -58,8 +56,7 @@ export const textTranslations = {
  * Or if this is "atlas.com/blog/my-post", the route would be "blog/my-post"
  */
 export const routeTranslations = {
-	en: {
-		overviewKey: "overview",
-	},
-	
+  en: {
+    overviewKey: "overview",
+  },
 } as const;

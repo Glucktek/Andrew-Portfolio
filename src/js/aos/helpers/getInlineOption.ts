@@ -8,21 +8,21 @@
  */
 
 export default (
-	el: Element,
-	key: string,
-	fallback?: string | number | boolean,
+  el: Element,
+  key: string,
+  fallback?: string | number | boolean,
 ): string | number | boolean => {
-	const attr = el.getAttribute("data-aos-" + key);
+  const attr = el.getAttribute("data-aos-" + key);
 
-	fallback = fallback || "";
+  fallback = fallback || "";
 
-	if (typeof attr !== "undefined") {
-		if (attr === "true") {
-			return true;
-		} else if (attr === "false") {
-			return false;
-		}
-	}
+  if (typeof attr !== "undefined") {
+    if (attr === "true") {
+      return true;
+    } else if (attr === "false") {
+      return false;
+    }
+  }
 
-	return attr || fallback;
+  return attr || fallback;
 };

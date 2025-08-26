@@ -6,6 +6,6 @@
 import { type AOSElement } from "./aosTypes";
 
 export default (): AOSElement[] => {
-	const elements = document.querySelectorAll("[data-aos]");
-	return Array.prototype.map.call(elements, (node) => ({ node }));
+  const elements = document.querySelectorAll("[data-aos]");
+  return Array.prototype.map.call(elements, (node) => ({ node }));
 };

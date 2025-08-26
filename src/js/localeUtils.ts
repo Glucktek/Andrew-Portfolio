@@ -12,11 +12,11 @@ import { locales, defaultLocale } from "@/config/siteSettings.json";
  * - It is useable in this typescript file and other non-astro files
  */
 export function getLocaleFromUrl(url: URL): (typeof locales)[number] {
-	const [, locale] = url.pathname.split("/");
+  const [, locale] = url.pathname.split("/");
 
-	//@ts-expect-error element is guaranteed to be an appropriate string
-	if (locales.includes(locale)) return locale as (typeof locales)[number];
-	return defaultLocale;
+  //@ts-expect-error element is guaranteed to be an appropriate string
+  if (locales.includes(locale)) return locale as (typeof locales)[number];
+  return defaultLocale;
 }
 
 /**
@@ -38,27 +38,29 @@ export function getLocaleFromUrl(url: URL): (typeof locales)[number] {
  * Your content collections should be paths like `src/data/blog/de/my-post.md` and `src/data/blog/en/my-post.md`
  */
 export function filterCollectionByLanguage<T extends keyof DataEntryMap>(
-	collection: CollectionEntry<T>[],
-	locale: (typeof locales)[number],
-	removeLocale: boolean = true,
+  collection: CollectionEntry<T>[],
+  locale: (typeof locales)[number],
+  removeLocale: boolean = true,
 ): CollectionEntry<T>[] {
-	// check if the passed language is in the languages array
-	if (!locales.includes(locale)) {
-		console.error(`Language ${locale} not found in locales array`);
-		return [];
-	}
+  // check if the passed language is in the languages array
+  if (!locales.includes(locale)) {
+    console.error(`Language ${locale} not found in locales array`);
+    return [];
+  }
 
-	const filteredCollection = collection.filter((item) => item.id.startsWith(`${locale}/`));
+  const filteredCollection = collection.filter((item) =>
+    item.id.startsWith(`${locale}/`),
+  );
 
-	// remove locale from URL
-	if (removeLocale) {
-		filteredCollection.forEach((item) => {
-			item.id = removeLocaleFromSlug(item.id);
-		});
-	}
+  // remove locale from URL
+  if (removeLocale) {
+    filteredCollection.forEach((item) => {
+      item.id = removeLocaleFromSlug(item.id);
+    });
+  }
 
-	// filter the collection by the passed language
-	return filteredCollection;
+  // filter the collection by the passed language
+  return filteredCollection;
 }
 
 /**
@@ -68,15 +70,15 @@ export function filterCollectionByLanguage<T extends keyof DataEntryMap>(
  * Useful for content colection subfolders like blog/en/my-post where the slug field will be "en/my-post"
  */
 export function removeLocaleFromSlug(slug: string): string {
-	// split the URL into parts separated by "/"
-	const SlugElements = slug.split("/");
+  // split the URL into parts separated by "/"
+  const SlugElements = slug.split("/");
 
-	// map over the URL parts and remove any locales
-	const newSlugElements = SlugElements.filter(
-		//@ts-expect-error element is guaranteed to be an appropriate string
-		(element) => !locales.includes(element),
-	);
+  // map over the URL parts and remove any locales
+  const newSlugElements = SlugElements.filter(
+    //@ts-expect-error element is guaranteed to be an appropriate string
+    (element) => !locales.includes(element),
+  );
 
-	// combine the URL parts back into a string
-	return newSlugElements.join("/");
+  // combine the URL parts back into a string
+  return newSlugElements.join("/");
 }

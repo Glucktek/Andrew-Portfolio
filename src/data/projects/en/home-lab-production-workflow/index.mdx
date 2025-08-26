@@ -1,6 +1,10 @@
 ---
-title: Home Lab Production Workflow
-description: Hybrid on-prem and VPS production setup with Proxmox, Portainer, Cloudflare Tunnels, segmented networking, and a path to Kubernetes.
+title: Production Homelab (Part 1 - Pi-Cluster and Proxmox)
+description: >-
+  Production-ready homelab: Proxmox + Portainer for containers, a 5-node
+  Raspberry Pi Kubernetes cluster (Traefik + Longhorn) managed by Flux and
+  migrating to Pulumi’s Kubernetes Operator, Cloudflared ingress, segmented
+  networking, and layered backup/recovery for low MTTR.
 image: ../home-lab-production-workflow/image.png
 technologies:
   - Proxmox VE
@@ -10,7 +14,8 @@ technologies:
   - VLAN Segmentation
   - IPS/Firewall
   - ZFS (Redundant Storage)
-  - Raspberry Pi (K8s target)
+  - Raspberry Pi
+  - Kubernetes
   - VPS (Hybrid)
 completionDate: 2025-08-01
 keyFeatures:
@@ -20,42 +25,71 @@ keyFeatures:
   - Redundant storage for data integrity
   - Public access via Cloudflare Tunnels and domain separation
   - Stable multi-user operations for 2+ years
-order: 3
+order: 1
 draft: false
 ---
 
 ### Overview
 
-I architected my production home lab to run stable, low-maintenance services for daily use while leaving room to evolve. The platform combines an on‑prem Proxmox host managing Portainer stacks with select VPS workloads for reach and redundancy. The current focus is on the Proxmox segment, which has been in production for more than two years with around fifteen active users.
+My home lab is not just a place for tinkering and experimentation, it runs real production workloads with stakeholders depending on its services. These systems are engineered with stability, extensibility, and security as guiding principles. For more than two years they have reliably supported around 15 users with zero unplanned downtime.
 
-### Why this design
+The platform is built on a hybrid architecture:
 
-I chose a hybrid approach to balance control, latency, and availability. On‑prem gives me performance and data locality for storage-heavy services like my self‑hosted photos server. VPS nodes give me global ingress and burst capacity without exposing my entire home network. This split lets me move services to the best environment for their needs.
+- **On‑prem**: a Docker container host managed by Portainer with redundant storage, alongside a Raspberry Pi Kubernetes cluster with its own redundancy.
+- **Cloud VPS**: a small set of public‑facing nodes for uptime‑critical and latency‑sensitive workloads.
+
+This split balances control, latency, and availability. Storage‑heavy services such as my self‑hosted photo server stay local for performance and data privacy. High‑availability services run on VPS nodes to provide resilience and external ingress. Today that is only a handful of VPS servers, but the design can scale smoothly into a full distributed swarm in the cloud if demand grows.
+
+In this article I will focus on the on‑prem solution. You can read more about the VPS side of the platform [here].
 
 ### Proxmox and Portainer
 
-I run Proxmox VE as the virtualization layer and use Portainer on top to manage containers as versioned stacks. I like Portainer because it centralizes environment variables, health checks, and lifecycle operations in a way that keeps recovery fast and predictable. Most production services live here today while I plan a gradual migration to Kubernetes.
+I run Proxmox VE as the virtualization layer and use Portainer on top to manage containers as versioned stacks. I like Portainer because it centralizes environment variables, health checks, and life-cycle operations in a way that keeps recovery fast and predictable. Most production services live here today. I am planning to continue to migrate more services to Kubernetes that are not storage or extremely resource intensive.
 
 - Workloads: media and data services, internal apps, utility services.
-- Orchestration: Portainer stacks with compose files checked into Git.
+- Orchestration: Portainer stacks with compose files.
 - Operations: rolling restarts, labels for routing, and per‑stack resource limits.
+
+### Raspberry Pi Kubernetes cluster
+
+I also run a 5‑node Raspberry Pi cluster dedicated to Kubernetes workloads. The cluster uses Traefik for ingress and Longhorn for distributed block storage across the Pis.
+
+- Ingress: Traefik handles internal and external routing. Cloudflared terminates tunnels externally and forwards to Traefik; internal DNS patterns also point to Traefik for consistent service discovery inside the LAN.
+- Storage: Longhorn provides replicated volumes across the Raspberry Pis.
+- GitOps today: Flux manages Kubernetes manifests declaratively from Git.
+- Migration: Actively migrating to Pulumi's Kubernetes Operator to shift GitOps to IaC-driven workflows while retaining declarative state in the repo.
+- Control plane: Single master node to conserve resources; etcd is regularly backed up. This meets the MTTR requirements for current workloads. If the cluster becomes more critical, I will scale up resources and move to a three‑node control plane for quorum.
+- Caution: I would not run a single‑master control plane in a true production environment; this is a deliberate tradeoff for homelab resource efficiency.
 
 ### Networking and security
 
-I designed the network to reduce blast radius and keep sensitive segments isolated.
+I designed the network to reduce blast radius and keep sensitive segments isolated. I have also designed the security to be multilayer reducing many of the common attack vectors.
 
 - Segmentation: production services run in dedicated VLANs; east‑west access is restricted.
 - Edge protection: an IPS at the perimeter inspects traffic before it reaches internal tiers.
 - Public access: Cloudflare Tunnels publish selected services, mapped to separate top‑level domains for clean separation by audience and risk profile.
+- Critical system patching alerts, and monthly maintenance windows.
 
 ### Storage and reliability
 
-I use redundant storage on the Proxmox host to preserve data integrity. This protects large, stateful services like the photos server and reduces maintenance risk during updates or reboots.
+I combine multiple layers to protect data and speed recovery:
+
+- Proxmox storage: mirrored ZFS pool (ashift tuned for SSDs) with regular scrub cadence; snapshots on critical VMs and encrypted off‑box replication for disaster recovery.
+- Kubernetes storage: Longhorn with 5 replica volumes across Pis; recurrent snapshots and scheduled backups to external storage; automatic rebuild on node loss.
+- Databases: periodic logical backups in addition to volume‑level protection; tested restores.
+- Integrity and capacity: SMART monitoring, ZFS health alerts, and capacity thresholds with notifications before saturation.
+- Backup policy: 3‑2‑1 inspired—at least three copies across two media types with one off‑site (object storage or VPS), with retention tuned per service RPO/RTO. This policy is of course for the most sensitive data only. Non critical data is spread across two media.
+
+These controls reduce the risk of silent corruption, node failure, or operator error and keep MTTR low for the current criticality level.
 
 ### Operations and stability
 
 This environment has been stable for over two years. I monitor service health through Portainer, keep images current, and stage changes as stack updates. The design keeps day‑to‑day work simple while supporting iterative upgrades.
 
-### Roadmap
+All production services are continuously monitored with alerting on availability, latency, and resource thresholds. Critical workloads include self‑healing mechanisms such as health checks with automated restarts/redeploys and rollback on failed health to minimize MTTR.
 
-I am migrating production workloads toward a Raspberry Pi Kubernetes cluster and keeping some services on VPS for reach. I will add a dedicated section for the Pi cluster and VPS details next, covering scheduling, storage classes, and ingress.
+### Why this project stands out to me
+
+It blends pragmatic homelab constraints with production‑grade practices: layered storage and backups, real ingress and
+DNS topology, and an evolution from GitOps to IaC with Pulumi—all validated by multi‑year uptime serving real users.
+It’s a living platform for testing tradeoffs, scaling patterns, and reliability strategies on hardware/platforms most engineers have access to.
