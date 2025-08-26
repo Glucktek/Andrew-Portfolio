@@ -20,10 +20,10 @@ keyFeatures:
   - Accessible, responsive components and strong SEO defaults
   - i18n with data and text translation separation
   - Astro assets pipeline for optimized images
-  - GitOps deployment: PR previews and merge-driven releases
+  - GitOps deployment with PR previews and merge-driven releases
   - Hardened VPS hosting behind Cloudflare Tunnels and Traefik
   - Monitoring and backup posture consistent with my platform
-order: 3
+order: 4
 draft: false
 ---
 
@@ -31,7 +31,7 @@ draft: false
 
 This portfolio is built to the same production standards I use for client work: fast, accessible, and maintainable, with a clean content pipeline and automated deployment. It uses Astro with TypeScript and MDX content collections to keep content structured and portable, Tailwind CSS to keep styles consistent and lean, and a light i18n framework to support localized data and text translations.
 
-The project integrates SEO fundamentals (structured data, canonical and hreflang tags, RSS), performance-conscious images with `astro:assets`, and a component library emphasizing semantic HTML and a11y.
+The project integrates SEO fundamentals (structured data, canonical and hreflang tags, RSS), performance-conscious images with `astro:assets`, and a component library emphasizing semantic HTML.
 
 ### Architecture highlights
 
@@ -39,7 +39,8 @@ The project integrates SEO fundamentals (structured data, canonical and hreflang
 - Language and tooling: TypeScript with strictness, ESLint 9, and Prettier to keep the codebase consistent and safe.
 - Content: Astro Content Collections for project/blog data with schemas; MDX for rich content; predictable routes and slugs.
 - Styling: Tailwind CSS with a minimal global layer and utility-first components; careful focus states and keyboard navigation.
-- i18n: Data translations via `src/config/translationData.json.ts` and route translations; locale-aware utilities and link generation.
+- i18n: Data translations via `src/config/translationData.json.ts` and route translations; locale-aware utilities and
+  link generation. This will support future growth if this site needs to reach non-english speaking audiences.
 - Performance: Static-first pages, small islands, optimized images, and tidy CSS. Avoids client runtime JS unless necessary.
 
 ### Deployment and operations

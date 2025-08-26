@@ -21,7 +21,9 @@ const filteredResumes = filterCollectionByLanguage(resumes, currLocale);
 const resume = filteredResumes[0];
 ---
 
-<ResumeLayout title="Resume" description="My Professional Experience & Skills" {resume}>
-	<!-- extra sections at the end of the resume layout if desired -->
-	<ContactSection />
-</ResumeLayout>
+<ResumeLayout
+  title="Resume"
+  description="My Professional Experience & Skills"
+  {resume}
+/>
+

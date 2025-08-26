@@ -27,7 +27,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["id", "collection"],
+                "required": [
+                  "id",
+                  "collection"
+                ],
                 "additionalProperties": false
               },
               {
@@ -40,7 +43,10 @@
                     "type": "string"
                   }
                 },
-                "required": ["slug", "collection"],
+                "required": [
+                  "slug",
+                  "collection"
+                ],
                 "additionalProperties": false
               }
             ]
@@ -95,7 +101,13 @@
           "type": "string"
         }
       },
-      "required": ["title", "description", "authors", "pubDate", "heroImage"],
+      "required": [
+        "title",
+        "description",
+        "authors",
+        "pubDate",
+        "heroImage"
+      ],
       "additionalProperties": false
     }
   },

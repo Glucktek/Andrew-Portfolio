@@ -5,8 +5,18 @@ import Trevor from "@images/testimonials/trevor.jpeg";
 import Savpril from "@images/testimonials/savpril.jpeg";
 import Nicholas from "@images/testimonials/nick.jpeg";
 import Wally from "@images/testimonials/wally.jpeg";
+import Hardik from "@images/testimonials/hardik.jpeg";
 
 export const testimonialData: TestimonialItem[] = [
+  {
+    avatar: Hardik,
+    name: "Hardik Chakravarti | DevOps Manager",
+    title: "",
+    testimonial: `I’ve had the pleasure of working with Andrew and I can confidently say he is one of the most passionate and knowledgeable professionals in the 
+    DevOps space. He has strong expertise across the full DevOps toolset, combined with the right mindset to solve problems and drive automation.
+    Anyone who gets the chance to work with him will quickly see the value he adds both technically and culturally. Highly recommended!
+  `,
+  },
   {
     avatar: Trevor,
     name: "Trevor St. Claire | IT Manager",

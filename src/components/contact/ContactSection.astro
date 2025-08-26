@@ -14,11 +14,6 @@ const { class: className } = Astro.props as Props;
 
 const socialLinks: ComponentProps<typeof SocialIcon>[] = [
   {
-    name: "Twitter",
-    url: "https://x.com/glucktek",
-    icon: "tabler/brand-x",
-  },
-  {
     name: "LinkedIn",
     url: "https://www.linkedin.com/in/andrew-glück-452ab295",
     icon: "tabler/brand-linkedin",
@@ -101,7 +96,7 @@ const contactInfo = [
         <div class="space-y-8 md:col-span-2">
           <!-- Social Links -->
           <div>
-            <h3 class="mb-4 text-xl font-bold">Connect With Us</h3>
+            <h3 class="mb-4 text-xl font-bold">Connect With Me</h3>
             <div class="flex flex-wrap gap-4">
               {socialLinks.map((social) => <SocialIcon {...social} />)}
             </div>
@@ -140,4 +135,3 @@ const contactInfo = [
     </div>
   </div>
 </section>
-

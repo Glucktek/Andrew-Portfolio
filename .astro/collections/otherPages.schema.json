@@ -17,7 +17,10 @@
           "type": "string"
         }
       },
-      "required": ["title", "description"],
+      "required": [
+        "title",
+        "description"
+      ],
       "additionalProperties": false
     }
   },
