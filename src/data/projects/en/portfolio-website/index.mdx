@@ -1,0 +1,63 @@
+---
+title: Portfolio Website (This site)
+description: A production-grade Astro + TypeScript portfolio with content collections, i18n, SEO, performance optimizations, and a GitOps deployment to a hardened VPS behind Cloudflare Tunnels and Traefik.
+image: ../portfolio-website/image.png
+technologies:
+  - Astro
+  - TypeScript
+  - MDX
+  - Tailwind CSS
+  - ESLint 9 + Prettier
+  - Astro Content Collections
+  - Cloudflare Tunnels
+  - Traefik
+  - Docker
+  - Coolify (GitOps)
+  - Cloudflare R2 (backups)
+completionDate: 2025-08-01
+keyFeatures:
+  - Astro + TypeScript architecture with MDX content collections
+  - Accessible, responsive components and strong SEO defaults
+  - i18n with data and text translation separation
+  - Astro assets pipeline for optimized images
+  - GitOps deployment: PR previews and merge-driven releases
+  - Hardened VPS hosting behind Cloudflare Tunnels and Traefik
+  - Monitoring and backup posture consistent with my platform
+order: 3
+draft: false
+---
+
+### Overview
+
+This portfolio is built to the same production standards I use for client work: fast, accessible, and maintainable, with a clean content pipeline and automated deployment. It uses Astro with TypeScript and MDX content collections to keep content structured and portable, Tailwind CSS to keep styles consistent and lean, and a light i18n framework to support localized data and text translations.
+
+The project integrates SEO fundamentals (structured data, canonical and hreflang tags, RSS), performance-conscious images with `astro:assets`, and a component library emphasizing semantic HTML and a11y.
+
+### Architecture highlights
+
+- Framework: Astro for hybrid-SSR/static output, islands where needed, and zero-JS-by-default pages.
+- Language and tooling: TypeScript with strictness, ESLint 9, and Prettier to keep the codebase consistent and safe.
+- Content: Astro Content Collections for project/blog data with schemas; MDX for rich content; predictable routes and slugs.
+- Styling: Tailwind CSS with a minimal global layer and utility-first components; careful focus states and keyboard navigation.
+- i18n: Data translations via `src/config/translationData.json.ts` and route translations; locale-aware utilities and link generation.
+- Performance: Static-first pages, small islands, optimized images, and tidy CSS. Avoids client runtime JS unless necessary.
+
+### Deployment and operations
+
+This site ships through a GitOps pipeline:
+
+- PR previews: Each pull request generates an ephemeral preview site for content and UI review.
+- Merge-to-main deploy: Merging triggers an automated build and deploy via Coolify on my VPS.
+- Ingress: The app runs behind Traefik (per-environment/domain separation). Traefik handles routing, middlewares, and TLS at the edge via Cloudflare.
+- Exposure: Cloudflare Tunnels terminate at the edge; no ports are opened to the internet and the origin IP remains private.
+- Reliability: Monitoring notifies on deploys and health; backups align with my broader platform posture (object storage via Cloudflare R2 for artifacts/state where applicable). 
+
+### Developer experience
+
+- Automated formatting, linting, and type safety make content edits low-risk and fast.
+- Content authorship uses predictable MDX + schema-driven frontmatter, so adding projects or blog posts remains frictionless.
+- Aliased imports and clear folder structure keep components discoverable and decoupled.
+
+### Why this project stands out to me
+
+It’s a practical demonstration of end-to-end product thinking: strong foundations (a11y, SEO, perf), clean content workflows, and a secure GitOps deployment model on a hardened VPS—no exposed ports, Cloudflare edge protections, and Traefik policy control. It also shows restraint: minimal JS on the client, right-sized automation, and infrastructure that can scale without adding avoidable complexity.
