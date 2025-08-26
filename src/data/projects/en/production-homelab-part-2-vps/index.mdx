@@ -1,0 +1,77 @@
+---
+title: Production Homelab (Part 2 - VPS)
+description: >-
+  Uptime-focused VPS layer: hardened Ubuntu 24.04, Traefik ingress behind
+  Cloudflared (no open ports, hidden IP), Coolify with a GitOps workflow,
+  per‑client projects and shared services, preview environments per PR, multi‑cloud
+  diversity, and layered backups to Cloudflare R2 for fast recovery.
+image: ../production-homelab-part-2-vps/image.png
+technologies:
+  - Ubuntu 24.04 (hardened)
+  - Traefik
+  - Cloudflared (Cloudflare Tunnels)
+  - Coolify
+  - GitOps
+  - Cloudflare R2
+  - Docker
+  - VPS (multi‑cloud)
+completionDate: 2025-08-01
+keyFeatures:
+  - Hardened Ubuntu 24.04 with minimal surface area
+  - Ingress via Cloudflared tunnels (no open ports, hidden origin IP)
+  - Traefik routing with domain separation per client
+  - Coolify app platform with PR preview environments
+  - GitOps deployment from repo to production on merge
+  - Shared services project (web checks, time tracking, etc.)
+  - Multi‑cloud VPS diversity for provider resilience
+  - Layered, redundant backups to Cloudflare R2 for low MTTR
+  - Many client sites actively serve ~10,000 visits/week
+order: 2
+draft: false
+---
+
+### Overview
+
+My home lab is not just a place for tinkering and experimentation, it runs real production workloads with stakeholders depending on its services. These systems are engineered with stability, extensibility, and security as guiding principles. For more than two years they have reliably supported around 15 users with zero unplanned downtime.
+
+The platform is built on a hybrid architecture:
+
+- **On‑prem**: a Docker container host managed by Portainer with redundant storage, alongside a Raspberry Pi Kubernetes cluster with its own redundancy.
+- **Cloud VPS**: a small set of public‑facing nodes for uptime‑critical and latency‑sensitive workloads.
+
+This split balances control, latency, and availability. Storage‑heavy services such as my self‑hosted photo server stay local for performance and data privacy. High‑availability services run on VPS nodes to provide resilience and external ingress. Today that is only a handful of VPS servers, but the design can scale smoothly into a full distributed swarm in the cloud if demand grows.
+
+In this article I focus on the VPS side of the platform.
+
+### VPS platform design
+
+I currently operate two VPS servers dedicated to workloads needing higher uptime. SLAs comfortably allow up to one day of downtime, so there is no active failover today; however, the design can expand into a Swarm cluster when SLAs tighten.
+
+- OS baseline: Hardened Ubuntu 24.04 with reduced package footprint and opinionated security defaults.
+- Ingress and exposure: Cloudflared fronts Traefik, so no ports are opened to the internet and the VPS origin IPs remain private. Domains are separated per client to isolate tenants and simplify routing.
+- App platform: Coolify manages services, builds, and deployments with a GitOps approach. Each pull request spins up an ephemeral preview site; merging to main promotes to production automatically.
+- Projects model: A shared‑services project (web checking, time tracking, and supporting utilities) alongside separate per‑client projects for clear boundaries and scaling.
+- Multi‑cloud: VPS instances are split across two cloud providers for diversity and provider‑level resilience.
+
+### Operations and stability
+
+- Monitoring: Active monitoring is in place; alerts are sent to my Discord on most operational events (deployments, failures, resource thresholds, and health checks).
+- Backups and recovery: Coolify backups and relevant data sources write to Cloudflare R2. Additional layers of backup reduce catastrophic‑loss risk and enable fast restore paths.
+- Release flow: PR → ephemeral preview → code review → merge to main → automated deploy to production.
+- Uptime posture: Over the last year there has been zero unplanned downtime for client sites. Many client sites actively serve ~10,000 visits per week. Current SLAs accept up to 24 hours MTTR; architecture is optimized for simplicity and rapid manual recovery over idle redundancy. Swarm‑based HA is the planned next step if SLAs tighten.
+
+### Security and networking
+
+- No inbound ports: All exposure is via Cloudflare Tunnels; WAF and zero‑trust policies can be applied at the edge.
+- Traefik policies: Explicit routing, middlewares, and domain separation per client and per environment (preview vs. prod).
+- Hardening: Baseline OS hardening, least‑privilege credentials, secrets management within platform, and periodic patching windows.
+
+### Roadmap
+
+- Scale to Swarm for active failover/high availability when business requirements increase.
+- Expand shared services (synthetic checks, observability exporters) and standardize client project templates.
+- Add additional object‑storage regions and scheduled DR tests to further reduce recovery risk and time.
+
+### Why this project stands out to me
+
+It’s a pragmatic, end‑to‑end hosting platform for local businesses: multi‑cloud VPS, zero‑exposed ports via Cloudflared, disciplined routing with Traefik, GitOps‑driven deployments in Coolify, and preview environments that make reviews fast and safe. It balances real‑world uptime needs with simplicity and cost, while leaving a clear path to clustered high availability.
