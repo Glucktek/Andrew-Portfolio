@@ -1,6 +1,6 @@
 import __ASTRO_IMAGE_IMPORT_1Qzqsg from "../main-author/avatar.jpeg?astroContentImageFlag=&importer=src%2Fdata%2Fauthors%2Fmain-author%2Findex.mdx";
-import __ASTRO_IMAGE_IMPORT_2sO3zd from "../k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/heroImage.png?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fk3s-raspberry-pi-the-perfect-diy-kubernetes-cluster%2Findex.mdx";
 import __ASTRO_IMAGE_IMPORT_ZtR4Ij from "../why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/heroImage.jpg?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fwhy-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it%2Findex.mdx";
+import __ASTRO_IMAGE_IMPORT_2sO3zd from "../k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/heroImage.png?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fk3s-raspberry-pi-the-perfect-diy-kubernetes-cluster%2Findex.mdx";
 import __ASTRO_IMAGE_IMPORT_2rnk3T from "./magnit-logo.png?astroContentImageFlag=&importer=src%2Fdata%2Fresume%2Fen%2Fresume%2Findex.json";
 import __ASTRO_IMAGE_IMPORT_Zhezr8 from "./voxr-logo.png?astroContentImageFlag=&importer=src%2Fdata%2Fresume%2Fen%2Fresume%2Findex.json";
 import __ASTRO_IMAGE_IMPORT_1QQ9uR from "./quanterix-logo.png?astroContentImageFlag=&importer=src%2Fdata%2Fresume%2Fen%2Fresume%2Findex.json";
@@ -56,12 +56,12 @@ export default new Map([
     __ASTRO_IMAGE_IMPORT_1Qzqsg,
   ],
   [
-    "../k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/heroImage.png?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fk3s-raspberry-pi-the-perfect-diy-kubernetes-cluster%2Findex.mdx",
-    __ASTRO_IMAGE_IMPORT_2sO3zd,
-  ],
-  [
     "../why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/heroImage.jpg?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fwhy-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it%2Findex.mdx",
     __ASTRO_IMAGE_IMPORT_ZtR4Ij,
+  ],
+  [
+    "../k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/heroImage.png?astroContentImageFlag=&importer=src%2Fdata%2Fblog%2Fen%2Fk3s-raspberry-pi-the-perfect-diy-kubernetes-cluster%2Findex.mdx",
+    __ASTRO_IMAGE_IMPORT_2sO3zd,
   ],
   [
     "./magnit-logo.png?astroContentImageFlag=&importer=src%2Fdata%2Fresume%2Fen%2Fresume%2Findex.json",

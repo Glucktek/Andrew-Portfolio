@@ -20,12 +20,12 @@ const navConfig: navItem[] = [
     link: "/projects/",
   },
   {
-    text: "Resume",
-    link: "/resume/",
-  },
-  {
     text: "Blog",
     link: "/blog/",
+  },
+  {
+    text: "Resume",
+    link: "/resume/",
   },
 ];
 

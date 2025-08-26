@@ -7,17 +7,17 @@ export default new Map([
       ),
   ],
   [
-    "src/data/blog/en/k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/index.mdx",
-    () =>
-      import(
-        "astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fdata%2Fblog%2Fen%2Fk3s-raspberry-pi-the-perfect-diy-kubernetes-cluster%2Findex.mdx&astroContentModuleFlag=true"
-      ),
-  ],
-  [
     "src/data/blog/en/why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/index.mdx",
     () =>
       import(
         "astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fdata%2Fblog%2Fen%2Fwhy-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it%2Findex.mdx&astroContentModuleFlag=true"
+      ),
+  ],
+  [
+    "src/data/blog/en/k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/index.mdx",
+    () =>
+      import(
+        "astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fdata%2Fblog%2Fen%2Fk3s-raspberry-pi-the-perfect-diy-kubernetes-cluster%2Findex.mdx&astroContentModuleFlag=true"
       ),
   ],
   [
