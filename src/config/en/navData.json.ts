@@ -23,6 +23,10 @@ const navConfig: navItem[] = [
     text: "Resume",
     link: "/resume/",
   },
+  {
+    text: "Blog",
+    link: "/blog/",
+  },
 ];
 
 export default navConfig;
