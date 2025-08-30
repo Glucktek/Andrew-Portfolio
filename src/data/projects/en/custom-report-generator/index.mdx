@@ -1,0 +1,62 @@
+---
+title: Custom CI/CD Report Generator (Magnit)
+description: Python-based report generator that unified disparate YAML outputs from open-source quality tools, validated and normalized the data, and produced fast, static HTML dashboards with pagination, search, and severity filtering-deployed via GitLab CI and served on GitLab Pages.
+image: ../custom-report-generator/image.png
+technologies:
+  - Python
+  - GitLab CI/CD
+  - YAML
+  - HTML
+  - CSS
+  - Vanilla JS
+  - Static Site Generation
+completionDate: 2024-06-01
+keyFeatures:
+  - Unified multiple tool-specific YAML outputs into a single normalized schema
+  - Python validators and converters to ensure consistent structure and types
+  - Static HTML generation with modern CSS styling; no JS frameworks
+  - Client-side storage (localStorage) for report data and user settings
+  - Search, pagination, and severity-based filtering for large datasets
+  - Deployed as a GitLab CI step and hosted on GitLab Pages
+order: 5
+draft: false
+---
+
+### Problem
+
+Engineering and management needed actionable visibility into code quality findings (bugs, security issues, and hygiene)
+without buying a commercial platform. We had several open-source tools producing useful reports, but each emitted
+different YAML structures; making aggregation and comparison hard. Raw YAML data also does not provide a very great
+experience for understanding the information. 
+
+### Approach
+
+A Python report generator ran as a dedicated job in GitLab CI. The pipeline stayed simple and transparent so developers could reason about and maintain it:
+
+- Normalize: Parse each tool’s YAML and map fields into a shared schema (category, severity, file, line, rule, message, tags, timestamps).
+- Validate: Enforce schema and types; gracefully flag and skip malformed records while surfacing counts in the summary.
+- Convert: Write normalized artifacts to a compact JSON bundle for in-browser consumption and to pre-rendered HTML for immediate viewing.
+- Generate: Produce static HTML pages with lightweight, modern CSS and a simple component structure.
+
+### UX and performance
+
+- Simple links and CSS-driven active states simulate SPA-like navigation, keeping the site fast and accessible without a framework.
+- Normalized data and user preferences (selected filters, page size) are stored in the browser to speed reloads.
+- Pagination and a debounced search keep large reports responsive.
+- No UI libraries—just a few kilobytes of vanilla JS for required interactivity.
+
+### CI/CD and hosting
+
+- The pipeline step validates inputs, generates artifacts, and publishes the static site to GitLab Pages.
+- Produced artifacts include normalized JSON, per-tool diagnostics, and the HTML/CSS/JS bundle.
+- Summary stats are exposed to later stages and merges (e.g., total issues, severity distribution) to enable simple quality gates.
+
+### What was delivered
+
+- A consistent, comparable view of issues across multiple tools without a paid product.
+- A fast, portable reporting site that works on any static host.
+- Clear guardrails for data quality, keeping the pipeline resilient even when upstream report formats change.
+
+### Why this project stands out
+
+This work balanced impact and simplicity: organization-wide visibility delivered through a small, robust Python pipeline that normalized messy inputs, generated fast static dashboards, and shipped through CI without vendor lock-in or runtime overhead. Frameworks were deliberately avoided—just efficient HTML/CSS/JS and client-side storage—so large reports feel instant while keeping the system easy to maintain.
