@@ -31,32 +31,32 @@ experience for understanding the information.
 
 ### Approach
 
-A Python report generator ran as a dedicated job in GitLab CI. The pipeline stayed simple and transparent so developers could reason about and maintain it:
+I built a Python report generator that ran as a dedicated job in GitLab CI. I kept the pipeline simple and transparent so developers could reason about and maintain it:
 
-- Normalize: Parse each tool’s YAML and map fields into a shared schema (category, severity, file, line, rule, message, tags, timestamps).
-- Validate: Enforce schema and types; gracefully flag and skip malformed records while surfacing counts in the summary.
-- Convert: Write normalized artifacts to a compact JSON bundle for in-browser consumption and to pre-rendered HTML for immediate viewing.
-- Generate: Produce static HTML pages with lightweight, modern CSS and a simple component structure.
+- Normalize: I parsed each tool’s YAML and mapped fields into a shared schema (category, severity, file, line, rule, message, tags, timestamps).
+- Validate: I enforced schema and types and gracefully flagged and skipped malformed records while surfacing counts in the summary.
+- Convert: I wrote normalized artifacts to a compact JSON bundle for in-browser consumption and to pre-rendered HTML for immediate viewing.
+- Generate: I produced static HTML pages with lightweight, modern CSS and a simple component structure.
 
 ### UX and performance
 
-- Simple links and CSS-driven active states simulate SPA-like navigation, keeping the site fast and accessible without a framework.
-- Normalized data and user preferences (selected filters, page size) are stored in the browser to speed reloads.
-- Pagination and a debounced search keep large reports responsive.
-- No UI libraries—just a few kilobytes of vanilla JS for required interactivity.
+- I used simple links and CSS-driven active states to simulate SPA-like navigation, which kept the site fast and accessible without a framework.
+- I stored normalized data and user preferences (selected filters, page size) in the browser to speed reloads.
+- I added pagination and a debounced search to keep large reports responsive.
+- I avoided UI libraries on purpose—just a few kilobytes of vanilla JS for the interactivity I needed.
 
 ### CI/CD and hosting
 
-- The pipeline step validates inputs, generates artifacts, and publishes the static site to GitLab Pages.
-- Produced artifacts include normalized JSON, per-tool diagnostics, and the HTML/CSS/JS bundle.
-- Summary stats are exposed to later stages and merges (e.g., total issues, severity distribution) to enable simple quality gates.
+- I wired the pipeline step to validate inputs, generate artifacts, and publish the static site to GitLab Pages.
+- I produced artifacts like normalized JSON, per-tool diagnostics, and the HTML/CSS/JS bundle.
+- I exposed summary stats to later stages and merges (e.g., total issues, severity distribution) to enable simple quality gates.
 
-### What was delivered
+### What I delivered
 
-- A consistent, comparable view of issues across multiple tools without a paid product.
-- A fast, portable reporting site that works on any static host.
-- Clear guardrails for data quality, keeping the pipeline resilient even when upstream report formats change.
+- I gave the team a consistent, comparable view of issues across multiple tools without a paid product.
+- I built a fast, portable reporting site that works on any static host.
+- I added clear guardrails for data quality, keeping the pipeline resilient even when upstream report formats change.
 
-### Why this project stands out
+### Why this project stands out to me
 
-This work balanced impact and simplicity: organization-wide visibility delivered through a small, robust Python pipeline that normalized messy inputs, generated fast static dashboards, and shipped through CI without vendor lock-in or runtime overhead. Frameworks were deliberately avoided—just efficient HTML/CSS/JS and client-side storage—so large reports feel instant while keeping the system easy to maintain.
+I like how this balances impact and simplicity: organization-wide visibility delivered through a small, robust Python pipeline that normalized messy inputs, generated fast static dashboards, and shipped through CI without vendor lock-in or runtime overhead. I deliberately avoided frameworks—just efficient HTML/CSS/JS and client-side storage—so large reports feel instant while keeping the system easy to maintain.
