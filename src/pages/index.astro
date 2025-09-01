@@ -3,6 +3,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 
 // components
+import HeroGradient from "@components/hero/HeroGradient.astro";
 
 import AboutAlternative from "@components/about/AboutAlternative.astro";
 import ProjectShowcaseSideImage from "@components/project-showcase/ProjectShowcaseSideImage.astro";
@@ -20,7 +21,7 @@ const siteData = getTranslatedData("siteData", currLocale);
 ---
 
 <BaseLayout title={siteData.title} description={siteData.description}>
-
+  <HeroGradient />
   <AboutAlternative />
   <ProjectShowcaseSideImage />
   <TestimonialSwiper />
