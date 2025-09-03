@@ -14,8 +14,8 @@ const { name, url, icon } = Astro.props;
 	href={url}
 	target="_blank"
 	rel="noopener noreferrer"
-	class="primary-focus text-primary dark:text-base-400 hover:text-primary-dark dark:hover:text-primary transition-colors"
+	class="primary-focus inline-flex items-center text-primary dark:text-base-400 hover:text-primary-dark dark:hover:text-primary transition-colors [--social-icon-size:1rem]"
 	aria-label={`Follow me on ${name}`}
 >
-	<Icon name={icon} class="h-6 w-6" />
+		<Icon name={icon} class="h-[var(--social-icon-size)] w-[var(--social-icon-size)]" />
 </a>

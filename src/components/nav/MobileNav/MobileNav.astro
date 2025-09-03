@@ -5,9 +5,11 @@ import { Icon } from "astro-icon/components";
 import MobileNavDropdown from "@components/nav/MobileNav/MobileNavDropdown.astro";
 import NavLink from "@components/nav/NavLink.astro";
 import Button from "@components/button/Button.astro";
-import ThemeToggle from "@components/theme-toggle/ThemeToggle.astro";
+
 import LanguageSelect from "@components/language-select/MobileLanguageSelect.astro";
 import SiteLogo from "@components/site-logo/SiteLogo.astro";
+import SocialIconSimple from "@components/social/SocialIconSimple.astro";
+import socialLinks from "@config/socialLinks.json.ts";
 
 // utils
 import { getLocaleFromUrl } from "@js/localeUtils";
@@ -97,10 +99,11 @@ import { locales } from "@config/siteSettings.json";
         </ul>
       </nav>
       <div class="mt-2 flex w-full flex-col gap-3 px-2">
-        <!-- <hr class="mx-2 mb-2 border-base-300 dark:border-base-600/60" /> -->
-        <div class="-mr-1 flex items-start justify-between">
-          <ThemeToggle />
+        <div class="-mr-1 flex items-start justify-end">
           {locales.length > 1 && <LanguageSelect />}
+        </div>
+        <div class="mt-4 flex flex-wrap items-center gap-4">
+          {socialLinks.map((s) => <SocialIconSimple {...s} />)}
         </div>
       </div>
     </div>

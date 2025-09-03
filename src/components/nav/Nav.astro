@@ -7,7 +7,9 @@ import MobileNav from "@components/nav/MobileNav/MobileNav.astro";
 import SiteLogo from "@components/site-logo/SiteLogo.astro";
 import Button from "@components/button/Button.astro";
 import LanguageSelect from "@components/language-select/LanguageSelect.astro";
-import ThemeToggle from "@components/theme-toggle/ThemeToggle.astro";
+
+import SocialIconSimple from "@components/social/SocialIconSimple.astro";
+import socialLinks from "@config/socialLinks.json.ts";
 
 // utils
 import { getLocaleFromUrl } from "@js/localeUtils";
@@ -39,28 +41,27 @@ import { locales } from "@config/siteSettings.json";
         <!-- desktop nav menu -->
         <div>
           <div class="flex h-full flex-auto justify-end gap-2">
-            <nav class="hidden md:block">
-              <ul class="flex h-full items-center">
-                {
-                  // if dropdown exists, setup the dropdown, otherwise it is just a link
-                  navData.map((navItem) =>
-                    "dropdown" in navItem ? (
-                      // non-mobile dropdown menu
-                      <NavDropdownToggle navItem={navItem} />
-                    ) : "megaMenuColumns" in navItem ? (
-                      <MegaMenuDropdownToggle {navItem} />
-                    ) : (
-                      // normal nav link
-                      <NavLink {navItem} />
-                    ),
-                  )
-                }
-              </ul>
-            </nav>
-            <div class="hidden items-center gap-2 md:flex">
-              <!-- don't forget to also update the button in MobileNav.astro! -->
-              <ThemeToggle class="" />
-
+            <div class="hidden md:flex items-center">
+              <nav>
+                <ul class="flex h-full items-center gap-6 pr-[5px]">
+                  {
+                    navData.map((navItem) =>
+                      "dropdown" in navItem ? (
+                        <NavDropdownToggle navItem={navItem} />
+                      ) : "megaMenuColumns" in navItem ? (
+                        <MegaMenuDropdownToggle {navItem} />
+                      ) : (
+                        <NavLink {navItem} />
+                      ),
+                    )
+                  }
+                </ul>
+              </nav>
+              <div class="flex items-center gap-2 ml-6 leading-tight">
+                {socialLinks.map((s) => <SocialIconSimple {...s} class="h-4 w-4" />)}
+              </div>
+            </div>
+            <div class="hidden items-center gap-3 md:flex pl-3">
               {locales.length > 1 && <LanguageSelect class="" />}
             </div>
 
@@ -74,4 +75,3 @@ import { locales } from "@config/siteSettings.json";
     </div>
   </div>
 </section>
-
