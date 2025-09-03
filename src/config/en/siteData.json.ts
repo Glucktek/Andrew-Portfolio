@@ -10,14 +10,14 @@ const siteData: SiteDataProps = {
   // Your information for blog post purposes
   author: {
     name: "Andrew Gluck",
-    email: "contact@glucktek.com",
+    email: "andrew.gluck@glucktek.com",
     twitter: "",
   },
 
   // default image for meta tags if the page doesn't have an image already
   defaultImage: {
     src: "/images/logo.png",
-    alt: "Cosmic Themes logo",
+    alt: "Andrew Gluck",
   },
 };
 

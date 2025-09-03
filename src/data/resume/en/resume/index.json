@@ -66,8 +66,8 @@
       "responsibilities": [
         "Built the DevOps function from the ground up: helped define team charter, hiring profile, operating model, and technical standards; onboarded and coached engineers to a high-performance cadence.",
         "Stood up and led the DevOps team, establishing ownership boundaries (platform, pipelines, SRE-lite) and SLAs that clarified accountability and improved stakeholder confidence.",
-        "Managed a strategic third-party agency relationship: set outcomes and KPIs, negotiated scope and SOWs, implemented sprint cadences, and enforced quality gates—delivering on time and within budget.",
-        "Pioneered DevOps across the organization—established the philosophy, operating model, and end-to-end pipelines; evangelized best practices to leadership and engineering to drive company-wide adoption.",
+        "Managed a strategic third-party agency relationship: set outcomes and KPIs, negotiated scope and SOWs, implemented sprint cadences, and enforced quality gatesdelivering on time and within budget.",
+        "Pioneered DevOps across the organizationestablished the philosophy, operating model, and end-to-end pipelines; evangelized best practices to leadership and engineering to drive company-wide adoption.",
         "Converted manual, days-long release processes into fully automated pipelines, shrinking deployments and validations to minutes while increasing reliability and repeatability.",
         "Designed developer-centric workflows (branching, reviews, environments, artifact/version strategy) that streamlined delivery, improved feedback loops, and unlocked self-service.",
         "Implemented Infrastructure as Code with Pulumi, enabling consistent, policy-compliant provisioning and rapid environment spin-up across teams.",
