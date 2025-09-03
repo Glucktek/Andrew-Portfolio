@@ -16,7 +16,7 @@ const siteData: SiteDataProps = {
 
   // default image for meta tags if the page doesn't have an image already
   defaultImage: {
-    src: "/images/andrew.jpg",
+    src: "/images/logo.png",
     alt: "Cosmic Themes logo",
   },
 };
