@@ -51,7 +51,7 @@ This site ships through a GitOps pipeline:
 - Merge-to-main deploy: Merging triggers an automated build and deploy via Coolify on my VPS.
 - Ingress: The app runs behind Traefik (per-environment/domain separation). Traefik handles routing, middlewares, and TLS at the edge via Cloudflare.
 - Exposure: Cloudflare Tunnels terminate at the edge; no ports are opened to the internet and the origin IP remains private.
-- Reliability: Monitoring notifies on deploys and health; backups align with my broader platform posture (object storage via Cloudflare R2 for artifacts/state where applicable). 
+- Reliability: Monitoring notifies on deploys and health; backups align with my broader platform posture (object storage via Cloudflare R2 for artifacts/state where applicable).
 
 ### Developer experience
 

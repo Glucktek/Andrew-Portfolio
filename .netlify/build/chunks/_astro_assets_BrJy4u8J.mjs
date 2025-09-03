@@ -1,10 +1,38 @@
-import { joinPaths, isRemotePath } from '@astrojs/internal-helpers/path';
-import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, t as MissingImageDimension, v as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, w as UnsupportedImageConversion, x as toStyleString, y as NoImageMetadata, z as FailedToFetchRemoteImageDimensions, B as ExpectedImageOptions, C as ExpectedNotESMImage, D as InvalidImageService, c as createAstro, a as createComponent, G as ImageMissingAlt, m as maybeRenderHead, e as addAttribute, s as spreadAttributes, b as renderTemplate, H as ExperimentalFontsNotEnabled, J as FontFamilyNotFound, u as unescapeHTML } from './astro/server_DCWHtt33.mjs';
-import { D as DEFAULT_OUTPUT_FORMAT, a as VALID_SUPPORTED_FORMATS, b as DEFAULT_HASH_PROPS } from './consts_BmVDRGlB.mjs';
-import { isRemoteAllowed } from '@astrojs/internal-helpers/remote';
-import * as mime from 'mrmime';
-import 'clsx';
-import 'kleur/colors';
+import { joinPaths, isRemotePath } from "@astrojs/internal-helpers/path";
+import {
+  A as AstroError,
+  E as ExpectedImage,
+  L as LocalImageUsedWrongly,
+  t as MissingImageDimension,
+  v as UnsupportedImageFormat,
+  I as IncompatibleDescriptorOptions,
+  w as UnsupportedImageConversion,
+  x as toStyleString,
+  y as NoImageMetadata,
+  z as FailedToFetchRemoteImageDimensions,
+  B as ExpectedImageOptions,
+  C as ExpectedNotESMImage,
+  D as InvalidImageService,
+  c as createAstro,
+  a as createComponent,
+  G as ImageMissingAlt,
+  m as maybeRenderHead,
+  e as addAttribute,
+  s as spreadAttributes,
+  b as renderTemplate,
+  H as ExperimentalFontsNotEnabled,
+  J as FontFamilyNotFound,
+  u as unescapeHTML,
+} from "./astro/server_DCWHtt33.mjs";
+import {
+  D as DEFAULT_OUTPUT_FORMAT,
+  a as VALID_SUPPORTED_FORMATS,
+  b as DEFAULT_HASH_PROPS,
+} from "./consts_BmVDRGlB.mjs";
+import { isRemoteAllowed } from "@astrojs/internal-helpers/remote";
+import * as mime from "mrmime";
+import "clsx";
+import "kleur/colors";
 
 const DEFAULT_RESOLUTIONS = [
   640,
@@ -35,7 +63,7 @@ const DEFAULT_RESOLUTIONS = [
   // 4.5K
   5120,
   // 5K
-  6016
+  6016,
   // 6K
 ];
 const LIMITED_RESOLUTIONS = [
@@ -53,14 +81,14 @@ const LIMITED_RESOLUTIONS = [
   // Various iPads
   2048,
   // QXGA
-  2560
+  2560,
   // WQXGA
 ];
 const getWidths = ({
   width,
   layout,
   breakpoints = DEFAULT_RESOLUTIONS,
-  originalWidth
+  originalWidth,
 }) => {
   const smallerThanOriginal = (w) => !originalWidth || w <= originalWidth;
   if (layout === "full-width") {
@@ -70,24 +98,27 @@ const getWidths = ({
     return [];
   }
   const doubleWidth = width * 2;
-  const maxSize = originalWidth ? Math.min(doubleWidth, originalWidth) : doubleWidth;
+  const maxSize = originalWidth
+    ? Math.min(doubleWidth, originalWidth)
+    : doubleWidth;
   if (layout === "fixed") {
-    return originalWidth && width > originalWidth ? [originalWidth] : [width, maxSize];
+    return originalWidth && width > originalWidth
+      ? [originalWidth]
+      : [width, maxSize];
   }
   if (layout === "constrained") {
     return [
       // Always include the image at 1x and 2x the specified width
       width,
       doubleWidth,
-      ...breakpoints
-    ].filter((w) => w <= maxSize).sort((a, b) => a - b);
+      ...breakpoints,
+    ]
+      .filter((w) => w <= maxSize)
+      .sort((a, b) => a - b);
   }
   return [];
 };
-const getSizesAttribute = ({
-  width,
-  layout
-}) => {
+const getSizesAttribute = ({ width, layout }) => {
   if (!width || !layout) {
     return void 0;
   }
@@ -109,7 +140,7 @@ const getSizesAttribute = ({
 };
 
 function isESMImportedImage(src) {
-  return typeof src === "object" || typeof src === "function" && "src" in src;
+  return typeof src === "object" || (typeof src === "function" && "src" in src);
 }
 function isRemoteImage(src) {
   return typeof src === "string";
@@ -138,21 +169,27 @@ function parseQuality(quality) {
 const sortNumeric = (a, b) => a - b;
 const baseService = {
   validateOptions(options) {
-    if (!options.src || !isRemoteImage(options.src) && !isESMImportedImage(options.src)) {
+    if (
+      !options.src ||
+      (!isRemoteImage(options.src) && !isESMImportedImage(options.src))
+    ) {
       throw new AstroError({
         ...ExpectedImage,
         message: ExpectedImage.message(
           JSON.stringify(options.src),
           typeof options.src,
-          JSON.stringify(options, (_, v) => v === void 0 ? null : v)
-        )
+          JSON.stringify(options, (_, v) => (v === void 0 ? null : v)),
+        ),
       });
     }
     if (!isESMImportedImage(options.src)) {
-      if (options.src.startsWith("/@fs/") || !isRemotePath(options.src) && !options.src.startsWith("/")) {
+      if (
+        options.src.startsWith("/@fs/") ||
+        (!isRemotePath(options.src) && !options.src.startsWith("/"))
+      ) {
         throw new AstroError({
           ...LocalImageUsedWrongly,
-          message: LocalImageUsedWrongly.message(options.src)
+          message: LocalImageUsedWrongly.message(options.src),
         });
       }
       let missingDimension;
@@ -166,7 +203,7 @@ const baseService = {
       if (missingDimension) {
         throw new AstroError({
           ...MissingImageDimension,
-          message: MissingImageDimension.message(missingDimension, options.src)
+          message: MissingImageDimension.message(missingDimension, options.src),
         });
       }
     } else {
@@ -176,8 +213,8 @@ const baseService = {
           message: UnsupportedImageFormat.message(
             options.src.format,
             options.src.src,
-            VALID_SUPPORTED_FORMATS
-          )
+            VALID_SUPPORTED_FORMATS,
+          ),
         });
       }
       if (options.widths && options.densities) {
@@ -186,7 +223,10 @@ const baseService = {
       if (options.src.format === "svg") {
         options.format = "svg";
       }
-      if (options.src.format === "svg" && options.format !== "svg" || options.src.format !== "svg" && options.format === "svg") {
+      if (
+        (options.src.format === "svg" && options.format !== "svg") ||
+        (options.src.format !== "svg" && options.format === "svg")
+      ) {
         throw new AstroError(UnsupportedImageConversion);
       }
     }
@@ -226,7 +266,7 @@ const baseService = {
       width: targetWidth,
       height: targetHeight,
       loading: attributes.loading ?? "lazy",
-      decoding: attributes.decoding ?? "async"
+      decoding: attributes.decoding ?? "async",
     };
   },
   getSrcSet(options) {
@@ -241,7 +281,9 @@ const baseService = {
       imageWidth = options.src.width;
       maxWidth = imageWidth;
       if (transformedWidths.length > 0 && transformedWidths.at(-1) > maxWidth) {
-        transformedWidths = transformedWidths.filter((width) => width <= maxWidth);
+        transformedWidths = transformedWidths.filter(
+          (width) => width <= maxWidth,
+        );
         transformedWidths.push(maxWidth);
       }
     }
@@ -260,15 +302,17 @@ const baseService = {
           return parseFloat(density);
         }
       });
-      const densityWidths = densityValues.sort(sortNumeric).map((density) => Math.round(targetWidth * density));
+      const densityWidths = densityValues
+        .sort(sortNumeric)
+        .map((density) => Math.round(targetWidth * density));
       allWidths = densityWidths.map((width, index) => ({
         width,
-        descriptor: `${densityValues[index]}x`
+        descriptor: `${densityValues[index]}x`,
       }));
     } else if (transformedWidths.length > 0) {
       allWidths = transformedWidths.map((width) => ({
         width,
-        descriptor: `${width}w`
+        descriptor: `${width}w`,
       }));
     }
     return allWidths.map(({ width, descriptor }) => {
@@ -278,8 +322,8 @@ const baseService = {
         transform,
         descriptor,
         attributes: {
-          type: `image/${targetFormat}`
-        }
+          type: `image/${targetFormat}`,
+        },
       };
     });
   },
@@ -298,7 +342,7 @@ const baseService = {
       q: "quality",
       f: "format",
       fit: "fit",
-      position: "position"
+      position: "position",
     };
     Object.entries(params).forEach(([param, key]) => {
       options[key] && searchParams.append(param, options[key].toString());
@@ -318,10 +362,10 @@ const baseService = {
       format: params.get("f"),
       quality: params.get("q"),
       fit: params.get("fit"),
-      position: params.get("position") ?? void 0
+      position: params.get("position") ?? void 0,
     };
     return transform;
-  }
+  },
 };
 function getTargetDimensions(options) {
   let targetWidth = options.width;
@@ -339,7 +383,7 @@ function getTargetDimensions(options) {
   }
   return {
     targetWidth,
-    targetHeight
+    targetHeight,
   };
 }
 
@@ -349,7 +393,10 @@ function isImageMetadata(src) {
 
 const cssFitValues = ["fill", "contain", "cover", "scale-down"];
 function addCSSVarsToStyle(vars, styles) {
-  const cssVars = Object.entries(vars).filter(([_, value]) => value !== void 0 && value !== false).map(([key, value]) => `--${key}: ${value};`).join(" ");
+  const cssVars = Object.entries(vars)
+    .filter(([_, value]) => value !== void 0 && value !== false)
+    .map(([key, value]) => `--${key}: ${value};`)
+    .join(" ");
   if (!styles) {
     return cssVars;
   }
@@ -358,23 +405,42 @@ function addCSSVarsToStyle(vars, styles) {
 }
 
 const decoder = new TextDecoder();
-const toUTF8String = (input, start = 0, end = input.length) => decoder.decode(input.slice(start, end));
-const toHexString = (input, start = 0, end = input.length) => input.slice(start, end).reduce((memo, i) => memo + ("0" + i.toString(16)).slice(-2), "");
+const toUTF8String = (input, start = 0, end = input.length) =>
+  decoder.decode(input.slice(start, end));
+const toHexString = (input, start = 0, end = input.length) =>
+  input
+    .slice(start, end)
+    .reduce((memo, i) => memo + ("0" + i.toString(16)).slice(-2), "");
 const readInt16LE = (input, offset = 0) => {
   const val = input[offset] + input[offset + 1] * 2 ** 8;
-  return val | (val & 2 ** 15) * 131070;
+  return val | ((val & (2 ** 15)) * 131070);
 };
-const readUInt16BE = (input, offset = 0) => input[offset] * 2 ** 8 + input[offset + 1];
-const readUInt16LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8;
-const readUInt24LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16;
-const readInt32LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16 + (input[offset + 3] << 24);
-const readUInt32BE = (input, offset = 0) => input[offset] * 2 ** 24 + input[offset + 1] * 2 ** 16 + input[offset + 2] * 2 ** 8 + input[offset + 3];
-const readUInt32LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16 + input[offset + 3] * 2 ** 24;
+const readUInt16BE = (input, offset = 0) =>
+  input[offset] * 2 ** 8 + input[offset + 1];
+const readUInt16LE = (input, offset = 0) =>
+  input[offset] + input[offset + 1] * 2 ** 8;
+const readUInt24LE = (input, offset = 0) =>
+  input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16;
+const readInt32LE = (input, offset = 0) =>
+  input[offset] +
+  input[offset + 1] * 2 ** 8 +
+  input[offset + 2] * 2 ** 16 +
+  (input[offset + 3] << 24);
+const readUInt32BE = (input, offset = 0) =>
+  input[offset] * 2 ** 24 +
+  input[offset + 1] * 2 ** 16 +
+  input[offset + 2] * 2 ** 8 +
+  input[offset + 3];
+const readUInt32LE = (input, offset = 0) =>
+  input[offset] +
+  input[offset + 1] * 2 ** 8 +
+  input[offset + 2] * 2 ** 16 +
+  input[offset + 3] * 2 ** 24;
 const methods = {
   readUInt16BE,
   readUInt16LE,
   readUInt32BE,
-  readUInt32LE
+  readUInt32LE,
 };
 function readUInt(input, bits, offset, isBigEndian) {
   offset = offset || 0;
@@ -389,7 +455,7 @@ function readBox(buffer, offset) {
   return {
     name: toUTF8String(buffer, 4 + offset, 8 + offset),
     offset,
-    size: boxSize
+    size: boxSize,
   };
 }
 function findBox(buffer, boxName, offset) {
@@ -405,8 +471,8 @@ const BMP = {
   validate: (input) => toUTF8String(input, 0, 2) === "BM",
   calculate: (input) => ({
     height: Math.abs(readInt32LE(input, 22)),
-    width: readUInt32LE(input, 18)
-  })
+    width: readUInt32LE(input, 18),
+  }),
 };
 
 const TYPE_ICON = 1;
@@ -420,7 +486,7 @@ function getImageSize$1(input, imageIndex) {
   const offset = SIZE_HEADER$1 + imageIndex * SIZE_IMAGE_ENTRY;
   return {
     height: getSizeFromOffset(input, offset + 1),
-    width: getSizeFromOffset(input, offset)
+    width: getSizeFromOffset(input, offset),
   };
 }
 const ICO = {
@@ -442,9 +508,9 @@ const ICO = {
     return {
       height: imageSize.height,
       images: imgs,
-      width: imageSize.width
+      width: imageSize.width,
     };
-  }
+  },
 };
 
 const TYPE_CURSOR = 2;
@@ -456,15 +522,15 @@ const CUR = {
     const imageType = readUInt16LE(input, 2);
     return imageType === TYPE_CURSOR;
   },
-  calculate: (input) => ICO.calculate(input)
+  calculate: (input) => ICO.calculate(input),
 };
 
 const DDS = {
   validate: (input) => readUInt32LE(input, 0) === 542327876,
   calculate: (input) => ({
     height: readUInt32LE(input, 12),
-    width: readUInt32LE(input, 16)
-  })
+    width: readUInt32LE(input, 16),
+  }),
 };
 
 const gifRegexp = /^GIF8[79]a/;
@@ -472,8 +538,8 @@ const GIF = {
   validate: (input) => gifRegexp.test(toUTF8String(input, 0, 6)),
   calculate: (input) => ({
     height: readUInt16LE(input, 8),
-    width: readUInt16LE(input, 6)
-  })
+    width: readUInt16LE(input, 6),
+  }),
 };
 
 const brandMap = {
@@ -485,7 +551,7 @@ const brandMap = {
   heix: "heic",
   hevc: "heic",
   // heic-sequence
-  hevx: "heic"
+  hevx: "heic",
   // heic-sequence
 };
 function detectBrands(buffer, start, end) {
@@ -498,7 +564,12 @@ function detectBrands(buffer, start, end) {
   }
   if ("avif" in brandsDetected) {
     return "avif";
-  } else if ("heic" in brandsDetected || "heix" in brandsDetected || "hevc" in brandsDetected || "hevx" in brandsDetected) {
+  } else if (
+    "heic" in brandsDetected ||
+    "heix" in brandsDetected ||
+    "hevc" in brandsDetected ||
+    "hevx" in brandsDetected
+  ) {
     return "heic";
   } else if ("mif1" in brandsDetected || "msf1" in brandsDetected) {
     return "heif";
@@ -519,11 +590,11 @@ const HEIF = {
       return {
         height: readUInt32BE(buffer, ispeBox.offset + 16),
         width: readUInt32BE(buffer, ispeBox.offset + 12),
-        type: detectBrands(buffer, 8, metaBox.offset)
+        type: detectBrands(buffer, 8, metaBox.offset),
       };
     }
     throw new TypeError("Invalid HEIF, no size found");
-  }
+  },
 };
 
 const SIZE_HEADER = 4 + 4;
@@ -569,13 +640,13 @@ const ICON_TYPE_SIZE = {
   ic09: 512,
   ic14: 512,
   // . => 1024 x 1024
-  ic10: 1024
+  ic10: 1024,
 };
 function readImageHeader(input, imageOffset) {
   const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET;
   return [
     toUTF8String(input, imageOffset, imageLengthOffset),
-    readUInt32BE(input, imageLengthOffset)
+    readUInt32BE(input, imageLengthOffset),
   ];
 }
 function getImageSize(type) {
@@ -595,7 +666,7 @@ const ICNS = {
     const result = {
       height: imageSize.height,
       images: [imageSize],
-      width: imageSize.width
+      width: imageSize.width,
     };
     while (imageOffset < fileLength && imageOffset < inputLength) {
       imageHeader = readImageHeader(input, imageOffset);
@@ -604,7 +675,7 @@ const ICNS = {
       result.images.push(imageSize);
     }
     return result;
-  }
+  },
 };
 
 const J2C = {
@@ -612,13 +683,14 @@ const J2C = {
   validate: (input) => toHexString(input, 0, 4) === "ff4fff51",
   calculate: (input) => ({
     height: readUInt32BE(input, 12),
-    width: readUInt32BE(input, 8)
-  })
+    width: readUInt32BE(input, 8),
+  }),
 };
 
 const JP2 = {
   validate(input) {
-    if (readUInt32BE(input, 4) !== 1783636e3 || readUInt32BE(input, 0) < 1) return false;
+    if (readUInt32BE(input, 4) !== 1783636e3 || readUInt32BE(input, 0) < 1)
+      return false;
     const ftypBox = findBox(input, "ftyp", 0);
     if (!ftypBox) return false;
     return readUInt32BE(input, ftypBox.offset + 4) === 1718909296;
@@ -629,11 +701,11 @@ const JP2 = {
     if (ihdrBox) {
       return {
         height: readUInt32BE(input, ihdrBox.offset + 8),
-        width: readUInt32BE(input, ihdrBox.offset + 12)
+        width: readUInt32BE(input, ihdrBox.offset + 12),
       };
     }
     throw new TypeError("Unsupported JPEG 2000 format");
-  }
+  },
 };
 
 const EXIF_MARKER = "45786966";
@@ -650,15 +722,22 @@ function isEXIF(input) {
 function extractSize(input, index) {
   return {
     height: readUInt16BE(input, index),
-    width: readUInt16BE(input, index + 2)
+    width: readUInt16BE(input, index + 2),
   };
 }
 function extractOrientation(exifBlock, isBigEndian) {
   const idfOffset = 8;
   const offset = EXIF_HEADER_BYTES + idfOffset;
   const idfDirectoryEntries = readUInt(exifBlock, 16, offset, isBigEndian);
-  for (let directoryEntryNumber = 0; directoryEntryNumber < idfDirectoryEntries; directoryEntryNumber++) {
-    const start = offset + NUM_DIRECTORY_ENTRIES_BYTES + directoryEntryNumber * IDF_ENTRY_BYTES;
+  for (
+    let directoryEntryNumber = 0;
+    directoryEntryNumber < idfDirectoryEntries;
+    directoryEntryNumber++
+  ) {
+    const start =
+      offset +
+      NUM_DIRECTORY_ENTRIES_BYTES +
+      directoryEntryNumber * IDF_ENTRY_BYTES;
     const end = start + IDF_ENTRY_BYTES;
     if (start > exifBlock.length) {
       return;
@@ -683,7 +762,7 @@ function validateExifBlock(input, index) {
   const byteAlign = toHexString(
     exifBlock,
     EXIF_HEADER_BYTES,
-    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES
+    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES,
   );
   const isBigEndian = byteAlign === BIG_ENDIAN_BYTE_ALIGN;
   const isLittleEndian = byteAlign === LITTLE_ENDIAN_BYTE_ALIGN;
@@ -721,13 +800,13 @@ const JPG = {
         return {
           height: size.height,
           orientation,
-          width: size.width
+          width: size.width,
         };
       }
       input = input.slice(i + 2);
     }
     throw new TypeError("Invalid JPG, no size found");
-  }
+  },
 };
 
 const KTX = {
@@ -741,9 +820,9 @@ const KTX = {
     return {
       height: readUInt32LE(input, offset + 4),
       width: readUInt32LE(input, offset),
-      type
+      type,
     };
-  }
+  },
 };
 
 const pngSignature = "PNG\r\n\n";
@@ -767,14 +846,14 @@ const PNG = {
     if (toUTF8String(input, 12, 16) === pngFriedChunkName) {
       return {
         height: readUInt32BE(input, 36),
-        width: readUInt32BE(input, 32)
+        width: readUInt32BE(input, 32),
       };
     }
     return {
       height: readUInt32BE(input, 20),
-      width: readUInt32BE(input, 16)
+      width: readUInt32BE(input, 16),
     };
-  }
+  },
 };
 
 const PNMTypes = {
@@ -785,7 +864,7 @@ const PNMTypes = {
   P5: "pgm",
   P6: "ppm",
   P7: "pam",
-  PF: "pfm"
+  PF: "pfm",
 };
 const handlers = {
   default: (lines) => {
@@ -801,7 +880,7 @@ const handlers = {
     if (dimensions.length === 2) {
       return {
         height: parseInt(dimensions[1], 10),
-        width: parseInt(dimensions[0], 10)
+        width: parseInt(dimensions[0], 10),
       };
     } else {
       throw new TypeError("Invalid PNM");
@@ -825,12 +904,12 @@ const handlers = {
     if (size.height && size.width) {
       return {
         height: size.height,
-        width: size.width
+        width: size.width,
       };
     } else {
       throw new TypeError("Invalid PAM");
     }
-  }
+  },
 };
 const PNM = {
   validate: (input) => toUTF8String(input, 0, 2) in PNMTypes,
@@ -840,15 +919,15 @@ const PNM = {
     const lines = toUTF8String(input, 3).split(/[\r\n]+/);
     const handler = handlers[type] || handlers.default;
     return handler(lines);
-  }
+  },
 };
 
 const PSD = {
   validate: (input) => toUTF8String(input, 0, 4) === "8BPS",
   calculate: (input) => ({
     height: readUInt32BE(input, 14),
-    width: readUInt32BE(input, 18)
-  })
+    width: readUInt32BE(input, 18),
+  }),
 };
 
 const svgReg = /<svg\s([^>"']|"[^"]*"|'[^']*')*>/;
@@ -856,7 +935,7 @@ const extractorRegExps = {
   height: /\sheight=(['"])([^%]+?)\1/,
   root: svgReg,
   viewbox: /\sviewBox=(['"])(.+?)\1/i,
-  width: /\swidth=(['"])([^%]+?)\1/
+  width: /\swidth=(['"])([^%]+?)\1/,
 };
 const INCH_CM = 2.54;
 const units = {
@@ -864,14 +943,14 @@ const units = {
   cm: 96 / INCH_CM,
   em: 16,
   ex: 8,
-  m: 96 / INCH_CM * 100,
+  m: (96 / INCH_CM) * 100,
   mm: 96 / INCH_CM / 10,
   pc: 96 / 72 / 12,
   pt: 96 / 72,
-  px: 1
+  px: 1,
 };
 const unitsReg = new RegExp(
-  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join("|")})?$`
+  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join("|")})?$`,
 );
 function parseLength(len) {
   const m = unitsReg.exec(len);
@@ -884,7 +963,7 @@ function parseViewbox(viewbox) {
   const bounds = viewbox.split(" ");
   return {
     height: parseLength(bounds[3]),
-    width: parseLength(bounds[2])
+    width: parseLength(bounds[2]),
   };
 }
 function parseAttributes(root) {
@@ -894,13 +973,13 @@ function parseAttributes(root) {
   return {
     height: height && parseLength(height[2]),
     viewbox: viewbox && parseViewbox(viewbox[2]),
-    width: width && parseLength(width[2])
+    width: width && parseLength(width[2]),
   };
 }
 function calculateByDimensions(attrs) {
   return {
     height: attrs.height,
-    width: attrs.width
+    width: attrs.width,
   };
 }
 function calculateByViewbox(attrs, viewbox) {
@@ -908,18 +987,18 @@ function calculateByViewbox(attrs, viewbox) {
   if (attrs.width) {
     return {
       height: Math.floor(attrs.width / ratio),
-      width: attrs.width
+      width: attrs.width,
     };
   }
   if (attrs.height) {
     return {
       height: attrs.height,
-      width: Math.floor(attrs.height * ratio)
+      width: Math.floor(attrs.height * ratio),
     };
   }
   return {
     height: viewbox.height,
-    width: viewbox.width
+    width: viewbox.width,
   };
 }
 const SVG = {
@@ -937,7 +1016,7 @@ const SVG = {
       }
     }
     throw new TypeError("Invalid SVG");
-  }
+  },
 };
 
 const TGA = {
@@ -947,9 +1026,9 @@ const TGA = {
   calculate(input) {
     return {
       height: readUInt16LE(input, 14),
-      width: readUInt16LE(input, 12)
+      width: readUInt16LE(input, 12),
     };
-  }
+  },
 };
 
 function readIFD(input, isBigEndian) {
@@ -996,7 +1075,7 @@ const signatures = [
   // '492049', // currently not supported
   "49492a00",
   // Little endian
-  "4d4d002a"
+  "4d4d002a",
   // Big Endian
   // '4d4d002a', // BigTIFF > 4GB. currently not supported
 ];
@@ -1012,25 +1091,26 @@ const TIFF = {
       throw new TypeError("Invalid Tiff. Missing tags");
     }
     return { height, width };
-  }
+  },
 };
 
 function calculateExtended(input) {
   return {
     height: 1 + readUInt24LE(input, 7),
-    width: 1 + readUInt24LE(input, 4)
+    width: 1 + readUInt24LE(input, 4),
   };
 }
 function calculateLossless(input) {
   return {
-    height: 1 + ((input[4] & 15) << 10 | input[3] << 2 | (input[2] & 192) >> 6),
-    width: 1 + ((input[2] & 63) << 8 | input[1])
+    height:
+      1 + (((input[4] & 15) << 10) | (input[3] << 2) | ((input[2] & 192) >> 6)),
+    width: 1 + (((input[2] & 63) << 8) | input[1]),
   };
 }
 function calculateLossy(input) {
   return {
     height: readInt16LE(input, 8) & 16383,
-    width: readInt16LE(input, 6) & 16383
+    width: readInt16LE(input, 6) & 16383,
   };
 }
 const WEBP = {
@@ -1061,7 +1141,7 @@ const WEBP = {
       return calculateLossless(input);
     }
     throw new TypeError("Invalid WebP");
-  }
+  },
 };
 
 const typeHandlers = /* @__PURE__ */ new Map([
@@ -1082,7 +1162,7 @@ const typeHandlers = /* @__PURE__ */ new Map([
   ["svg", SVG],
   ["tga", TGA],
   ["tiff", TIFF],
-  ["webp", WEBP]
+  ["webp", WEBP],
 ]);
 const types = Array.from(typeHandlers.keys());
 
@@ -1096,7 +1176,7 @@ const firstBytes = /* @__PURE__ */ new Map([
   [82, "webp"],
   [105, "icns"],
   [137, "png"],
-  [255, "jpg"]
+  [255, "jpg"],
 ]);
 function detector(input) {
   const byte = input[0];
@@ -1126,13 +1206,13 @@ async function imageMetadata(data, src) {
   } catch {
     throw new AstroError({
       ...NoImageMetadata,
-      message: NoImageMetadata.message(src)
+      message: NoImageMetadata.message(src),
     });
   }
   if (!result.height || !result.width || !result.type) {
     throw new AstroError({
       ...NoImageMetadata,
-      message: NoImageMetadata.message(src)
+      message: NoImageMetadata.message(src),
     });
   }
   const { width, height, type, orientation } = result;
@@ -1141,7 +1221,7 @@ async function imageMetadata(data, src) {
     width: isPortrait ? height : width,
     height: isPortrait ? width : height,
     format: type,
-    orientation
+    orientation,
   };
 }
 
@@ -1150,7 +1230,7 @@ async function inferRemoteSize(url) {
   if (!response.body || !response.ok) {
     throw new AstroError({
       ...FailedToFetchRemoteImageDimensions,
-      message: FailedToFetchRemoteImageDimensions.message(url)
+      message: FailedToFetchRemoteImageDimensions.message(url),
     });
   }
   const reader = response.body.getReader();
@@ -1172,13 +1252,12 @@ async function inferRemoteSize(url) {
           await reader.cancel();
           return dimensions;
         }
-      } catch {
-      }
+      } catch {}
     }
   }
   throw new AstroError({
     ...NoImageMetadata,
-    message: NoImageMetadata.message(url)
+    message: NoImageMetadata.message(url),
   });
 }
 
@@ -1186,7 +1265,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp_YnDcJt2N.mjs'
+      "./sharp_YnDcJt2N.mjs"
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;
@@ -1202,7 +1281,7 @@ async function getImage$1(options, imageConfig) {
   if (!options || typeof options !== "object") {
     throw new AstroError({
       ...ExpectedImageOptions,
-      message: ExpectedImageOptions.message(JSON.stringify(options))
+      message: ExpectedImageOptions.message(JSON.stringify(options)),
     });
   }
   if (typeof options.src === "undefined") {
@@ -1211,8 +1290,8 @@ async function getImage$1(options, imageConfig) {
       message: ExpectedImage.message(
         options.src,
         "undefined",
-        JSON.stringify(options)
-      )
+        JSON.stringify(options),
+      ),
     });
   }
   if (isImageMetadata(options)) {
@@ -1221,12 +1300,16 @@ async function getImage$1(options, imageConfig) {
   const service = await getConfiguredImageService();
   const resolvedOptions = {
     ...options,
-    src: await resolveSrc(options.src)
+    src: await resolveSrc(options.src),
   };
   let originalWidth;
   let originalHeight;
   let originalFormat;
-  if (options.inferSize && isRemoteImage(resolvedOptions.src) && isRemotePath(resolvedOptions.src)) {
+  if (
+    options.inferSize &&
+    isRemoteImage(resolvedOptions.src) &&
+    isRemotePath(resolvedOptions.src)
+  ) {
     const result = await inferRemoteSize(resolvedOptions.src);
     resolvedOptions.width ??= result.width;
     resolvedOptions.height ??= result.height;
@@ -1235,11 +1318,13 @@ async function getImage$1(options, imageConfig) {
     originalFormat = result.format;
     delete resolvedOptions.inferSize;
   }
-  const originalFilePath = isESMImportedImage(resolvedOptions.src) ? resolvedOptions.src.fsPath : void 0;
-  const clonedSrc = isESMImportedImage(resolvedOptions.src) ? (
-    // @ts-expect-error - clone is a private, hidden prop
-    resolvedOptions.src.clone ?? resolvedOptions.src
-  ) : resolvedOptions.src;
+  const originalFilePath = isESMImportedImage(resolvedOptions.src)
+    ? resolvedOptions.src.fsPath
+    : void 0;
+  const clonedSrc = isESMImportedImage(resolvedOptions.src)
+    ? // @ts-expect-error - clone is a private, hidden prop
+      (resolvedOptions.src.clone ?? resolvedOptions.src)
+    : resolvedOptions.src;
   if (isESMImportedImage(clonedSrc)) {
     originalWidth = clonedSrc.width;
     originalHeight = clonedSrc.height;
@@ -1263,9 +1348,16 @@ async function getImage$1(options, imageConfig) {
       width: resolvedOptions.width,
       layout,
       originalWidth,
-      breakpoints: imageConfig.experimentalBreakpoints?.length ? imageConfig.experimentalBreakpoints : isLocalService(service) ? LIMITED_RESOLUTIONS : DEFAULT_RESOLUTIONS
+      breakpoints: imageConfig.experimentalBreakpoints?.length
+        ? imageConfig.experimentalBreakpoints
+        : isLocalService(service)
+          ? LIMITED_RESOLUTIONS
+          : DEFAULT_RESOLUTIONS,
     });
-    resolvedOptions.sizes ||= getSizesAttribute({ width: resolvedOptions.width, layout });
+    resolvedOptions.sizes ||= getSizesAttribute({
+      width: resolvedOptions.width,
+      layout,
+    });
     if (resolvedOptions.priority) {
       resolvedOptions.loading ??= "eager";
       resolvedOptions.decoding ??= "sync";
@@ -1280,41 +1372,62 @@ async function getImage$1(options, imageConfig) {
     if (layout !== "none") {
       resolvedOptions.style = addCSSVarsToStyle(
         {
-          fit: cssFitValues.includes(resolvedOptions.fit ?? "") && resolvedOptions.fit,
-          pos: resolvedOptions.position
+          fit:
+            cssFitValues.includes(resolvedOptions.fit ?? "") &&
+            resolvedOptions.fit,
+          pos: resolvedOptions.position,
         },
-        resolvedOptions.style
+        resolvedOptions.style,
       );
       resolvedOptions["data-astro-image"] = layout;
     }
   }
-  const validatedOptions = service.validateOptions ? await service.validateOptions(resolvedOptions, imageConfig) : resolvedOptions;
-  const srcSetTransforms = service.getSrcSet ? await service.getSrcSet(validatedOptions, imageConfig) : [];
+  const validatedOptions = service.validateOptions
+    ? await service.validateOptions(resolvedOptions, imageConfig)
+    : resolvedOptions;
+  const srcSetTransforms = service.getSrcSet
+    ? await service.getSrcSet(validatedOptions, imageConfig)
+    : [];
   let imageURL = await service.getURL(validatedOptions, imageConfig);
-  const matchesOriginal = (transform) => transform.width === originalWidth && transform.height === originalHeight && transform.format === originalFormat;
+  const matchesOriginal = (transform) =>
+    transform.width === originalWidth &&
+    transform.height === originalHeight &&
+    transform.format === originalFormat;
   let srcSets = await Promise.all(
     srcSetTransforms.map(async (srcSet) => {
       return {
         transform: srcSet.transform,
-        url: matchesOriginal(srcSet.transform) ? imageURL : await service.getURL(srcSet.transform, imageConfig),
+        url: matchesOriginal(srcSet.transform)
+          ? imageURL
+          : await service.getURL(srcSet.transform, imageConfig),
         descriptor: srcSet.descriptor,
-        attributes: srcSet.attributes
+        attributes: srcSet.attributes,
       };
-    })
+    }),
   );
-  if (isLocalService(service) && globalThis.astroAsset.addStaticImage && !(isRemoteImage(validatedOptions.src) && imageURL === validatedOptions.src)) {
+  if (
+    isLocalService(service) &&
+    globalThis.astroAsset.addStaticImage &&
+    !(isRemoteImage(validatedOptions.src) && imageURL === validatedOptions.src)
+  ) {
     const propsToHash = service.propertiesToHash ?? DEFAULT_HASH_PROPS;
     imageURL = globalThis.astroAsset.addStaticImage(
       validatedOptions,
       propsToHash,
-      originalFilePath
+      originalFilePath,
     );
     srcSets = srcSetTransforms.map((srcSet) => {
       return {
         transform: srcSet.transform,
-        url: matchesOriginal(srcSet.transform) ? imageURL : globalThis.astroAsset.addStaticImage(srcSet.transform, propsToHash, originalFilePath),
+        url: matchesOriginal(srcSet.transform)
+          ? imageURL
+          : globalThis.astroAsset.addStaticImage(
+              srcSet.transform,
+              propsToHash,
+              originalFilePath,
+            ),
         descriptor: srcSet.descriptor,
-        attributes: srcSet.attributes
+        attributes: srcSet.attributes,
       };
     });
   }
@@ -1324,147 +1437,211 @@ async function getImage$1(options, imageConfig) {
     src: imageURL,
     srcSet: {
       values: srcSets,
-      attribute: srcSets.map((srcSet) => `${srcSet.url} ${srcSet.descriptor}`).join(", ")
+      attribute: srcSets
+        .map((srcSet) => `${srcSet.url} ${srcSet.descriptor}`)
+        .join(", "),
     },
-    attributes: service.getHTMLAttributes !== void 0 ? await service.getHTMLAttributes(validatedOptions, imageConfig) : {}
+    attributes:
+      service.getHTMLAttributes !== void 0
+        ? await service.getHTMLAttributes(validatedOptions, imageConfig)
+        : {},
   };
 }
 
 const $$Astro$2 = createAstro("https://voyager.cosmicthemes.com");
-const $$Image = createComponent(async ($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
-  Astro2.self = $$Image;
-  const props = Astro2.props;
-  if (props.alt === void 0 || props.alt === null) {
-    throw new AstroError(ImageMissingAlt);
-  }
-  if (typeof props.width === "string") {
-    props.width = parseInt(props.width);
-  }
-  if (typeof props.height === "string") {
-    props.height = parseInt(props.height);
-  }
-  const layout = props.layout ?? imageConfig.experimentalLayout ?? "none";
-  const useResponsive = imageConfig.experimentalResponsiveImages && layout !== "none";
-  if (useResponsive) {
-    props.layout ??= imageConfig.experimentalLayout;
-    props.fit ??= imageConfig.experimentalObjectFit ?? "cover";
-    props.position ??= imageConfig.experimentalObjectPosition ?? "center";
-  }
-  const image = await getImage(props);
-  const additionalAttributes = {};
-  if (image.srcSet.values.length > 0) {
-    additionalAttributes.srcset = image.srcSet.attribute;
-  }
-  const { class: className, ...attributes } = { ...additionalAttributes, ...image.attributes };
-  return renderTemplate`${maybeRenderHead()}<img${addAttribute(image.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}>`;
-}, "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/components/Image.astro", void 0);
+const $$Image = createComponent(
+  async ($$result, $$props, $$slots) => {
+    const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
+    Astro2.self = $$Image;
+    const props = Astro2.props;
+    if (props.alt === void 0 || props.alt === null) {
+      throw new AstroError(ImageMissingAlt);
+    }
+    if (typeof props.width === "string") {
+      props.width = parseInt(props.width);
+    }
+    if (typeof props.height === "string") {
+      props.height = parseInt(props.height);
+    }
+    const layout = props.layout ?? imageConfig.experimentalLayout ?? "none";
+    const useResponsive =
+      imageConfig.experimentalResponsiveImages && layout !== "none";
+    if (useResponsive) {
+      props.layout ??= imageConfig.experimentalLayout;
+      props.fit ??= imageConfig.experimentalObjectFit ?? "cover";
+      props.position ??= imageConfig.experimentalObjectPosition ?? "center";
+    }
+    const image = await getImage(props);
+    const additionalAttributes = {};
+    if (image.srcSet.values.length > 0) {
+      additionalAttributes.srcset = image.srcSet.attribute;
+    }
+    const { class: className, ...attributes } = {
+      ...additionalAttributes,
+      ...image.attributes,
+    };
+    return renderTemplate`${maybeRenderHead()}<img${addAttribute(image.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}>`;
+  },
+  "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/components/Image.astro",
+  void 0,
+);
 
 const $$Astro$1 = createAstro("https://voyager.cosmicthemes.com");
-const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
-  Astro2.self = $$Picture;
-  const defaultFormats = ["webp"];
-  const defaultFallbackFormat = "png";
-  const specialFormatsFallback = ["gif", "svg", "jpg", "jpeg"];
-  const { formats = defaultFormats, pictureAttributes = {}, fallbackFormat, ...props } = Astro2.props;
-  if (props.alt === void 0 || props.alt === null) {
-    throw new AstroError(ImageMissingAlt);
-  }
-  const scopedStyleClass = props.class?.match(/\bastro-\w{8}\b/)?.[0];
-  if (scopedStyleClass) {
-    if (pictureAttributes.class) {
-      pictureAttributes.class = `${pictureAttributes.class} ${scopedStyleClass}`;
-    } else {
-      pictureAttributes.class = scopedStyleClass;
+const $$Picture = createComponent(
+  async ($$result, $$props, $$slots) => {
+    const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
+    Astro2.self = $$Picture;
+    const defaultFormats = ["webp"];
+    const defaultFallbackFormat = "png";
+    const specialFormatsFallback = ["gif", "svg", "jpg", "jpeg"];
+    const {
+      formats = defaultFormats,
+      pictureAttributes = {},
+      fallbackFormat,
+      ...props
+    } = Astro2.props;
+    if (props.alt === void 0 || props.alt === null) {
+      throw new AstroError(ImageMissingAlt);
     }
-  }
-  const layout = props.layout ?? imageConfig.experimentalLayout ?? "none";
-  const useResponsive = imageConfig.experimentalResponsiveImages && layout !== "none";
-  if (useResponsive) {
-    props.layout ??= imageConfig.experimentalLayout;
-    props.fit ??= imageConfig.experimentalObjectFit ?? "cover";
-    props.position ??= imageConfig.experimentalObjectPosition ?? "center";
-  }
-  for (const key in props) {
-    if (key.startsWith("data-astro-cid")) {
-      pictureAttributes[key] = props[key];
+    const scopedStyleClass = props.class?.match(/\bastro-\w{8}\b/)?.[0];
+    if (scopedStyleClass) {
+      if (pictureAttributes.class) {
+        pictureAttributes.class = `${pictureAttributes.class} ${scopedStyleClass}`;
+      } else {
+        pictureAttributes.class = scopedStyleClass;
+      }
     }
-  }
-  const originalSrc = await resolveSrc(props.src);
-  const optimizedImages = await Promise.all(
-    formats.map(
-      async (format) => await getImage({
-        ...props,
-        src: originalSrc,
-        format,
-        widths: props.widths,
-        densities: props.densities
-      })
-    )
-  );
-  let resultFallbackFormat = fallbackFormat ?? defaultFallbackFormat;
-  if (!fallbackFormat && isESMImportedImage(originalSrc) && specialFormatsFallback.includes(originalSrc.format)) {
-    resultFallbackFormat = originalSrc.format;
-  }
-  const fallbackImage = await getImage({
-    ...props,
-    format: resultFallbackFormat,
-    widths: props.widths,
-    densities: props.densities
-  });
-  const imgAdditionalAttributes = {};
-  const sourceAdditionalAttributes = {};
-  if (props.sizes) {
-    sourceAdditionalAttributes.sizes = props.sizes;
-  }
-  if (fallbackImage.srcSet.values.length > 0) {
-    imgAdditionalAttributes.srcset = fallbackImage.srcSet.attribute;
-  }
-  const { class: className, ...attributes } = {
-    ...imgAdditionalAttributes,
-    ...fallbackImage.attributes
-  };
-  return renderTemplate`${maybeRenderHead()}<picture${spreadAttributes(pictureAttributes)}> ${Object.entries(optimizedImages).map(([_, image]) => {
-    const srcsetAttribute = props.densities || !props.densities && !props.widths && !useResponsive ? `${image.src}${image.srcSet.values.length > 0 ? ", " + image.srcSet.attribute : ""}` : image.srcSet.attribute;
-    return renderTemplate`<source${addAttribute(srcsetAttribute, "srcset")}${addAttribute(mime.lookup(image.options.format ?? image.src) ?? `image/${image.options.format}`, "type")}${spreadAttributes(sourceAdditionalAttributes)}>`;
-  })}  <img${addAttribute(fallbackImage.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}> </picture>`;
-}, "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/components/Picture.astro", void 0);
+    const layout = props.layout ?? imageConfig.experimentalLayout ?? "none";
+    const useResponsive =
+      imageConfig.experimentalResponsiveImages && layout !== "none";
+    if (useResponsive) {
+      props.layout ??= imageConfig.experimentalLayout;
+      props.fit ??= imageConfig.experimentalObjectFit ?? "cover";
+      props.position ??= imageConfig.experimentalObjectPosition ?? "center";
+    }
+    for (const key in props) {
+      if (key.startsWith("data-astro-cid")) {
+        pictureAttributes[key] = props[key];
+      }
+    }
+    const originalSrc = await resolveSrc(props.src);
+    const optimizedImages = await Promise.all(
+      formats.map(
+        async (format) =>
+          await getImage({
+            ...props,
+            src: originalSrc,
+            format,
+            widths: props.widths,
+            densities: props.densities,
+          }),
+      ),
+    );
+    let resultFallbackFormat = fallbackFormat ?? defaultFallbackFormat;
+    if (
+      !fallbackFormat &&
+      isESMImportedImage(originalSrc) &&
+      specialFormatsFallback.includes(originalSrc.format)
+    ) {
+      resultFallbackFormat = originalSrc.format;
+    }
+    const fallbackImage = await getImage({
+      ...props,
+      format: resultFallbackFormat,
+      widths: props.widths,
+      densities: props.densities,
+    });
+    const imgAdditionalAttributes = {};
+    const sourceAdditionalAttributes = {};
+    if (props.sizes) {
+      sourceAdditionalAttributes.sizes = props.sizes;
+    }
+    if (fallbackImage.srcSet.values.length > 0) {
+      imgAdditionalAttributes.srcset = fallbackImage.srcSet.attribute;
+    }
+    const { class: className, ...attributes } = {
+      ...imgAdditionalAttributes,
+      ...fallbackImage.attributes,
+    };
+    return renderTemplate`${maybeRenderHead()}<picture${spreadAttributes(pictureAttributes)}> ${Object.entries(
+      optimizedImages,
+    ).map(([_, image]) => {
+      const srcsetAttribute =
+        props.densities || (!props.densities && !props.widths && !useResponsive)
+          ? `${image.src}${image.srcSet.values.length > 0 ? ", " + image.srcSet.attribute : ""}`
+          : image.srcSet.attribute;
+      return renderTemplate`<source${addAttribute(srcsetAttribute, "srcset")}${addAttribute(mime.lookup(image.options.format ?? image.src) ?? `image/${image.options.format}`, "type")}${spreadAttributes(sourceAdditionalAttributes)}>`;
+    })}  <img${addAttribute(fallbackImage.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}> </picture>`;
+  },
+  "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/components/Picture.astro",
+  void 0,
+);
 
-const mod = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-  __proto__: null
-}, Symbol.toStringTag, { value: 'Module' }));
+const mod = /*#__PURE__*/ Object.freeze(
+  /*#__PURE__*/ Object.defineProperty(
+    {
+      __proto__: null,
+    },
+    Symbol.toStringTag,
+    { value: "Module" },
+  ),
+);
 
 const $$Astro = createAstro("https://voyager.cosmicthemes.com");
-const $$Font = createComponent(($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
-  Astro2.self = $$Font;
-  const { fontsData } = mod;
-  if (!fontsData) {
-    throw new AstroError(ExperimentalFontsNotEnabled);
-  }
-  const { cssVariable, preload = false } = Astro2.props;
-  const data = fontsData.get(cssVariable);
-  if (!data) {
-    throw new AstroError({
-      ...FontFamilyNotFound,
-      message: FontFamilyNotFound.message(cssVariable)
-    });
-  }
-  return renderTemplate`${preload && data.preloadData.map(({ url, type }) => renderTemplate`<link rel="preload"${addAttribute(url, "href")} as="font"${addAttribute(`font/${type}`, "type")} crossorigin>`)}<style>${unescapeHTML(data.css)}</style>`;
-}, "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/components/Font.astro", void 0);
+const $$Font = createComponent(
+  ($$result, $$props, $$slots) => {
+    const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
+    Astro2.self = $$Font;
+    const { fontsData } = mod;
+    if (!fontsData) {
+      throw new AstroError(ExperimentalFontsNotEnabled);
+    }
+    const { cssVariable, preload = false } = Astro2.props;
+    const data = fontsData.get(cssVariable);
+    if (!data) {
+      throw new AstroError({
+        ...FontFamilyNotFound,
+        message: FontFamilyNotFound.message(cssVariable),
+      });
+    }
+    return renderTemplate`${preload && data.preloadData.map(({ url, type }) => renderTemplate`<link rel="preload"${addAttribute(url, "href")} as="font"${addAttribute(`font/${type}`, "type")} crossorigin>`)}<style>${unescapeHTML(data.css)}</style>`;
+  },
+  "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/components/Font.astro",
+  void 0,
+);
 
-const imageConfig = {"endpoint":{"route":"/_image"},"service":{"entrypoint":"astro/assets/services/sharp","config":{}},"domains":[],"remotePatterns":[],"experimentalDefaultStyles":true,"experimentalResponsiveImages":false};
-							const getImage = async (options) => await getImage$1(options, imageConfig);
+const imageConfig = {
+  endpoint: { route: "/_image" },
+  service: { entrypoint: "astro/assets/services/sharp", config: {} },
+  domains: [],
+  remotePatterns: [],
+  experimentalDefaultStyles: true,
+  experimentalResponsiveImages: false,
+};
+const getImage = async (options) => await getImage$1(options, imageConfig);
 
-const _astro_assets = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-  __proto__: null,
-  Image: $$Image,
-  getConfiguredImageService,
-  getImage,
-  imageConfig,
-  inferRemoteSize,
-  isLocalService
-}, Symbol.toStringTag, { value: 'Module' }));
+const _astro_assets = /*#__PURE__*/ Object.freeze(
+  /*#__PURE__*/ Object.defineProperty(
+    {
+      __proto__: null,
+      Image: $$Image,
+      getConfiguredImageService,
+      getImage,
+      imageConfig,
+      inferRemoteSize,
+      isLocalService,
+    },
+    Symbol.toStringTag,
+    { value: "Module" },
+  ),
+);
 
-export { $$Image as $, _astro_assets as _, getImage as a, baseService as b, getConfiguredImageService as g, imageConfig as i, parseQuality as p };
+export {
+  $$Image as $,
+  _astro_assets as _,
+  getImage as a,
+  baseService as b,
+  getConfiguredImageService as g,
+  imageConfig as i,
+  parseQuality as p,
+};

@@ -1,10 +1,13 @@
-import '@astrojs/internal-helpers/path';
-import 'kleur/colors';
-import { N as NOOP_MIDDLEWARE_HEADER, l as decodeKey } from './chunks/astro/server_DCWHtt33.mjs';
-import 'clsx';
-import 'cookie';
-import 'es-module-lexer';
-import 'html-escaper';
+import "@astrojs/internal-helpers/path";
+import "kleur/colors";
+import {
+  N as NOOP_MIDDLEWARE_HEADER,
+  l as decodeKey,
+} from "./chunks/astro/server_DCWHtt33.mjs";
+import "clsx";
+import "cookie";
+import "es-module-lexer";
+import "html-escaper";
 
 const NOOP_MIDDLEWARE_FN = async (_ctx, next) => {
   const response = await next();
@@ -52,22 +55,25 @@ const codeToStatusMap = {
   VARIANT_ALSO_NEGOTIATES: 506,
   INSUFFICIENT_STORAGE: 507,
   LOOP_DETECTED: 508,
-  NETWORK_AUTHENTICATION_REQUIRED: 511
+  NETWORK_AUTHENTICATION_REQUIRED: 511,
 };
 Object.entries(codeToStatusMap).reduce(
   // reverse the key-value pairs
   (acc, [key, value]) => ({ ...acc, [value]: key }),
-  {}
+  {},
 );
 
 function sanitizeParams(params) {
   return Object.fromEntries(
     Object.entries(params).map(([key, value]) => {
       if (typeof value === "string") {
-        return [key, value.normalize().replace(/#/g, "%23").replace(/\?/g, "%3F")];
+        return [
+          key,
+          value.normalize().replace(/#/g, "%23").replace(/\?/g, "%3F"),
+        ];
       }
       return [key, value];
-    })
+    }),
   );
 }
 function getParameter(part, params) {
@@ -80,10 +86,17 @@ function getParameter(part, params) {
     }
     return params[part.content];
   }
-  return part.content.normalize().replace(/\?/g, "%3F").replace(/#/g, "%23").replace(/%5B/g, "[").replace(/%5D/g, "]");
+  return part.content
+    .normalize()
+    .replace(/\?/g, "%3F")
+    .replace(/#/g, "%23")
+    .replace(/%5B/g, "[")
+    .replace(/%5D/g, "]");
 }
 function getSegment(segment, params) {
-  const segmentPath = segment.map((part) => getParameter(part, params)).join("");
+  const segmentPath = segment
+    .map((part) => getParameter(part, params))
+    .join("");
   return segmentPath ? "/" + segmentPath : "";
 }
 function getRouteGenerator(segments, addTrailingSlash) {
@@ -93,7 +106,9 @@ function getRouteGenerator(segments, addTrailingSlash) {
     if (addTrailingSlash === "always" && segments.length) {
       trailing = "/";
     }
-    const path = segments.map((segment) => getSegment(segment, sanitizedParams)).join("") + trailing;
+    const path =
+      segments.map((segment) => getSegment(segment, sanitizedParams)).join("") +
+      trailing;
     return path || "/";
   };
 }
@@ -105,17 +120,22 @@ function deserializeRouteData(rawRouteData) {
     pattern: new RegExp(rawRouteData.pattern),
     params: rawRouteData.params,
     component: rawRouteData.component,
-    generate: getRouteGenerator(rawRouteData.segments, rawRouteData._meta.trailingSlash),
+    generate: getRouteGenerator(
+      rawRouteData.segments,
+      rawRouteData._meta.trailingSlash,
+    ),
     pathname: rawRouteData.pathname || void 0,
     segments: rawRouteData.segments,
     prerender: rawRouteData.prerender,
     redirect: rawRouteData.redirect,
-    redirectRoute: rawRouteData.redirectRoute ? deserializeRouteData(rawRouteData.redirectRoute) : void 0,
+    redirectRoute: rawRouteData.redirectRoute
+      ? deserializeRouteData(rawRouteData.redirectRoute)
+      : void 0,
     fallbackRoutes: rawRouteData.fallbackRoutes.map((fallback) => {
       return deserializeRouteData(fallback);
     }),
     isIndex: rawRouteData.isIndex,
-    origin: rawRouteData.origin
+    origin: rawRouteData.origin,
   };
 }
 
@@ -124,7 +144,7 @@ function deserializeManifest(serializedManifest) {
   for (const serializedRoute of serializedManifest.routes) {
     routes.push({
       ...serializedRoute,
-      routeData: deserializeRouteData(serializedRoute.routeData)
+      routeData: deserializeRouteData(serializedRoute.routeData),
     });
     const route = serializedRoute;
     route.routeData = deserializeRouteData(serializedRoute.routeData);
@@ -147,11 +167,1237 @@ function deserializeManifest(serializedManifest) {
     clientDirectives,
     routes,
     serverIslandNameMap,
-    key
+    key,
   };
 }
 
-const manifest = deserializeManifest({"hrefRoot":"file:///home/agluck/projects/glucktek/Andrew-Portfolio/","cacheDir":"file:///home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/.astro/","outDir":"file:///home/agluck/projects/glucktek/Andrew-Portfolio/dist/","srcDir":"file:///home/agluck/projects/glucktek/Andrew-Portfolio/src/","publicDir":"file:///home/agluck/projects/glucktek/Andrew-Portfolio/public/","buildClientDir":"file:///home/agluck/projects/glucktek/Andrew-Portfolio/dist/","buildServerDir":"file:///home/agluck/projects/glucktek/Andrew-Portfolio/.netlify/build/","adapterName":"@astrojs/netlify","routes":[{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"page","component":"_server-islands.astro","params":["name"],"segments":[[{"content":"_server-islands","dynamic":false,"spread":false}],[{"content":"name","dynamic":true,"spread":false}]],"pattern":"^\\/_server-islands\\/([^/]+?)\\/?$","prerender":false,"isIndex":false,"fallbackRoutes":[],"route":"/_server-islands/[name]","origin":"internal","_meta":{"trailingSlash":"ignore"}}},{"file":"404.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/404","isIndex":false,"type":"page","pattern":"^\\/404\\/?$","segments":[[{"content":"404","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/404.astro","pathname":"/404","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"blog/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/blog","isIndex":true,"type":"page","pattern":"^\\/blog\\/?$","segments":[[{"content":"blog","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/blog/index.astro","pathname":"/blog","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"categories/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/categories","isIndex":true,"type":"page","pattern":"^\\/categories\\/?$","segments":[[{"content":"categories","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/categories/index.astro","pathname":"/categories","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"contact/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/contact","isIndex":false,"type":"page","pattern":"^\\/contact\\/?$","segments":[[{"content":"contact","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/contact.astro","pathname":"/contact","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/blog-index-2/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/blog-index-2","isIndex":false,"type":"page","pattern":"^\\/examples\\/blog-index-2\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"blog-index-2","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/blog-index-2.astro","pathname":"/examples/blog-index-2","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/blog-post-2/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/blog-post-2","isIndex":false,"type":"page","pattern":"^\\/examples\\/blog-post-2\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"blog-post-2","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/blog-post-2.astro","pathname":"/examples/blog-post-2","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/blog2/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/blog2","isIndex":false,"type":"page","pattern":"^\\/examples\\/blog2\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"blog2","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/blog2.astro","pathname":"/examples/blog2","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/hero-sections/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/hero-sections","isIndex":false,"type":"page","pattern":"^\\/examples\\/hero-sections\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"hero-sections","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/hero-sections.astro","pathname":"/examples/hero-sections","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/landing2/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/landing2","isIndex":false,"type":"page","pattern":"^\\/examples\\/landing2\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"landing2","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/landing2.astro","pathname":"/examples/landing2","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/landing3/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/landing3","isIndex":false,"type":"page","pattern":"^\\/examples\\/landing3\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"landing3","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/landing3.astro","pathname":"/examples/landing3","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/pricing-faq/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/pricing-faq","isIndex":false,"type":"page","pattern":"^\\/examples\\/pricing-faq\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"pricing-faq","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/pricing-faq.astro","pathname":"/examples/pricing-faq","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/project-process/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/project-process","isIndex":false,"type":"page","pattern":"^\\/examples\\/project-process\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"project-process","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/project-process.astro","pathname":"/examples/project-process","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/projects-index-2/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/projects-index-2","isIndex":false,"type":"page","pattern":"^\\/examples\\/projects-index-2\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"projects-index-2","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/projects-index-2.astro","pathname":"/examples/projects-index-2","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"examples/testimonial-logo-sections/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/examples/testimonial-logo-sections","isIndex":false,"type":"page","pattern":"^\\/examples\\/testimonial-logo-sections\\/?$","segments":[[{"content":"examples","dynamic":false,"spread":false}],[{"content":"testimonial-logo-sections","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/examples/testimonial-logo-sections.astro","pathname":"/examples/testimonial-logo-sections","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"projects/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/projects","isIndex":true,"type":"page","pattern":"^\\/projects\\/?$","segments":[[{"content":"projects","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/projects/index.astro","pathname":"/projects","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"resume/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/resume","isIndex":false,"type":"page","pattern":"^\\/resume\\/?$","segments":[[{"content":"resume","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/resume.astro","pathname":"/resume","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"rss.xml","links":[],"scripts":[],"styles":[],"routeData":{"route":"/rss.xml","isIndex":false,"type":"endpoint","pattern":"^\\/rss\\.xml\\/?$","segments":[[{"content":"rss.xml","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/rss.xml.ts","pathname":"/rss.xml","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"work/index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/work","isIndex":false,"type":"page","pattern":"^\\/work\\/?$","segments":[[{"content":"work","dynamic":false,"spread":false}]],"params":[],"component":"src/pages/work.astro","pathname":"/work","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"index.html","links":[],"scripts":[],"styles":[],"routeData":{"route":"/","isIndex":true,"type":"page","pattern":"^\\/$","segments":[],"params":[],"component":"src/pages/index.astro","pathname":"/","prerender":true,"fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"endpoint","isIndex":false,"route":"/_image","pattern":"^\\/_image\\/?$","segments":[[{"content":"_image","dynamic":false,"spread":false}]],"params":[],"component":"node_modules/astro/dist/assets/endpoint/generic.js","pathname":"/_image","prerender":false,"fallbackRoutes":[],"origin":"internal","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[],"routeData":{"type":"redirect","isIndex":false,"route":"/admin","pattern":"^\\/admin\\/?$","segments":[[{"content":"admin","dynamic":false,"spread":false}]],"params":[],"component":"/admin","pathname":"/admin","prerender":false,"redirect":"/keystatic","fallbackRoutes":[],"distURL":[],"origin":"project","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"inline","content":".ks-admonition{border-radius:.375rem;border-left:4px solid;padding:.75rem 1rem}.ks-admonition__variant{font-weight:700;text-transform:uppercase}\n"}],"routeData":{"type":"endpoint","isIndex":false,"route":"/api/keystatic/[...params]","pattern":"^\\/api\\/keystatic(?:\\/(.*?))?\\/?$","segments":[[{"content":"api","dynamic":false,"spread":false}],[{"content":"keystatic","dynamic":false,"spread":false}],[{"content":"...params","dynamic":true,"spread":true}]],"params":["...params"],"component":"node_modules/@keystatic/astro/internal/keystatic-api.js","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"external","_meta":{"trailingSlash":"ignore"}}},{"file":"","links":[],"scripts":[],"styles":[{"type":"inline","content":".ks-admonition{border-radius:.375rem;border-left:4px solid;padding:.75rem 1rem}.ks-admonition__variant{font-weight:700;text-transform:uppercase}\n"}],"routeData":{"type":"page","isIndex":false,"route":"/keystatic/[...params]","pattern":"^\\/keystatic(?:\\/(.*?))?\\/?$","segments":[[{"content":"keystatic","dynamic":false,"spread":false}],[{"content":"...params","dynamic":true,"spread":true}]],"params":["...params"],"component":"node_modules/@keystatic/astro/internal/keystatic-astro-page.astro","prerender":false,"fallbackRoutes":[],"distURL":[],"origin":"external","_meta":{"trailingSlash":"ignore"}}}],"site":"https://voyager.cosmicthemes.com","base":"/","trailingSlash":"ignore","compressHTML":true,"componentMetadata":[["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/blog-post-2.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/blog2.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/blog/[...slug].astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/projects/[...slug].astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/resume.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/404.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/[...page].astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/blog/index.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/categories/[category].astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/categories/index.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/contact.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/blog-index-2.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/hero-sections.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/landing2.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/landing3.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/pricing-faq.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/project-process.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/projects-index-2.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/testimonial-logo-sections.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/index.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/projects/index.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/work.astro",{"propagation":"in-tree","containsHead":true}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BaseLayout.astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BlogLayoutCentered.astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/blog-post-2@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astrojs-ssr-virtual-entry",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/blog2@_@astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BlogLayoutSidebar.astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/blog/[...slug]@_@astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/ProjectLayout.astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/projects/[...slug]@_@astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/ResumeLayout.astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/resume@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/404@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/[...page]@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/blog/index@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/categories/[category]@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/categories/index@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/contact@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/blog-index-2@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/hero-sections@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/landing2@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/landing3@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/pricing-faq@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/project-process@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/projects-index-2@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/examples/testimonial-logo-sections@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/index@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/projects/index@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/work@_@astro",{"propagation":"in-tree","containsHead":false}],["\u0000astro:content",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/project-showcase/ProjectShowcaseCards.astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/project-showcase/ProjectShowcaseSideImage.astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/js/blogUtils.ts",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/blog/BlogSectionGrid.astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/blog/BlogSectionGridDetailed.astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/category-cloud/CategoryCloud.astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/rss.xml.ts",{"propagation":"in-tree","containsHead":false}],["\u0000@astro-page:src/pages/rss.xml@_@ts",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/js/jsonLD.ts",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/seo/Seo.astro",{"propagation":"in-tree","containsHead":false}],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BaseHead.astro",{"propagation":"in-tree","containsHead":false}]],"renderers":[],"clientDirectives":[["idle","(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value==\"object\"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};\"requestIdleCallback\"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event(\"astro:idle\"));})();"],["load","(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event(\"astro:load\"));})();"],["media","(()=>{var n=(a,t)=>{let i=async()=>{await(await a())()};if(t.value){let e=matchMedia(t.value);e.matches?i():e.addEventListener(\"change\",i,{once:!0})}};(self.Astro||(self.Astro={})).media=n;window.dispatchEvent(new Event(\"astro:media\"));})();"],["only","(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event(\"astro:only\"));})();"],["visible","(()=>{var a=(s,i,o)=>{let r=async()=>{await(await s())()},t=typeof i.value==\"object\"?i.value:void 0,c={rootMargin:t==null?void 0:t.rootMargin},n=new IntersectionObserver(e=>{for(let l of e)if(l.isIntersecting){n.disconnect(),r();break}},c);for(let e of o.children)n.observe(e)};(self.Astro||(self.Astro={})).visible=a;window.dispatchEvent(new Event(\"astro:visible\"));})();"]],"entryModules":{"\u0000noop-middleware":"_noop-middleware.mjs","\u0000noop-actions":"_noop-actions.mjs","\u0000@astro-page:node_modules/astro/dist/assets/endpoint/generic@_@js":"pages/_image.astro.mjs","\u0000@astro-page:src/pages/404@_@astro":"pages/404.astro.mjs","\u0000@astro-page:node_modules/@keystatic/astro/internal/keystatic-api@_@js":"pages/api/keystatic/_---params_.astro.mjs","\u0000@astro-page:src/pages/blog/index@_@astro":"pages/blog.astro.mjs","\u0000@astro-page:src/pages/blog/[...slug]@_@astro":"pages/blog/_---slug_.astro.mjs","\u0000@astro-page:src/pages/categories/[category]@_@astro":"pages/categories/_category_.astro.mjs","\u0000@astro-page:src/pages/categories/index@_@astro":"pages/categories.astro.mjs","\u0000@astro-page:src/pages/contact@_@astro":"pages/contact.astro.mjs","\u0000@astro-page:src/pages/examples/blog-index-2@_@astro":"pages/examples/blog-index-2.astro.mjs","\u0000@astro-page:src/pages/examples/blog-post-2@_@astro":"pages/examples/blog-post-2.astro.mjs","\u0000@astro-page:src/pages/examples/blog2@_@astro":"pages/examples/blog2.astro.mjs","\u0000@astro-page:src/pages/examples/hero-sections@_@astro":"pages/examples/hero-sections.astro.mjs","\u0000@astro-page:src/pages/examples/landing2@_@astro":"pages/examples/landing2.astro.mjs","\u0000@astro-page:src/pages/examples/landing3@_@astro":"pages/examples/landing3.astro.mjs","\u0000@astro-page:src/pages/examples/pricing-faq@_@astro":"pages/examples/pricing-faq.astro.mjs","\u0000@astro-page:src/pages/examples/project-process@_@astro":"pages/examples/project-process.astro.mjs","\u0000@astro-page:src/pages/examples/projects-index-2@_@astro":"pages/examples/projects-index-2.astro.mjs","\u0000@astro-page:src/pages/examples/testimonial-logo-sections@_@astro":"pages/examples/testimonial-logo-sections.astro.mjs","\u0000@astro-page:node_modules/@keystatic/astro/internal/keystatic-astro-page@_@astro":"pages/keystatic/_---params_.astro.mjs","\u0000@astro-page:src/pages/projects/index@_@astro":"pages/projects.astro.mjs","\u0000@astro-page:src/pages/projects/[...slug]@_@astro":"pages/projects/_---slug_.astro.mjs","\u0000@astro-page:src/pages/resume@_@astro":"pages/resume.astro.mjs","\u0000@astro-page:src/pages/rss.xml@_@ts":"pages/rss.xml.astro.mjs","\u0000@astro-page:src/pages/work@_@astro":"pages/work.astro.mjs","\u0000@astro-page:src/pages/index@_@astro":"pages/index.astro.mjs","\u0000@astro-page:src/pages/[...page]@_@astro":"pages/_---page_.astro.mjs","\u0000@astrojs-ssr-virtual-entry":"entry.mjs","\u0000@astro-renderers":"renderers.mjs","\u0000@astrojs-ssr-adapter":"_@astrojs-ssr-adapter.mjs","\u0000@astrojs-manifest":"manifest_DaneptbS.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/unstorage/drivers/fs-lite.mjs":"chunks/fs-lite_COtHaKzy.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/dist/assets/services/sharp.js":"chunks/sharp_YnDcJt2N.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/.astro/content-assets.mjs":"chunks/content-assets_By-4K7sw.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/.astro/content-modules.mjs":"chunks/content-modules_BU8Tk28d.mjs","\u0000astro:data-layer-content":"chunks/_astro_data-layer-content_CaeEpjPv.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/authors/main-author/index.mdx?astroPropagatedAssets":"chunks/index_DzO5aofI.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/otherPages/en/privacy-policy/index.mdx?astroPropagatedAssets":"chunks/index_CR4hABTc.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/blog/en/k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/index.mdx?astroPropagatedAssets":"chunks/index_CjIkszg7.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/blog/en/why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/index.mdx?astroPropagatedAssets":"chunks/index_kF3UiCL-.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/custom-report-generator/index.mdx?astroPropagatedAssets":"chunks/index_k6AZPkyW.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/home-lab-production-workflow/index.mdx?astroPropagatedAssets":"chunks/index_Xrv39Dmk.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/mr-builders/index.mdx?astroPropagatedAssets":"chunks/index_CuqY1CmN.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/portfolio-website/index.mdx?astroPropagatedAssets":"chunks/index_Wz8T7gYd.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/production-homelab-part-2-vps/index.mdx?astroPropagatedAssets":"chunks/index_37nEh8Yw.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/rke-2-cluster-factory/index.mdx?astroPropagatedAssets":"chunks/index_ln2ARcgi.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/authors/main-author/index.mdx":"chunks/index_CLd4ZC8f.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/otherPages/en/privacy-policy/index.mdx":"chunks/index_CygZPfmG.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/blog/en/k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/index.mdx":"chunks/index_PLSMyouC.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/blog/en/why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/index.mdx":"chunks/index_KST6EfNv.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/custom-report-generator/index.mdx":"chunks/index_C_uVDUkK.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/home-lab-production-workflow/index.mdx":"chunks/index_YUXWlFr7.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/mr-builders/index.mdx":"chunks/index_CsYBWXii.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/portfolio-website/index.mdx":"chunks/index_C9MnHsiy.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/production-homelab-part-2-vps/index.mdx":"chunks/index_Dq_TP4WB.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/rke-2-cluster-factory/index.mdx":"chunks/index_DsWkjCqX.mjs","/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/@keystatic/astro/internal/keystatic-page.js":"_astro/keystatic-page.CJkI6knS.js","@astrojs/react/client.js":"_astro/client.itKZ9ine.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/projects-index-2.astro?astro&type=script&index=0&lang.ts":"_astro/projects-index-2.astro_astro_type_script_index_0_lang.2zRWJCa6.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/projects/index.astro?astro&type=script&index=0&lang.ts":"_astro/index.astro_astro_type_script_index_0_lang.D_sd3W9n.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BaseLayout.astro?astro&type=script&index=0&lang.ts":"_astro/BaseLayout.astro_astro_type_script_index_0_lang.CeHdR2et.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/hero/HeroGradient.astro?astro&type=script&index=0&lang.ts":"_astro/HeroGradient.astro_astro_type_script_index_0_lang.CtjuBAyA.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/testimonials/TestimonialSwiper.astro?astro&type=script&index=0&lang.ts":"_astro/TestimonialSwiper.astro_astro_type_script_index_0_lang.DPaL8brA.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingCustomCards.astro?astro&type=script&index=0&lang.ts":"_astro/PricingCustomCards.astro_astro_type_script_index_0_lang.DhLALWkM.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH1.astro?astro&type=script&index=0&lang.ts":"_astro/CustomH1.astro_astro_type_script_index_0_lang.BHradatz.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH2.astro?astro&type=script&index=0&lang.ts":"_astro/CustomH2.astro_astro_type_script_index_0_lang.BHradatz.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH3.astro?astro&type=script&index=0&lang.ts":"_astro/CustomH3.astro_astro_type_script_index_0_lang.BHradatz.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH4.astro?astro&type=script&index=0&lang.ts":"_astro/CustomH4.astro_astro_type_script_index_0_lang.BHradatz.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH5.astro?astro&type=script&index=0&lang.ts":"_astro/CustomH5.astro_astro_type_script_index_0_lang.BHradatz.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH6.astro?astro&type=script&index=0&lang.ts":"_astro/CustomH6.astro_astro_type_script_index_0_lang.BHradatz.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingTwoCards.astro?astro&type=script&index=0&lang.ts":"_astro/PricingTwoCards.astro_astro_type_script_index_0_lang.DaQNG5ZM.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingThreeCards.astro?astro&type=script&index=0&lang.ts":"_astro/PricingThreeCards.astro_astro_type_script_index_0_lang.DhLALWkM.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingOnePrice.astro?astro&type=script&index=0&lang.ts":"_astro/PricingOnePrice.astro_astro_type_script_index_0_lang.DL0PdCmi.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/resume/Tools.astro?astro&type=script&index=0&lang.ts":"_astro/Tools.astro_astro_type_script_index_0_lang.bycda7-S.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/table-of-contents/TableOfContents.astro?astro&type=script&index=0&lang.ts":"_astro/TableOfContents.astro_astro_type_script_index_0_lang.Ck5Izx6N.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/NavDropdown/MegaMenuDropdownToggle.astro?astro&type=script&index=0&lang.ts":"_astro/MegaMenuDropdownToggle.astro_astro_type_script_index_0_lang.CQwnA22k.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/NavDropdown/NavDropdownToggle.astro?astro&type=script&index=0&lang.ts":"_astro/NavDropdownToggle.astro_astro_type_script_index_0_lang.DHRlv0Es.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/MobileNav/MobileNav.astro?astro&type=script&index=0&lang.ts":"_astro/MobileNav.astro_astro_type_script_index_0_lang.LziST6bU.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/language-select/LanguageSelect.astro?astro&type=script&index=0&lang.ts":"_astro/LanguageSelect.astro_astro_type_script_index_0_lang.B6JqAYTP.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/theme-toggle/ThemeToggle.astro?astro&type=script&index=0&lang.ts":"_astro/ThemeToggle.astro_astro_type_script_index_0_lang.C75ucAQ2.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/starwind/switch/Switch.astro?astro&type=script&index=0&lang.ts":"_astro/Switch.astro_astro_type_script_index_0_lang.CsFUHhJ1.js","/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/components/ClientRouter.astro?astro&type=script&index=0&lang.ts":"_astro/ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/starwind/accordion/Accordion.astro?astro&type=script&index=0&lang.ts":"_astro/Accordion.astro_astro_type_script_index_0_lang.BaNyP-XF.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/MobileNav/MobileNavDropdown.astro?astro&type=script&index=0&lang.ts":"_astro/MobileNavDropdown.astro_astro_type_script_index_0_lang.C7xcDA-M.js","/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/language-select/MobileLanguageSelect.astro?astro&type=script&index=0&lang.ts":"_astro/MobileLanguageSelect.astro_astro_type_script_index_0_lang.DLbXWB6Q.js","astro:scripts/before-hydration.js":""},"inlinedScripts":[["/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/projects-index-2.astro?astro&type=script&index=0&lang.ts","const c=()=>{const s=document.querySelectorAll(\".tech-filter\"),a=document.querySelectorAll(\".project-item\");s.forEach(t=>{t.addEventListener(\"click\",()=>{const r=t.getAttribute(\"data-tech\");s.forEach(e=>{e.setAttribute(\"aria-pressed\",\"false\")}),t.setAttribute(\"aria-pressed\",\"true\"),a.forEach(e=>{const o=JSON.parse(e.getAttribute(\"data-technologies\")||\"[]\");r===\"all\"||o.includes(r)?e.classList.remove(\"hidden\"):e.classList.add(\"hidden\")})})})};c();document.addEventListener(\"astro:after-swap\",c);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/hero/HeroGradient.astro?astro&type=script&index=0&lang.ts","window.addEventListener(\"scroll\",()=>{const e=document.getElementById(\"scroll-arrow\");window.scrollY>50?e.style.display=\"none\":e.style.display=\"flex\"});"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingCustomCards.astro?astro&type=script&index=0&lang.ts","const a=()=>{const e=document.getElementById(\"pricing-three-cards\"),t=e?.querySelector(\"#pricing-three-cards__toggle\"),c=e?.querySelectorAll(\".pricing-monthly\"),i=e?.querySelectorAll(\".pricing-yearly\");if(!t||!c||!i)return;new MutationObserver(n=>{n.forEach(s=>{if(s.type===\"attributes\"&&s.attributeName===\"aria-checked\"){const o=t.getAttribute(\"aria-checked\")===\"true\";c.forEach(r=>r.classList.toggle(\"hidden\",o)),i.forEach(r=>r.classList.toggle(\"hidden\",!o))}})}).observe(t,{attributes:!0,attributeFilter:[\"aria-checked\"]})};a();document.addEventListener(\"astro:after-swap\",()=>{a()});"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH1.astro?astro&type=script&index=0&lang.ts","let e;function a(){e=document.querySelectorAll(\"[data-tooltip]\"),e&&e.forEach(t=>{t.addEventListener(\"click\",()=>{const i=t.getAttribute(\"data-clipboard-text\")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute(\"data-tooltip\",\"copied!\"),setTimeout(()=>{t.setAttribute(\"data-tooltip\",\"copy link\")},3e3))})})}a();document.addEventListener(\"astro:after-swap\",a);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH2.astro?astro&type=script&index=0&lang.ts","let e;function a(){e=document.querySelectorAll(\"[data-tooltip]\"),e&&e.forEach(t=>{t.addEventListener(\"click\",()=>{const i=t.getAttribute(\"data-clipboard-text\")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute(\"data-tooltip\",\"copied!\"),setTimeout(()=>{t.setAttribute(\"data-tooltip\",\"copy link\")},3e3))})})}a();document.addEventListener(\"astro:after-swap\",a);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH3.astro?astro&type=script&index=0&lang.ts","let e;function a(){e=document.querySelectorAll(\"[data-tooltip]\"),e&&e.forEach(t=>{t.addEventListener(\"click\",()=>{const i=t.getAttribute(\"data-clipboard-text\")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute(\"data-tooltip\",\"copied!\"),setTimeout(()=>{t.setAttribute(\"data-tooltip\",\"copy link\")},3e3))})})}a();document.addEventListener(\"astro:after-swap\",a);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH4.astro?astro&type=script&index=0&lang.ts","let e;function a(){e=document.querySelectorAll(\"[data-tooltip]\"),e&&e.forEach(t=>{t.addEventListener(\"click\",()=>{const i=t.getAttribute(\"data-clipboard-text\")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute(\"data-tooltip\",\"copied!\"),setTimeout(()=>{t.setAttribute(\"data-tooltip\",\"copy link\")},3e3))})})}a();document.addEventListener(\"astro:after-swap\",a);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH5.astro?astro&type=script&index=0&lang.ts","let e;function a(){e=document.querySelectorAll(\"[data-tooltip]\"),e&&e.forEach(t=>{t.addEventListener(\"click\",()=>{const i=t.getAttribute(\"data-clipboard-text\")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute(\"data-tooltip\",\"copied!\"),setTimeout(()=>{t.setAttribute(\"data-tooltip\",\"copy link\")},3e3))})})}a();document.addEventListener(\"astro:after-swap\",a);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH6.astro?astro&type=script&index=0&lang.ts","let e;function a(){e=document.querySelectorAll(\"[data-tooltip]\"),e&&e.forEach(t=>{t.addEventListener(\"click\",()=>{const i=t.getAttribute(\"data-clipboard-text\")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute(\"data-tooltip\",\"copied!\"),setTimeout(()=>{t.setAttribute(\"data-tooltip\",\"copy link\")},3e3))})})}a();document.addEventListener(\"astro:after-swap\",a);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingTwoCards.astro?astro&type=script&index=0&lang.ts","const a=()=>{const e=document.getElementById(\"pricing-two-cards\"),t=e?.querySelector(\"#pricing-two-cards__toggle\"),c=e?.querySelectorAll(\".pricing-monthly\"),i=e?.querySelectorAll(\".pricing-yearly\");if(!t||!c||!i)return;new MutationObserver(n=>{n.forEach(o=>{if(o.type===\"attributes\"&&o.attributeName===\"aria-checked\"){const s=t.getAttribute(\"aria-checked\")===\"true\";c.forEach(r=>r.classList.toggle(\"hidden\",s)),i.forEach(r=>r.classList.toggle(\"hidden\",!s))}})}).observe(t,{attributes:!0,attributeFilter:[\"aria-checked\"]})};a();document.addEventListener(\"astro:after-swap\",()=>{a()});"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingThreeCards.astro?astro&type=script&index=0&lang.ts","const a=()=>{const e=document.getElementById(\"pricing-three-cards\"),t=e?.querySelector(\"#pricing-three-cards__toggle\"),c=e?.querySelectorAll(\".pricing-monthly\"),i=e?.querySelectorAll(\".pricing-yearly\");if(!t||!c||!i)return;new MutationObserver(n=>{n.forEach(s=>{if(s.type===\"attributes\"&&s.attributeName===\"aria-checked\"){const o=t.getAttribute(\"aria-checked\")===\"true\";c.forEach(r=>r.classList.toggle(\"hidden\",o)),i.forEach(r=>r.classList.toggle(\"hidden\",!o))}})}).observe(t,{attributes:!0,attributeFilter:[\"aria-checked\"]})};a();document.addEventListener(\"astro:after-swap\",()=>{a()});"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingOnePrice.astro?astro&type=script&index=0&lang.ts","const s=()=>{const e=document.getElementById(\"pricing-one-price\"),t=e?.querySelector(\"#pricing-one-price__toggle\"),c=e?.querySelectorAll(\".pricing-monthly\"),i=e?.querySelectorAll(\".pricing-yearly\");if(!t||!c||!i)return;new MutationObserver(a=>{a.forEach(o=>{if(o.type===\"attributes\"&&o.attributeName===\"aria-checked\"){const n=t.getAttribute(\"aria-checked\")===\"true\";c.forEach(r=>r.classList.toggle(\"hidden\",n)),i.forEach(r=>r.classList.toggle(\"hidden\",!n))}})}).observe(t,{attributes:!0,attributeFilter:[\"aria-checked\"]})};s();document.addEventListener(\"astro:after-swap\",()=>{s()});"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/table-of-contents/TableOfContents.astro?astro&type=script&index=0&lang.ts","let t,c,s;function i(r){const e=document.querySelectorAll(\".toc-link\");r.map(n=>{if(n.isIntersecting===!0){e.forEach(a=>a.classList.remove(\"toc-current\"));const o=document.querySelector(`a[href=\"#${n.target.id}\"].toc-link`);o&&o.classList.add(\"toc-current\")}})}function l(){t=document.querySelector(\".markdown-content\"),t!==null&&(s=t.querySelectorAll(\":scope > h2, :scope > h3, :scope > h4\"));const r={root:null,rootMargin:\"-20% 0px -40% 0px\",threshold:[1]};c=new IntersectionObserver(i,r),t!==null&&s.forEach(e=>{e.classList.add(\"scroll-mt-20\"),c.observe(e)})}l();document.addEventListener(\"astro:after-swap\",l);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/NavDropdown/MegaMenuDropdownToggle.astro?astro&type=script&index=0&lang.ts","class n{megaMenu;dropdownButton;dropdownChevron;dropdownContent;animationDuration=150;constructor(t){this.megaMenu=t,this.dropdownButton=t.querySelector(\".mega-menu__dropdown-button\"),this.dropdownChevron=t.querySelector(\".mega-menu__dropdown-chevron\"),this.dropdownContent=t.querySelector(\".mega-menu__dropdown-content\"),!(!this.dropdownButton||!this.dropdownContent||!this.dropdownChevron)&&this.init()}init(){this.dropdownButton?.addEventListener(\"click\",this.handleDropdownClick.bind(this)),document.addEventListener(\"click\",this.handleOutsideClick.bind(this))}handleDropdownClick(t){return this.megaMenu.classList.contains(\"active\")?this.closeDropdown():this.openDropdown(),t.preventDefault(),!1}handleOutsideClick(t){!this.megaMenu?.contains(t.target)&&this.megaMenu?.classList.contains(\"active\")&&this.closeDropdown()}openDropdown(){this.megaMenu.classList.add(\"active\"),this.dropdownButton?.setAttribute(\"aria-expanded\",\"true\"),this.dropdownContent?.setAttribute(\"data-state\",\"open\"),this.dropdownContent?.classList.remove(\"hidden\"),this.dropdownChevron?.classList.add(\"rotate-180\")}closeDropdown(){this.megaMenu.classList.remove(\"active\"),this.dropdownButton?.setAttribute(\"aria-expanded\",\"false\"),this.dropdownContent?.setAttribute(\"data-state\",\"closed\"),this.dropdownChevron?.classList.remove(\"rotate-180\"),setTimeout(()=>{this.dropdownContent?.classList.add(\"hidden\")},this.animationDuration-10)}}function e(){document.querySelectorAll(\".mega-menu__dropdown\").forEach(t=>new n(t))}e();document.addEventListener(\"astro:after-swap\",e);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/NavDropdown/NavDropdownToggle.astro?astro&type=script&index=0&lang.ts","class e{navDropdown;dropdownButton;dropdownChevron;dropdownContent;animationDuration=150;constructor(t){this.navDropdown=t,this.dropdownButton=t.querySelector(\".nav__dropdown-button\"),this.dropdownChevron=t.querySelector(\".nav__dropdown-chevron\"),this.dropdownContent=t.querySelector(\".nav__dropdown-content\"),!(!this.dropdownButton||!this.dropdownContent||!this.dropdownChevron)&&this.init()}init(){this.dropdownButton?.addEventListener(\"click\",this.handleDropdownClick.bind(this)),document.addEventListener(\"click\",this.handleOutsideClick.bind(this))}handleDropdownClick(t){return this.navDropdown?.classList.contains(\"active\")?this.closeDropdown():this.openDropdown(),t.preventDefault(),!1}handleOutsideClick(t){!this.navDropdown?.contains(t.target)&&this.navDropdown?.classList.contains(\"active\")&&this.closeDropdown()}openDropdown(){this.navDropdown.classList.add(\"active\"),this.dropdownContent?.classList.remove(\"hidden\"),this.dropdownButton?.setAttribute(\"aria-expanded\",\"true\"),this.dropdownContent?.setAttribute(\"data-state\",\"open\"),this.dropdownChevron?.classList.add(\"rotate-180\")}closeDropdown(){this.navDropdown.classList.remove(\"active\"),this.dropdownButton?.setAttribute(\"aria-expanded\",\"false\"),this.dropdownContent?.setAttribute(\"data-state\",\"closed\"),this.dropdownChevron?.classList.remove(\"rotate-180\"),setTimeout(()=>{this.dropdownContent?.classList.add(\"hidden\")},this.animationDuration-10)}}function o(){document.querySelectorAll(\".nav__dropdown\").forEach(t=>new e(t))}o();document.addEventListener(\"astro:after-swap\",o);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/MobileNav/MobileNav.astro?astro&type=script&index=0&lang.ts","class d extends HTMLElement{constructor(){super();const t=this.querySelector(\"button[data-open-modal]\"),o=this.querySelector(\"button[data-close-modal]\"),e=this.querySelector(\"dialog\");this.querySelector(\".dialog-frame\");const s=n=>{e.showModal(),document.body.classList.add(\"overflow-hidden\"),e.setAttribute(\"data-state\",\"open\"),document.body.toggleAttribute(\"data-mobile-nav-open\",!0),this.querySelector(\"input\")?.focus(),n?.stopPropagation()},a=()=>{document.body.classList.remove(\"overflow-hidden\"),e.close()};t.addEventListener(\"click\",s),t.disabled=!1,o.addEventListener(\"click\",a),e.addEventListener(\"close\",()=>{document.body.toggleAttribute(\"data-mobile-nav-open\",!1),e.setAttribute(\"data-state\",\"closed\")})}}customElements.define(\"mobile-nav-menu\",d);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/language-select/LanguageSelect.astro?astro&type=script&index=0&lang.ts","class n{langSelect;dropdownButton;dropdownChevron;dropdownContent;animationDuration=150;constructor(t){this.langSelect=t,this.dropdownButton=t.querySelector(\".lang-select__dropdown-button\"),this.dropdownChevron=t.querySelector(\".lang-select__dropdown-chevron\"),this.dropdownContent=t.querySelector(\".lang-select__dropdown-content\"),!(!this.dropdownButton||!this.dropdownContent||!this.dropdownChevron)&&this.init()}init(){this.dropdownButton?.addEventListener(\"click\",this.handleDropdownClick.bind(this)),document.addEventListener(\"click\",this.handleOutsideClick.bind(this))}handleDropdownClick(t){return this.langSelect.classList.contains(\"active\")?this.closeDropdown():this.openDropdown(),t.preventDefault(),!1}handleOutsideClick(t){!this.langSelect?.contains(t.target)&&this.langSelect?.classList.contains(\"active\")&&this.closeDropdown()}openDropdown(){this.langSelect.classList.add(\"active\"),this.dropdownButton?.setAttribute(\"aria-expanded\",\"true\"),this.dropdownContent?.setAttribute(\"data-state\",\"open\"),this.dropdownContent?.classList.remove(\"hidden\"),this.dropdownChevron?.classList.add(\"rotate-180\")}closeDropdown(){this.langSelect.classList.remove(\"active\"),this.dropdownButton?.setAttribute(\"aria-expanded\",\"false\"),this.dropdownContent?.setAttribute(\"data-state\",\"closed\"),this.dropdownChevron?.classList.remove(\"rotate-180\"),setTimeout(()=>{this.dropdownContent?.classList.add(\"hidden\")},this.animationDuration-10)}}function e(){document.querySelectorAll(\".lang-select__dropdown\").forEach(t=>new n(t))}e();document.addEventListener(\"astro:after-swap\",e);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/theme-toggle/ThemeToggle.astro?astro&type=script&index=0&lang.ts","function c(t){t===\"dark\"?(document.documentElement.classList.add(\"dark\"),localStorage.setItem(\"colorTheme\",\"dark\")):(document.documentElement.classList.remove(\"dark\"),localStorage.setItem(\"colorTheme\",\"light\"))}function n(){const t=document.querySelectorAll(\".theme-toggle__dark-icon\"),o=document.querySelectorAll(\".theme-toggle__light-icon\"),l=document.querySelectorAll(\".theme-toggle\");localStorage.getItem(\"colorTheme\")===\"dark\"?(t.forEach(e=>{e.setAttribute(\"data-current-theme\",\"true\")}),o.forEach(e=>{e.setAttribute(\"data-current-theme\",\"false\")})):(t.forEach(e=>{e.setAttribute(\"data-current-theme\",\"false\")}),o.forEach(e=>{e.setAttribute(\"data-current-theme\",\"true\")})),l.forEach(e=>{e.addEventListener(\"click\",function(){e.classList.add(\"can-animate\"),t.forEach(r=>{const a=r.getAttribute(\"data-current-theme\")===\"true\";r.setAttribute(\"data-current-theme\",(!a).toString())}),o.forEach(r=>{const a=r.getAttribute(\"data-current-theme\")===\"true\";r.setAttribute(\"data-current-theme\",(!a).toString())}),localStorage.getItem(\"colorTheme\")===\"light\"?c(\"dark\"):c(\"light\")})})}n();document.addEventListener(\"astro:after-swap\",n);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/starwind/switch/Switch.astro?astro&type=script&index=0&lang.ts","const r=()=>{document.querySelectorAll('.starwind-switch button[role=\"switch\"]').forEach(e=>{e.addEventListener(\"click\",()=>{if(e.disabled)return;const t=e.getAttribute(\"aria-checked\")===\"true\";e.setAttribute(\"aria-checked\",(!t).toString())}),e.addEventListener(\"keydown\",t=>{if(!e.disabled&&(t.key===\" \"||t.key===\"Enter\")){t.preventDefault();const d=e.getAttribute(\"aria-checked\")===\"true\";e.setAttribute(\"aria-checked\",(!d).toString())}})})};r();document.addEventListener(\"astro:after-swap\",r);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/starwind/accordion/Accordion.astro?astro&type=script&index=0&lang.ts","class l{accordion;type;constructor(t,r){this.accordion=t,this.type=t.dataset.type||\"single\",this.init(r)}init(t){const r=this.accordion.querySelectorAll(\".starwind-accordion-item\"),e=this.accordion.dataset.value;r.forEach((i,n)=>{const o=i.querySelector(\".starwind-accordion-content\"),s=i.querySelector(\".starwind-accordion-trigger\");!o||!s||(this.setupAccessibility(s,o,t,n),this.setContentHeight(o),s.addEventListener(\"click\",a=>this.handleClick(a)),s.addEventListener(\"keydown\",a=>this.handleKeyDown(a)),e&&i.getAttribute(\"data-value\")===e&&this.setItemState(i,!0))})}setupAccessibility(t,r,e,i){const n=`starwind-accordion${e}-t${i}`,o=`starwind-accordion${e}-c${i}`;t.id=n,t.setAttribute(\"aria-controls\",o),t.setAttribute(\"aria-expanded\",\"false\"),r.id=o,r.setAttribute(\"aria-labelledby\",n),r.setAttribute(\"role\",\"region\")}setContentHeight(t){const r=t.firstElementChild;if(r){const e=r.getBoundingClientRect().height;t.style.setProperty(\"--starwind-accordion-content-height\",`${e}px`)}}handleClick(t){const e=t.currentTarget.closest(\".starwind-accordion-item\");e&&this.toggleItem(e)}handleKeyDown(t){const e=t.currentTarget.closest(\".starwind-accordion-item\");if(!e)return;const i=Array.from(this.accordion.querySelectorAll(\".starwind-accordion-item\")),n=i.indexOf(e),s={ArrowDown:()=>this.focusItem(i,n+1),ArrowUp:()=>this.focusItem(i,n-1),Home:()=>this.focusItem(i,0),End:()=>this.focusItem(i,i.length-1)}[t.key];s&&(t.preventDefault(),s())}focusItem(t,r){const e=(r+t.length)%t.length;t[e].querySelector(\".starwind-accordion-trigger\")?.focus()}toggleItem(t){const r=t.getAttribute(\"data-state\")===\"open\";this.type===\"single\"&&this.accordion.querySelectorAll(\".starwind-accordion-item\").forEach(e=>{e!==t&&e.getAttribute(\"data-state\")===\"open\"&&this.setItemState(e,!1)}),this.setItemState(t,!r)}setItemState(t,r){const e=r?\"open\":\"closed\",i=t.querySelector(\".starwind-accordion-content\"),n=t.querySelector(\".starwind-accordion-trigger\");r&&i.style.removeProperty(\"animation\"),this.setContentHeight(i),t.setAttribute(\"data-state\",e),i.setAttribute(\"data-state\",e),n.setAttribute(\"data-state\",e),n.setAttribute(\"aria-expanded\",r.toString())}}const d=()=>{document.querySelectorAll(\".starwind-accordion\").forEach((c,t)=>{c instanceof HTMLElement&&new l(c,t)})};d();document.addEventListener(\"astro:after-swap\",d);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/MobileNav/MobileNavDropdown.astro?astro&type=script&index=0&lang.ts","function r(){const i=document.querySelectorAll(\".mobile-nav__dropdown\");i.forEach(e=>{const s=e.querySelector(\".mobile-nav__dropdown-button\"),o=e.querySelector(\".mobile-nav__dropdown-chevron\"),t=e.querySelector(\".mobile-nav__dropdown-content\");s&&t&&o&&s.addEventListener(\"click\",c=>(e.classList.contains(\"active\")?(e.classList.remove(\"active\"),s.setAttribute(\"aria-expanded\",\"false\"),t.style.maxHeight=\"0px\",o.classList.remove(\"rotate-180\"),setTimeout(()=>{t.classList.add(\"hidden\")},300)):(e.classList.add(\"active\"),s.setAttribute(\"aria-expanded\",\"true\"),t.classList.remove(\"hidden\"),t.style.maxHeight=t.scrollHeight+\"px\",o.classList.add(\"rotate-180\"),i.forEach(a=>{a!==e&&(a.classList.remove(\"active\"),a.querySelector(\".mobile-nav__dropdown-button\")?.setAttribute(\"aria-expanded\",\"false\"),a.querySelector(\".mobile-nav__dropdown-content\")?.setAttribute(\"style\",\"max-height: 0px\"),a.querySelector(\".mobile-nav__dropdown-chevron\")?.classList.remove(\"rotate-180\"),setTimeout(()=>{a.querySelector(\".mobile-nav__dropdown-content\")?.classList.add(\"hidden\")},300))})),c.preventDefault(),!1))})}r();document.addEventListener(\"astro:after-swap\",r);"],["/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/language-select/MobileLanguageSelect.astro?astro&type=script&index=0&lang.ts","function i(){const o=document.querySelectorAll(\".mobile-lang__dropdown\");o.forEach(e=>{const s=e.querySelector(\".mobile-lang__dropdown-button\"),l=e.querySelector(\".mobile-lang__dropdown-chevron\"),t=e.querySelector(\".mobile-lang__dropdown-content\");s&&t&&l&&s.addEventListener(\"click\",r=>(e.classList.contains(\"active\")?(e.classList.remove(\"active\"),s.setAttribute(\"aria-expanded\",\"false\"),t.style.maxHeight=\"0px\",l.classList.remove(\"rotate-180\"),setTimeout(()=>{t.classList.add(\"hidden\")},300)):(e.classList.add(\"active\"),s.setAttribute(\"aria-expanded\",\"true\"),t.classList.remove(\"hidden\"),t.style.maxHeight=t.scrollHeight+\"px\",l.classList.add(\"rotate-180\"),o.forEach(a=>{a!==e&&(a.classList.remove(\"active\"),a.querySelector(\".mobile-lang__dropdown-button\")?.setAttribute(\"aria-expanded\",\"false\"),a.querySelector(\".mobile-lang__dropdown-content\")?.setAttribute(\"style\",\"max-height: 0px\"),a.querySelector(\".mobile-lang__dropdown-chevron\")?.classList.remove(\"rotate-180\"),setTimeout(()=>{a.querySelector(\".mobile-lang__dropdown-content\")?.classList.add(\"hidden\")},300))})),r.preventDefault(),!1))})}i();document.addEventListener(\"astro:after-swap\",i);"]],"assets":["/_astro/astronaut-nobg.CW-JfQlf.png","/_astro/andrew.B61ybdOp.jpg","/_astro/voxr-logo.DqeXYjLI.png","/_astro/magnit-logo.sYbH8pyi.png","/_astro/quanterix-logo.CE8yviW1.png","/_astro/aws-logo.CUne6lxp.png","/_astro/golang-logo.DbS3H6tw.png","/_astro/javascript-logo.B1lKy81i.png","/_astro/python-logo.CZg8zgQM.png","/_astro/bash-logo.rKQA5-n7.png","/_astro/typescript-logo.BIzWOn5M.png","/_astro/astro-logo.DNH2wMGV.svg","/_astro/bun-logo.Z3hP0k28.svg","/_astro/tailwind-logo.CV8EQDVd.png","/_astro/react-logo.DIuD0qnA.png","/_astro/html5-logo.CAHiaJPL.png","/_astro/css3-logo.pRvbVI_z.png","/_astro/archivo-black-latin-400-normal.BTVu2TQR.woff2","/_astro/inter-latin-wght-normal.C2S99t-D.woff2","/_astro/design-img-1-min.D7__AKnL.jpg","/_astro/rocket-icon.CUEIlbUn.png","/_astro/archivo-black-latin-400-normal.HW9MwEcM.woff","/_astro/kubernetes-logo.jIEUdPi9.png","/_astro/docker-logo.CT9CQq-A.png","/_astro/helm-logo.DtG7F9ec.png","/_astro/jenkins-logo.BEaOzJlH.png","/_astro/github-logo.DzGq4Dyy.png","/_astro/gitlab-logo.CQI2tpl2.png","/_astro/argocd-logo.CGQ_Hl3t.png","/_astro/fluxcd-logo.DRFXGrkq.png","/_astro/linux-logo.BJOoXGL7.png","/_astro/terraform-logo.D4Et8ZZ5.png","/_astro/pulumi-logo.BuWYyUIG.svg","/_astro/grafana-logo.DS8Y-0eK.png","/_astro/ansible-logo.BqQsvv3o.png","/_astro/prometheus-logo.B3-1b97w.png","/_astro/design-img-2-min.CX8nGKsd.jpg","/_astro/vault-logo.CHYdeJ__.svg","/_astro/packer-logo.IMdWJS5i.svg","/_astro/logo-loki.REN5HifU.svg","/_astro/redis-logo.CTCaBrUj.png","/_astro/rancher-logo.BXKB0vcZ.svg","/_astro/podman-logo.BahHIGVP.svg","/_astro/newrelic-logo.LUs6hRJ5.svg","/_astro/postgresql-logo.BRYoHN92.png","/_astro/mysql-logo.Cxmj2-NP.png","/_astro/sqlite-logo.C042t962.png","/_astro/rke2-logo.BAJuosEz.svg","/_astro/k3s-logo.BkYJ6EOW.svg","/_astro/avatar.B5oQLnLT.jpeg","/_astro/traefik-logo.5VA7Ntof.png","/_astro/heroImage.CDuGHDie.jpg","/_astro/image.Du_JiOD3.png","/_astro/image.CBYuc7Oc.png","/_astro/heroImage.nty55YeL.png","/_astro/image.DFGwvT4B.png","/_astro/jordon.DzgmeC7Q.jpeg","/_astro/trevor.DI8YlRkP.jpeg","/_astro/savpril.A48F5okm.jpeg","/_astro/wally.CLlp3GQL.jpeg","/_astro/nick.w47UeKIu.jpeg","/_astro/image.BKPTbb1K.png","/_astro/hardik.g472mzBz.jpeg","/_astro/image.Cs8GpjcD.png","/_astro/image.WL6hIS43.png","/_astro/chevron-down.BlhSdpBn.svg","/_astro/blog-post-2.DXGNb5MA.css","/Andrew-Gluck-Resume-2025.pdf","/robots.txt","/_astro/BaseLayout.astro_astro_type_script_index_0_lang.CeHdR2et.js","/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js","/_astro/TestimonialSwiper.DHBATib1.css","/_astro/TestimonialSwiper.astro_astro_type_script_index_0_lang.DPaL8brA.js","/_astro/Tools.astro_astro_type_script_index_0_lang.bycda7-S.js","/_astro/_commonjsHelpers.Cpj98o6Y.js","/_astro/anime.es.BNELU3II.js","/_astro/client.itKZ9ine.js","/_astro/index.astro_astro_type_script_index_0_lang.D_sd3W9n.js","/_astro/index.wKVtu_rZ.js","/_astro/keystatic-page.CJkI6knS.js","/favicons/android-chrome-192x192.png","/favicons/android-chrome-512x512.png","/favicons/apple-touch-icon.png","/favicons/favicon-16x16.png","/favicons/favicon-32x32.png","/favicons/favicon.ico","/favicons/site.webmanifest","/images/cosmic-themes-logo.png","/404.html","/blog/index.html","/categories/index.html","/contact/index.html","/examples/blog-index-2/index.html","/examples/blog-post-2/index.html","/examples/blog2/index.html","/examples/hero-sections/index.html","/examples/landing2/index.html","/examples/landing3/index.html","/examples/pricing-faq/index.html","/examples/project-process/index.html","/examples/projects-index-2/index.html","/examples/testimonial-logo-sections/index.html","/projects/index.html","/resume/index.html","/rss.xml","/work/index.html","/index.html"],"i18n":{"fallbackType":"redirect","strategy":"pathname-prefix-other-locales","locales":["en"],"defaultLocale":"en","domainLookupTable":{}},"buildFormat":"directory","checkOrigin":true,"serverIslandNameMap":[],"key":"153OaLwM17bEjdGRJ2JojCT94l7J43LQ99JVZQs+1II=","sessionConfig":{"driver":"fs-lite","options":{"base":"/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/.astro/sessions"}}});
-if (manifest.sessionConfig) manifest.sessionConfig.driverModule = () => import('./chunks/fs-lite_COtHaKzy.mjs');
+const manifest = deserializeManifest({
+  hrefRoot: "file:///home/agluck/projects/glucktek/Andrew-Portfolio/",
+  cacheDir:
+    "file:///home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/.astro/",
+  outDir: "file:///home/agluck/projects/glucktek/Andrew-Portfolio/dist/",
+  srcDir: "file:///home/agluck/projects/glucktek/Andrew-Portfolio/src/",
+  publicDir: "file:///home/agluck/projects/glucktek/Andrew-Portfolio/public/",
+  buildClientDir:
+    "file:///home/agluck/projects/glucktek/Andrew-Portfolio/dist/",
+  buildServerDir:
+    "file:///home/agluck/projects/glucktek/Andrew-Portfolio/.netlify/build/",
+  adapterName: "@astrojs/netlify",
+  routes: [
+    {
+      file: "",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        type: "page",
+        component: "_server-islands.astro",
+        params: ["name"],
+        segments: [
+          [{ content: "_server-islands", dynamic: false, spread: false }],
+          [{ content: "name", dynamic: true, spread: false }],
+        ],
+        pattern: "^\\/_server-islands\\/([^/]+?)\\/?$",
+        prerender: false,
+        isIndex: false,
+        fallbackRoutes: [],
+        route: "/_server-islands/[name]",
+        origin: "internal",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "404.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/404",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/404\\/?$",
+        segments: [[{ content: "404", dynamic: false, spread: false }]],
+        params: [],
+        component: "src/pages/404.astro",
+        pathname: "/404",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "blog/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/blog",
+        isIndex: true,
+        type: "page",
+        pattern: "^\\/blog\\/?$",
+        segments: [[{ content: "blog", dynamic: false, spread: false }]],
+        params: [],
+        component: "src/pages/blog/index.astro",
+        pathname: "/blog",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "categories/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/categories",
+        isIndex: true,
+        type: "page",
+        pattern: "^\\/categories\\/?$",
+        segments: [[{ content: "categories", dynamic: false, spread: false }]],
+        params: [],
+        component: "src/pages/categories/index.astro",
+        pathname: "/categories",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "contact/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/contact",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/contact\\/?$",
+        segments: [[{ content: "contact", dynamic: false, spread: false }]],
+        params: [],
+        component: "src/pages/contact.astro",
+        pathname: "/contact",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/blog-index-2/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/blog-index-2",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/blog-index-2\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "blog-index-2", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/blog-index-2.astro",
+        pathname: "/examples/blog-index-2",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/blog-post-2/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/blog-post-2",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/blog-post-2\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "blog-post-2", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/blog-post-2.astro",
+        pathname: "/examples/blog-post-2",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/blog2/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/blog2",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/blog2\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "blog2", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/blog2.astro",
+        pathname: "/examples/blog2",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/hero-sections/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/hero-sections",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/hero-sections\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "hero-sections", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/hero-sections.astro",
+        pathname: "/examples/hero-sections",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/landing2/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/landing2",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/landing2\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "landing2", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/landing2.astro",
+        pathname: "/examples/landing2",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/landing3/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/landing3",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/landing3\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "landing3", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/landing3.astro",
+        pathname: "/examples/landing3",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/pricing-faq/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/pricing-faq",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/pricing-faq\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "pricing-faq", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/pricing-faq.astro",
+        pathname: "/examples/pricing-faq",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/project-process/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/project-process",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/project-process\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "project-process", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/project-process.astro",
+        pathname: "/examples/project-process",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/projects-index-2/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/projects-index-2",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/projects-index-2\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [{ content: "projects-index-2", dynamic: false, spread: false }],
+        ],
+        params: [],
+        component: "src/pages/examples/projects-index-2.astro",
+        pathname: "/examples/projects-index-2",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "examples/testimonial-logo-sections/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/examples/testimonial-logo-sections",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/examples\\/testimonial-logo-sections\\/?$",
+        segments: [
+          [{ content: "examples", dynamic: false, spread: false }],
+          [
+            {
+              content: "testimonial-logo-sections",
+              dynamic: false,
+              spread: false,
+            },
+          ],
+        ],
+        params: [],
+        component: "src/pages/examples/testimonial-logo-sections.astro",
+        pathname: "/examples/testimonial-logo-sections",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "projects/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/projects",
+        isIndex: true,
+        type: "page",
+        pattern: "^\\/projects\\/?$",
+        segments: [[{ content: "projects", dynamic: false, spread: false }]],
+        params: [],
+        component: "src/pages/projects/index.astro",
+        pathname: "/projects",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "resume/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/resume",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/resume\\/?$",
+        segments: [[{ content: "resume", dynamic: false, spread: false }]],
+        params: [],
+        component: "src/pages/resume.astro",
+        pathname: "/resume",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "rss.xml",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/rss.xml",
+        isIndex: false,
+        type: "endpoint",
+        pattern: "^\\/rss\\.xml\\/?$",
+        segments: [[{ content: "rss.xml", dynamic: false, spread: false }]],
+        params: [],
+        component: "src/pages/rss.xml.ts",
+        pathname: "/rss.xml",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "work/index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/work",
+        isIndex: false,
+        type: "page",
+        pattern: "^\\/work\\/?$",
+        segments: [[{ content: "work", dynamic: false, spread: false }]],
+        params: [],
+        component: "src/pages/work.astro",
+        pathname: "/work",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "index.html",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        route: "/",
+        isIndex: true,
+        type: "page",
+        pattern: "^\\/$",
+        segments: [],
+        params: [],
+        component: "src/pages/index.astro",
+        pathname: "/",
+        prerender: true,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        type: "endpoint",
+        isIndex: false,
+        route: "/_image",
+        pattern: "^\\/_image\\/?$",
+        segments: [[{ content: "_image", dynamic: false, spread: false }]],
+        params: [],
+        component: "node_modules/astro/dist/assets/endpoint/generic.js",
+        pathname: "/_image",
+        prerender: false,
+        fallbackRoutes: [],
+        origin: "internal",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "",
+      links: [],
+      scripts: [],
+      styles: [],
+      routeData: {
+        type: "redirect",
+        isIndex: false,
+        route: "/admin",
+        pattern: "^\\/admin\\/?$",
+        segments: [[{ content: "admin", dynamic: false, spread: false }]],
+        params: [],
+        component: "/admin",
+        pathname: "/admin",
+        prerender: false,
+        redirect: "/keystatic",
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "project",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "",
+      links: [],
+      scripts: [],
+      styles: [
+        {
+          type: "inline",
+          content:
+            ".ks-admonition{border-radius:.375rem;border-left:4px solid;padding:.75rem 1rem}.ks-admonition__variant{font-weight:700;text-transform:uppercase}\n",
+        },
+      ],
+      routeData: {
+        type: "endpoint",
+        isIndex: false,
+        route: "/api/keystatic/[...params]",
+        pattern: "^\\/api\\/keystatic(?:\\/(.*?))?\\/?$",
+        segments: [
+          [{ content: "api", dynamic: false, spread: false }],
+          [{ content: "keystatic", dynamic: false, spread: false }],
+          [{ content: "...params", dynamic: true, spread: true }],
+        ],
+        params: ["...params"],
+        component: "node_modules/@keystatic/astro/internal/keystatic-api.js",
+        prerender: false,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "external",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+    {
+      file: "",
+      links: [],
+      scripts: [],
+      styles: [
+        {
+          type: "inline",
+          content:
+            ".ks-admonition{border-radius:.375rem;border-left:4px solid;padding:.75rem 1rem}.ks-admonition__variant{font-weight:700;text-transform:uppercase}\n",
+        },
+      ],
+      routeData: {
+        type: "page",
+        isIndex: false,
+        route: "/keystatic/[...params]",
+        pattern: "^\\/keystatic(?:\\/(.*?))?\\/?$",
+        segments: [
+          [{ content: "keystatic", dynamic: false, spread: false }],
+          [{ content: "...params", dynamic: true, spread: true }],
+        ],
+        params: ["...params"],
+        component:
+          "node_modules/@keystatic/astro/internal/keystatic-astro-page.astro",
+        prerender: false,
+        fallbackRoutes: [],
+        distURL: [],
+        origin: "external",
+        _meta: { trailingSlash: "ignore" },
+      },
+    },
+  ],
+  site: "https://voyager.cosmicthemes.com",
+  base: "/",
+  trailingSlash: "ignore",
+  compressHTML: true,
+  componentMetadata: [
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/blog-post-2.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/blog2.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/blog/[...slug].astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/projects/[...slug].astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/resume.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/404.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/[...page].astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/blog/index.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/categories/[category].astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/categories/index.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/contact.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/blog-index-2.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/hero-sections.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/landing2.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/landing3.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/pricing-faq.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/project-process.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/projects-index-2.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/testimonial-logo-sections.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/index.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/projects/index.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/work.astro",
+      { propagation: "in-tree", containsHead: true },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BaseLayout.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BlogLayoutCentered.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/blog-post-2@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astrojs-ssr-virtual-entry",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/blog2@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BlogLayoutSidebar.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/blog/[...slug]@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/ProjectLayout.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/projects/[...slug]@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/ResumeLayout.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/resume@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/404@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/[...page]@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/blog/index@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/categories/[category]@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/categories/index@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/contact@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/blog-index-2@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/hero-sections@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/landing2@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/landing3@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/pricing-faq@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/project-process@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/projects-index-2@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/examples/testimonial-logo-sections@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/index@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/projects/index@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/work@_@astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    ["\u0000astro:content", { propagation: "in-tree", containsHead: false }],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/project-showcase/ProjectShowcaseCards.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/project-showcase/ProjectShowcaseSideImage.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/js/blogUtils.ts",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/blog/BlogSectionGrid.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/blog/BlogSectionGridDetailed.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/category-cloud/CategoryCloud.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/rss.xml.ts",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "\u0000@astro-page:src/pages/rss.xml@_@ts",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/js/jsonLD.ts",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/seo/Seo.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BaseHead.astro",
+      { propagation: "in-tree", containsHead: false },
+    ],
+  ],
+  renderers: [],
+  clientDirectives: [
+    [
+      "idle",
+      '(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();',
+    ],
+    [
+      "load",
+      '(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();',
+    ],
+    [
+      "media",
+      '(()=>{var n=(a,t)=>{let i=async()=>{await(await a())()};if(t.value){let e=matchMedia(t.value);e.matches?i():e.addEventListener("change",i,{once:!0})}};(self.Astro||(self.Astro={})).media=n;window.dispatchEvent(new Event("astro:media"));})();',
+    ],
+    [
+      "only",
+      '(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();',
+    ],
+    [
+      "visible",
+      '(()=>{var a=(s,i,o)=>{let r=async()=>{await(await s())()},t=typeof i.value=="object"?i.value:void 0,c={rootMargin:t==null?void 0:t.rootMargin},n=new IntersectionObserver(e=>{for(let l of e)if(l.isIntersecting){n.disconnect(),r();break}},c);for(let e of o.children)n.observe(e)};(self.Astro||(self.Astro={})).visible=a;window.dispatchEvent(new Event("astro:visible"));})();',
+    ],
+  ],
+  entryModules: {
+    "\u0000noop-middleware": "_noop-middleware.mjs",
+    "\u0000noop-actions": "_noop-actions.mjs",
+    "\u0000@astro-page:node_modules/astro/dist/assets/endpoint/generic@_@js":
+      "pages/_image.astro.mjs",
+    "\u0000@astro-page:src/pages/404@_@astro": "pages/404.astro.mjs",
+    "\u0000@astro-page:node_modules/@keystatic/astro/internal/keystatic-api@_@js":
+      "pages/api/keystatic/_---params_.astro.mjs",
+    "\u0000@astro-page:src/pages/blog/index@_@astro": "pages/blog.astro.mjs",
+    "\u0000@astro-page:src/pages/blog/[...slug]@_@astro":
+      "pages/blog/_---slug_.astro.mjs",
+    "\u0000@astro-page:src/pages/categories/[category]@_@astro":
+      "pages/categories/_category_.astro.mjs",
+    "\u0000@astro-page:src/pages/categories/index@_@astro":
+      "pages/categories.astro.mjs",
+    "\u0000@astro-page:src/pages/contact@_@astro": "pages/contact.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/blog-index-2@_@astro":
+      "pages/examples/blog-index-2.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/blog-post-2@_@astro":
+      "pages/examples/blog-post-2.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/blog2@_@astro":
+      "pages/examples/blog2.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/hero-sections@_@astro":
+      "pages/examples/hero-sections.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/landing2@_@astro":
+      "pages/examples/landing2.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/landing3@_@astro":
+      "pages/examples/landing3.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/pricing-faq@_@astro":
+      "pages/examples/pricing-faq.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/project-process@_@astro":
+      "pages/examples/project-process.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/projects-index-2@_@astro":
+      "pages/examples/projects-index-2.astro.mjs",
+    "\u0000@astro-page:src/pages/examples/testimonial-logo-sections@_@astro":
+      "pages/examples/testimonial-logo-sections.astro.mjs",
+    "\u0000@astro-page:node_modules/@keystatic/astro/internal/keystatic-astro-page@_@astro":
+      "pages/keystatic/_---params_.astro.mjs",
+    "\u0000@astro-page:src/pages/projects/index@_@astro":
+      "pages/projects.astro.mjs",
+    "\u0000@astro-page:src/pages/projects/[...slug]@_@astro":
+      "pages/projects/_---slug_.astro.mjs",
+    "\u0000@astro-page:src/pages/resume@_@astro": "pages/resume.astro.mjs",
+    "\u0000@astro-page:src/pages/rss.xml@_@ts": "pages/rss.xml.astro.mjs",
+    "\u0000@astro-page:src/pages/work@_@astro": "pages/work.astro.mjs",
+    "\u0000@astro-page:src/pages/index@_@astro": "pages/index.astro.mjs",
+    "\u0000@astro-page:src/pages/[...page]@_@astro":
+      "pages/_---page_.astro.mjs",
+    "\u0000@astrojs-ssr-virtual-entry": "entry.mjs",
+    "\u0000@astro-renderers": "renderers.mjs",
+    "\u0000@astrojs-ssr-adapter": "_@astrojs-ssr-adapter.mjs",
+    "\u0000@astrojs-manifest": "manifest_DaneptbS.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/unstorage/drivers/fs-lite.mjs":
+      "chunks/fs-lite_COtHaKzy.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/dist/assets/services/sharp.js":
+      "chunks/sharp_YnDcJt2N.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/.astro/content-assets.mjs":
+      "chunks/content-assets_By-4K7sw.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/.astro/content-modules.mjs":
+      "chunks/content-modules_BU8Tk28d.mjs",
+    "\u0000astro:data-layer-content":
+      "chunks/_astro_data-layer-content_CaeEpjPv.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/authors/main-author/index.mdx?astroPropagatedAssets":
+      "chunks/index_DzO5aofI.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/otherPages/en/privacy-policy/index.mdx?astroPropagatedAssets":
+      "chunks/index_CR4hABTc.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/blog/en/k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/index.mdx?astroPropagatedAssets":
+      "chunks/index_CjIkszg7.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/blog/en/why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/index.mdx?astroPropagatedAssets":
+      "chunks/index_kF3UiCL-.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/custom-report-generator/index.mdx?astroPropagatedAssets":
+      "chunks/index_k6AZPkyW.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/home-lab-production-workflow/index.mdx?astroPropagatedAssets":
+      "chunks/index_Xrv39Dmk.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/mr-builders/index.mdx?astroPropagatedAssets":
+      "chunks/index_CuqY1CmN.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/portfolio-website/index.mdx?astroPropagatedAssets":
+      "chunks/index_Wz8T7gYd.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/production-homelab-part-2-vps/index.mdx?astroPropagatedAssets":
+      "chunks/index_37nEh8Yw.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/rke-2-cluster-factory/index.mdx?astroPropagatedAssets":
+      "chunks/index_ln2ARcgi.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/authors/main-author/index.mdx":
+      "chunks/index_CLd4ZC8f.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/otherPages/en/privacy-policy/index.mdx":
+      "chunks/index_CygZPfmG.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/blog/en/k3s-raspberry-pi-the-perfect-diy-kubernetes-cluster/index.mdx":
+      "chunks/index_PLSMyouC.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/blog/en/why-split-dns-is-a-trap-and-you-shouldn-t-fall-for-it/index.mdx":
+      "chunks/index_KST6EfNv.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/custom-report-generator/index.mdx":
+      "chunks/index_C_uVDUkK.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/home-lab-production-workflow/index.mdx":
+      "chunks/index_YUXWlFr7.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/mr-builders/index.mdx":
+      "chunks/index_CsYBWXii.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/portfolio-website/index.mdx":
+      "chunks/index_C9MnHsiy.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/production-homelab-part-2-vps/index.mdx":
+      "chunks/index_Dq_TP4WB.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/data/projects/en/rke-2-cluster-factory/index.mdx":
+      "chunks/index_DsWkjCqX.mjs",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/@keystatic/astro/internal/keystatic-page.js":
+      "_astro/keystatic-page.CJkI6knS.js",
+    "@astrojs/react/client.js": "_astro/client.itKZ9ine.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/projects-index-2.astro?astro&type=script&index=0&lang.ts":
+      "_astro/projects-index-2.astro_astro_type_script_index_0_lang.2zRWJCa6.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/projects/index.astro?astro&type=script&index=0&lang.ts":
+      "_astro/index.astro_astro_type_script_index_0_lang.D_sd3W9n.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/layouts/BaseLayout.astro?astro&type=script&index=0&lang.ts":
+      "_astro/BaseLayout.astro_astro_type_script_index_0_lang.CeHdR2et.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/hero/HeroGradient.astro?astro&type=script&index=0&lang.ts":
+      "_astro/HeroGradient.astro_astro_type_script_index_0_lang.CtjuBAyA.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/testimonials/TestimonialSwiper.astro?astro&type=script&index=0&lang.ts":
+      "_astro/TestimonialSwiper.astro_astro_type_script_index_0_lang.DPaL8brA.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingCustomCards.astro?astro&type=script&index=0&lang.ts":
+      "_astro/PricingCustomCards.astro_astro_type_script_index_0_lang.DhLALWkM.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH1.astro?astro&type=script&index=0&lang.ts":
+      "_astro/CustomH1.astro_astro_type_script_index_0_lang.BHradatz.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH2.astro?astro&type=script&index=0&lang.ts":
+      "_astro/CustomH2.astro_astro_type_script_index_0_lang.BHradatz.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH3.astro?astro&type=script&index=0&lang.ts":
+      "_astro/CustomH3.astro_astro_type_script_index_0_lang.BHradatz.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH4.astro?astro&type=script&index=0&lang.ts":
+      "_astro/CustomH4.astro_astro_type_script_index_0_lang.BHradatz.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH5.astro?astro&type=script&index=0&lang.ts":
+      "_astro/CustomH5.astro_astro_type_script_index_0_lang.BHradatz.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH6.astro?astro&type=script&index=0&lang.ts":
+      "_astro/CustomH6.astro_astro_type_script_index_0_lang.BHradatz.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingTwoCards.astro?astro&type=script&index=0&lang.ts":
+      "_astro/PricingTwoCards.astro_astro_type_script_index_0_lang.DaQNG5ZM.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingThreeCards.astro?astro&type=script&index=0&lang.ts":
+      "_astro/PricingThreeCards.astro_astro_type_script_index_0_lang.DhLALWkM.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingOnePrice.astro?astro&type=script&index=0&lang.ts":
+      "_astro/PricingOnePrice.astro_astro_type_script_index_0_lang.DL0PdCmi.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/resume/Tools.astro?astro&type=script&index=0&lang.ts":
+      "_astro/Tools.astro_astro_type_script_index_0_lang.bycda7-S.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/table-of-contents/TableOfContents.astro?astro&type=script&index=0&lang.ts":
+      "_astro/TableOfContents.astro_astro_type_script_index_0_lang.Ck5Izx6N.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/NavDropdown/MegaMenuDropdownToggle.astro?astro&type=script&index=0&lang.ts":
+      "_astro/MegaMenuDropdownToggle.astro_astro_type_script_index_0_lang.CQwnA22k.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/NavDropdown/NavDropdownToggle.astro?astro&type=script&index=0&lang.ts":
+      "_astro/NavDropdownToggle.astro_astro_type_script_index_0_lang.DHRlv0Es.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/MobileNav/MobileNav.astro?astro&type=script&index=0&lang.ts":
+      "_astro/MobileNav.astro_astro_type_script_index_0_lang.LziST6bU.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/language-select/LanguageSelect.astro?astro&type=script&index=0&lang.ts":
+      "_astro/LanguageSelect.astro_astro_type_script_index_0_lang.B6JqAYTP.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/theme-toggle/ThemeToggle.astro?astro&type=script&index=0&lang.ts":
+      "_astro/ThemeToggle.astro_astro_type_script_index_0_lang.C75ucAQ2.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/starwind/switch/Switch.astro?astro&type=script&index=0&lang.ts":
+      "_astro/Switch.astro_astro_type_script_index_0_lang.CsFUHhJ1.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/astro/components/ClientRouter.astro?astro&type=script&index=0&lang.ts":
+      "_astro/ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/starwind/accordion/Accordion.astro?astro&type=script&index=0&lang.ts":
+      "_astro/Accordion.astro_astro_type_script_index_0_lang.BaNyP-XF.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/MobileNav/MobileNavDropdown.astro?astro&type=script&index=0&lang.ts":
+      "_astro/MobileNavDropdown.astro_astro_type_script_index_0_lang.C7xcDA-M.js",
+    "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/language-select/MobileLanguageSelect.astro?astro&type=script&index=0&lang.ts":
+      "_astro/MobileLanguageSelect.astro_astro_type_script_index_0_lang.DLbXWB6Q.js",
+    "astro:scripts/before-hydration.js": "",
+  },
+  inlinedScripts: [
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/pages/examples/projects-index-2.astro?astro&type=script&index=0&lang.ts",
+      'const c=()=>{const s=document.querySelectorAll(".tech-filter"),a=document.querySelectorAll(".project-item");s.forEach(t=>{t.addEventListener("click",()=>{const r=t.getAttribute("data-tech");s.forEach(e=>{e.setAttribute("aria-pressed","false")}),t.setAttribute("aria-pressed","true"),a.forEach(e=>{const o=JSON.parse(e.getAttribute("data-technologies")||"[]");r==="all"||o.includes(r)?e.classList.remove("hidden"):e.classList.add("hidden")})})})};c();document.addEventListener("astro:after-swap",c);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/hero/HeroGradient.astro?astro&type=script&index=0&lang.ts",
+      'window.addEventListener("scroll",()=>{const e=document.getElementById("scroll-arrow");window.scrollY>50?e.style.display="none":e.style.display="flex"});',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingCustomCards.astro?astro&type=script&index=0&lang.ts",
+      'const a=()=>{const e=document.getElementById("pricing-three-cards"),t=e?.querySelector("#pricing-three-cards__toggle"),c=e?.querySelectorAll(".pricing-monthly"),i=e?.querySelectorAll(".pricing-yearly");if(!t||!c||!i)return;new MutationObserver(n=>{n.forEach(s=>{if(s.type==="attributes"&&s.attributeName==="aria-checked"){const o=t.getAttribute("aria-checked")==="true";c.forEach(r=>r.classList.toggle("hidden",o)),i.forEach(r=>r.classList.toggle("hidden",!o))}})}).observe(t,{attributes:!0,attributeFilter:["aria-checked"]})};a();document.addEventListener("astro:after-swap",()=>{a()});',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH1.astro?astro&type=script&index=0&lang.ts",
+      'let e;function a(){e=document.querySelectorAll("[data-tooltip]"),e&&e.forEach(t=>{t.addEventListener("click",()=>{const i=t.getAttribute("data-clipboard-text")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute("data-tooltip","copied!"),setTimeout(()=>{t.setAttribute("data-tooltip","copy link")},3e3))})})}a();document.addEventListener("astro:after-swap",a);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH2.astro?astro&type=script&index=0&lang.ts",
+      'let e;function a(){e=document.querySelectorAll("[data-tooltip]"),e&&e.forEach(t=>{t.addEventListener("click",()=>{const i=t.getAttribute("data-clipboard-text")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute("data-tooltip","copied!"),setTimeout(()=>{t.setAttribute("data-tooltip","copy link")},3e3))})})}a();document.addEventListener("astro:after-swap",a);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH3.astro?astro&type=script&index=0&lang.ts",
+      'let e;function a(){e=document.querySelectorAll("[data-tooltip]"),e&&e.forEach(t=>{t.addEventListener("click",()=>{const i=t.getAttribute("data-clipboard-text")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute("data-tooltip","copied!"),setTimeout(()=>{t.setAttribute("data-tooltip","copy link")},3e3))})})}a();document.addEventListener("astro:after-swap",a);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH4.astro?astro&type=script&index=0&lang.ts",
+      'let e;function a(){e=document.querySelectorAll("[data-tooltip]"),e&&e.forEach(t=>{t.addEventListener("click",()=>{const i=t.getAttribute("data-clipboard-text")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute("data-tooltip","copied!"),setTimeout(()=>{t.setAttribute("data-tooltip","copy link")},3e3))})})}a();document.addEventListener("astro:after-swap",a);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH5.astro?astro&type=script&index=0&lang.ts",
+      'let e;function a(){e=document.querySelectorAll("[data-tooltip]"),e&&e.forEach(t=>{t.addEventListener("click",()=>{const i=t.getAttribute("data-clipboard-text")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute("data-tooltip","copied!"),setTimeout(()=>{t.setAttribute("data-tooltip","copy link")},3e3))})})}a();document.addEventListener("astro:after-swap",a);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/markdown-components/CustomH6.astro?astro&type=script&index=0&lang.ts",
+      'let e;function a(){e=document.querySelectorAll("[data-tooltip]"),e&&e.forEach(t=>{t.addEventListener("click",()=>{const i=t.getAttribute("data-clipboard-text")||window.location.href;navigator.clipboard.writeText(i),t instanceof HTMLElement&&(t.setAttribute("data-tooltip","copied!"),setTimeout(()=>{t.setAttribute("data-tooltip","copy link")},3e3))})})}a();document.addEventListener("astro:after-swap",a);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingTwoCards.astro?astro&type=script&index=0&lang.ts",
+      'const a=()=>{const e=document.getElementById("pricing-two-cards"),t=e?.querySelector("#pricing-two-cards__toggle"),c=e?.querySelectorAll(".pricing-monthly"),i=e?.querySelectorAll(".pricing-yearly");if(!t||!c||!i)return;new MutationObserver(n=>{n.forEach(o=>{if(o.type==="attributes"&&o.attributeName==="aria-checked"){const s=t.getAttribute("aria-checked")==="true";c.forEach(r=>r.classList.toggle("hidden",s)),i.forEach(r=>r.classList.toggle("hidden",!s))}})}).observe(t,{attributes:!0,attributeFilter:["aria-checked"]})};a();document.addEventListener("astro:after-swap",()=>{a()});',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingThreeCards.astro?astro&type=script&index=0&lang.ts",
+      'const a=()=>{const e=document.getElementById("pricing-three-cards"),t=e?.querySelector("#pricing-three-cards__toggle"),c=e?.querySelectorAll(".pricing-monthly"),i=e?.querySelectorAll(".pricing-yearly");if(!t||!c||!i)return;new MutationObserver(n=>{n.forEach(s=>{if(s.type==="attributes"&&s.attributeName==="aria-checked"){const o=t.getAttribute("aria-checked")==="true";c.forEach(r=>r.classList.toggle("hidden",o)),i.forEach(r=>r.classList.toggle("hidden",!o))}})}).observe(t,{attributes:!0,attributeFilter:["aria-checked"]})};a();document.addEventListener("astro:after-swap",()=>{a()});',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/pricing/PricingOnePrice.astro?astro&type=script&index=0&lang.ts",
+      'const s=()=>{const e=document.getElementById("pricing-one-price"),t=e?.querySelector("#pricing-one-price__toggle"),c=e?.querySelectorAll(".pricing-monthly"),i=e?.querySelectorAll(".pricing-yearly");if(!t||!c||!i)return;new MutationObserver(a=>{a.forEach(o=>{if(o.type==="attributes"&&o.attributeName==="aria-checked"){const n=t.getAttribute("aria-checked")==="true";c.forEach(r=>r.classList.toggle("hidden",n)),i.forEach(r=>r.classList.toggle("hidden",!n))}})}).observe(t,{attributes:!0,attributeFilter:["aria-checked"]})};s();document.addEventListener("astro:after-swap",()=>{s()});',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/table-of-contents/TableOfContents.astro?astro&type=script&index=0&lang.ts",
+      'let t,c,s;function i(r){const e=document.querySelectorAll(".toc-link");r.map(n=>{if(n.isIntersecting===!0){e.forEach(a=>a.classList.remove("toc-current"));const o=document.querySelector(`a[href="#${n.target.id}"].toc-link`);o&&o.classList.add("toc-current")}})}function l(){t=document.querySelector(".markdown-content"),t!==null&&(s=t.querySelectorAll(":scope > h2, :scope > h3, :scope > h4"));const r={root:null,rootMargin:"-20% 0px -40% 0px",threshold:[1]};c=new IntersectionObserver(i,r),t!==null&&s.forEach(e=>{e.classList.add("scroll-mt-20"),c.observe(e)})}l();document.addEventListener("astro:after-swap",l);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/NavDropdown/MegaMenuDropdownToggle.astro?astro&type=script&index=0&lang.ts",
+      'class n{megaMenu;dropdownButton;dropdownChevron;dropdownContent;animationDuration=150;constructor(t){this.megaMenu=t,this.dropdownButton=t.querySelector(".mega-menu__dropdown-button"),this.dropdownChevron=t.querySelector(".mega-menu__dropdown-chevron"),this.dropdownContent=t.querySelector(".mega-menu__dropdown-content"),!(!this.dropdownButton||!this.dropdownContent||!this.dropdownChevron)&&this.init()}init(){this.dropdownButton?.addEventListener("click",this.handleDropdownClick.bind(this)),document.addEventListener("click",this.handleOutsideClick.bind(this))}handleDropdownClick(t){return this.megaMenu.classList.contains("active")?this.closeDropdown():this.openDropdown(),t.preventDefault(),!1}handleOutsideClick(t){!this.megaMenu?.contains(t.target)&&this.megaMenu?.classList.contains("active")&&this.closeDropdown()}openDropdown(){this.megaMenu.classList.add("active"),this.dropdownButton?.setAttribute("aria-expanded","true"),this.dropdownContent?.setAttribute("data-state","open"),this.dropdownContent?.classList.remove("hidden"),this.dropdownChevron?.classList.add("rotate-180")}closeDropdown(){this.megaMenu.classList.remove("active"),this.dropdownButton?.setAttribute("aria-expanded","false"),this.dropdownContent?.setAttribute("data-state","closed"),this.dropdownChevron?.classList.remove("rotate-180"),setTimeout(()=>{this.dropdownContent?.classList.add("hidden")},this.animationDuration-10)}}function e(){document.querySelectorAll(".mega-menu__dropdown").forEach(t=>new n(t))}e();document.addEventListener("astro:after-swap",e);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/NavDropdown/NavDropdownToggle.astro?astro&type=script&index=0&lang.ts",
+      'class e{navDropdown;dropdownButton;dropdownChevron;dropdownContent;animationDuration=150;constructor(t){this.navDropdown=t,this.dropdownButton=t.querySelector(".nav__dropdown-button"),this.dropdownChevron=t.querySelector(".nav__dropdown-chevron"),this.dropdownContent=t.querySelector(".nav__dropdown-content"),!(!this.dropdownButton||!this.dropdownContent||!this.dropdownChevron)&&this.init()}init(){this.dropdownButton?.addEventListener("click",this.handleDropdownClick.bind(this)),document.addEventListener("click",this.handleOutsideClick.bind(this))}handleDropdownClick(t){return this.navDropdown?.classList.contains("active")?this.closeDropdown():this.openDropdown(),t.preventDefault(),!1}handleOutsideClick(t){!this.navDropdown?.contains(t.target)&&this.navDropdown?.classList.contains("active")&&this.closeDropdown()}openDropdown(){this.navDropdown.classList.add("active"),this.dropdownContent?.classList.remove("hidden"),this.dropdownButton?.setAttribute("aria-expanded","true"),this.dropdownContent?.setAttribute("data-state","open"),this.dropdownChevron?.classList.add("rotate-180")}closeDropdown(){this.navDropdown.classList.remove("active"),this.dropdownButton?.setAttribute("aria-expanded","false"),this.dropdownContent?.setAttribute("data-state","closed"),this.dropdownChevron?.classList.remove("rotate-180"),setTimeout(()=>{this.dropdownContent?.classList.add("hidden")},this.animationDuration-10)}}function o(){document.querySelectorAll(".nav__dropdown").forEach(t=>new e(t))}o();document.addEventListener("astro:after-swap",o);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/MobileNav/MobileNav.astro?astro&type=script&index=0&lang.ts",
+      'class d extends HTMLElement{constructor(){super();const t=this.querySelector("button[data-open-modal]"),o=this.querySelector("button[data-close-modal]"),e=this.querySelector("dialog");this.querySelector(".dialog-frame");const s=n=>{e.showModal(),document.body.classList.add("overflow-hidden"),e.setAttribute("data-state","open"),document.body.toggleAttribute("data-mobile-nav-open",!0),this.querySelector("input")?.focus(),n?.stopPropagation()},a=()=>{document.body.classList.remove("overflow-hidden"),e.close()};t.addEventListener("click",s),t.disabled=!1,o.addEventListener("click",a),e.addEventListener("close",()=>{document.body.toggleAttribute("data-mobile-nav-open",!1),e.setAttribute("data-state","closed")})}}customElements.define("mobile-nav-menu",d);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/language-select/LanguageSelect.astro?astro&type=script&index=0&lang.ts",
+      'class n{langSelect;dropdownButton;dropdownChevron;dropdownContent;animationDuration=150;constructor(t){this.langSelect=t,this.dropdownButton=t.querySelector(".lang-select__dropdown-button"),this.dropdownChevron=t.querySelector(".lang-select__dropdown-chevron"),this.dropdownContent=t.querySelector(".lang-select__dropdown-content"),!(!this.dropdownButton||!this.dropdownContent||!this.dropdownChevron)&&this.init()}init(){this.dropdownButton?.addEventListener("click",this.handleDropdownClick.bind(this)),document.addEventListener("click",this.handleOutsideClick.bind(this))}handleDropdownClick(t){return this.langSelect.classList.contains("active")?this.closeDropdown():this.openDropdown(),t.preventDefault(),!1}handleOutsideClick(t){!this.langSelect?.contains(t.target)&&this.langSelect?.classList.contains("active")&&this.closeDropdown()}openDropdown(){this.langSelect.classList.add("active"),this.dropdownButton?.setAttribute("aria-expanded","true"),this.dropdownContent?.setAttribute("data-state","open"),this.dropdownContent?.classList.remove("hidden"),this.dropdownChevron?.classList.add("rotate-180")}closeDropdown(){this.langSelect.classList.remove("active"),this.dropdownButton?.setAttribute("aria-expanded","false"),this.dropdownContent?.setAttribute("data-state","closed"),this.dropdownChevron?.classList.remove("rotate-180"),setTimeout(()=>{this.dropdownContent?.classList.add("hidden")},this.animationDuration-10)}}function e(){document.querySelectorAll(".lang-select__dropdown").forEach(t=>new n(t))}e();document.addEventListener("astro:after-swap",e);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/theme-toggle/ThemeToggle.astro?astro&type=script&index=0&lang.ts",
+      'function c(t){t==="dark"?(document.documentElement.classList.add("dark"),localStorage.setItem("colorTheme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("colorTheme","light"))}function n(){const t=document.querySelectorAll(".theme-toggle__dark-icon"),o=document.querySelectorAll(".theme-toggle__light-icon"),l=document.querySelectorAll(".theme-toggle");localStorage.getItem("colorTheme")==="dark"?(t.forEach(e=>{e.setAttribute("data-current-theme","true")}),o.forEach(e=>{e.setAttribute("data-current-theme","false")})):(t.forEach(e=>{e.setAttribute("data-current-theme","false")}),o.forEach(e=>{e.setAttribute("data-current-theme","true")})),l.forEach(e=>{e.addEventListener("click",function(){e.classList.add("can-animate"),t.forEach(r=>{const a=r.getAttribute("data-current-theme")==="true";r.setAttribute("data-current-theme",(!a).toString())}),o.forEach(r=>{const a=r.getAttribute("data-current-theme")==="true";r.setAttribute("data-current-theme",(!a).toString())}),localStorage.getItem("colorTheme")==="light"?c("dark"):c("light")})})}n();document.addEventListener("astro:after-swap",n);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/starwind/switch/Switch.astro?astro&type=script&index=0&lang.ts",
+      'const r=()=>{document.querySelectorAll(\'.starwind-switch button[role="switch"]\').forEach(e=>{e.addEventListener("click",()=>{if(e.disabled)return;const t=e.getAttribute("aria-checked")==="true";e.setAttribute("aria-checked",(!t).toString())}),e.addEventListener("keydown",t=>{if(!e.disabled&&(t.key===" "||t.key==="Enter")){t.preventDefault();const d=e.getAttribute("aria-checked")==="true";e.setAttribute("aria-checked",(!d).toString())}})})};r();document.addEventListener("astro:after-swap",r);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/starwind/accordion/Accordion.astro?astro&type=script&index=0&lang.ts",
+      'class l{accordion;type;constructor(t,r){this.accordion=t,this.type=t.dataset.type||"single",this.init(r)}init(t){const r=this.accordion.querySelectorAll(".starwind-accordion-item"),e=this.accordion.dataset.value;r.forEach((i,n)=>{const o=i.querySelector(".starwind-accordion-content"),s=i.querySelector(".starwind-accordion-trigger");!o||!s||(this.setupAccessibility(s,o,t,n),this.setContentHeight(o),s.addEventListener("click",a=>this.handleClick(a)),s.addEventListener("keydown",a=>this.handleKeyDown(a)),e&&i.getAttribute("data-value")===e&&this.setItemState(i,!0))})}setupAccessibility(t,r,e,i){const n=`starwind-accordion${e}-t${i}`,o=`starwind-accordion${e}-c${i}`;t.id=n,t.setAttribute("aria-controls",o),t.setAttribute("aria-expanded","false"),r.id=o,r.setAttribute("aria-labelledby",n),r.setAttribute("role","region")}setContentHeight(t){const r=t.firstElementChild;if(r){const e=r.getBoundingClientRect().height;t.style.setProperty("--starwind-accordion-content-height",`${e}px`)}}handleClick(t){const e=t.currentTarget.closest(".starwind-accordion-item");e&&this.toggleItem(e)}handleKeyDown(t){const e=t.currentTarget.closest(".starwind-accordion-item");if(!e)return;const i=Array.from(this.accordion.querySelectorAll(".starwind-accordion-item")),n=i.indexOf(e),s={ArrowDown:()=>this.focusItem(i,n+1),ArrowUp:()=>this.focusItem(i,n-1),Home:()=>this.focusItem(i,0),End:()=>this.focusItem(i,i.length-1)}[t.key];s&&(t.preventDefault(),s())}focusItem(t,r){const e=(r+t.length)%t.length;t[e].querySelector(".starwind-accordion-trigger")?.focus()}toggleItem(t){const r=t.getAttribute("data-state")==="open";this.type==="single"&&this.accordion.querySelectorAll(".starwind-accordion-item").forEach(e=>{e!==t&&e.getAttribute("data-state")==="open"&&this.setItemState(e,!1)}),this.setItemState(t,!r)}setItemState(t,r){const e=r?"open":"closed",i=t.querySelector(".starwind-accordion-content"),n=t.querySelector(".starwind-accordion-trigger");r&&i.style.removeProperty("animation"),this.setContentHeight(i),t.setAttribute("data-state",e),i.setAttribute("data-state",e),n.setAttribute("data-state",e),n.setAttribute("aria-expanded",r.toString())}}const d=()=>{document.querySelectorAll(".starwind-accordion").forEach((c,t)=>{c instanceof HTMLElement&&new l(c,t)})};d();document.addEventListener("astro:after-swap",d);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/nav/MobileNav/MobileNavDropdown.astro?astro&type=script&index=0&lang.ts",
+      'function r(){const i=document.querySelectorAll(".mobile-nav__dropdown");i.forEach(e=>{const s=e.querySelector(".mobile-nav__dropdown-button"),o=e.querySelector(".mobile-nav__dropdown-chevron"),t=e.querySelector(".mobile-nav__dropdown-content");s&&t&&o&&s.addEventListener("click",c=>(e.classList.contains("active")?(e.classList.remove("active"),s.setAttribute("aria-expanded","false"),t.style.maxHeight="0px",o.classList.remove("rotate-180"),setTimeout(()=>{t.classList.add("hidden")},300)):(e.classList.add("active"),s.setAttribute("aria-expanded","true"),t.classList.remove("hidden"),t.style.maxHeight=t.scrollHeight+"px",o.classList.add("rotate-180"),i.forEach(a=>{a!==e&&(a.classList.remove("active"),a.querySelector(".mobile-nav__dropdown-button")?.setAttribute("aria-expanded","false"),a.querySelector(".mobile-nav__dropdown-content")?.setAttribute("style","max-height: 0px"),a.querySelector(".mobile-nav__dropdown-chevron")?.classList.remove("rotate-180"),setTimeout(()=>{a.querySelector(".mobile-nav__dropdown-content")?.classList.add("hidden")},300))})),c.preventDefault(),!1))})}r();document.addEventListener("astro:after-swap",r);',
+    ],
+    [
+      "/home/agluck/projects/glucktek/Andrew-Portfolio/src/components/language-select/MobileLanguageSelect.astro?astro&type=script&index=0&lang.ts",
+      'function i(){const o=document.querySelectorAll(".mobile-lang__dropdown");o.forEach(e=>{const s=e.querySelector(".mobile-lang__dropdown-button"),l=e.querySelector(".mobile-lang__dropdown-chevron"),t=e.querySelector(".mobile-lang__dropdown-content");s&&t&&l&&s.addEventListener("click",r=>(e.classList.contains("active")?(e.classList.remove("active"),s.setAttribute("aria-expanded","false"),t.style.maxHeight="0px",l.classList.remove("rotate-180"),setTimeout(()=>{t.classList.add("hidden")},300)):(e.classList.add("active"),s.setAttribute("aria-expanded","true"),t.classList.remove("hidden"),t.style.maxHeight=t.scrollHeight+"px",l.classList.add("rotate-180"),o.forEach(a=>{a!==e&&(a.classList.remove("active"),a.querySelector(".mobile-lang__dropdown-button")?.setAttribute("aria-expanded","false"),a.querySelector(".mobile-lang__dropdown-content")?.setAttribute("style","max-height: 0px"),a.querySelector(".mobile-lang__dropdown-chevron")?.classList.remove("rotate-180"),setTimeout(()=>{a.querySelector(".mobile-lang__dropdown-content")?.classList.add("hidden")},300))})),r.preventDefault(),!1))})}i();document.addEventListener("astro:after-swap",i);',
+    ],
+  ],
+  assets: [
+    "/_astro/astronaut-nobg.CW-JfQlf.png",
+    "/_astro/andrew.B61ybdOp.jpg",
+    "/_astro/voxr-logo.DqeXYjLI.png",
+    "/_astro/magnit-logo.sYbH8pyi.png",
+    "/_astro/quanterix-logo.CE8yviW1.png",
+    "/_astro/aws-logo.CUne6lxp.png",
+    "/_astro/golang-logo.DbS3H6tw.png",
+    "/_astro/javascript-logo.B1lKy81i.png",
+    "/_astro/python-logo.CZg8zgQM.png",
+    "/_astro/bash-logo.rKQA5-n7.png",
+    "/_astro/typescript-logo.BIzWOn5M.png",
+    "/_astro/astro-logo.DNH2wMGV.svg",
+    "/_astro/bun-logo.Z3hP0k28.svg",
+    "/_astro/tailwind-logo.CV8EQDVd.png",
+    "/_astro/react-logo.DIuD0qnA.png",
+    "/_astro/html5-logo.CAHiaJPL.png",
+    "/_astro/css3-logo.pRvbVI_z.png",
+    "/_astro/archivo-black-latin-400-normal.BTVu2TQR.woff2",
+    "/_astro/inter-latin-wght-normal.C2S99t-D.woff2",
+    "/_astro/design-img-1-min.D7__AKnL.jpg",
+    "/_astro/rocket-icon.CUEIlbUn.png",
+    "/_astro/archivo-black-latin-400-normal.HW9MwEcM.woff",
+    "/_astro/kubernetes-logo.jIEUdPi9.png",
+    "/_astro/docker-logo.CT9CQq-A.png",
+    "/_astro/helm-logo.DtG7F9ec.png",
+    "/_astro/jenkins-logo.BEaOzJlH.png",
+    "/_astro/github-logo.DzGq4Dyy.png",
+    "/_astro/gitlab-logo.CQI2tpl2.png",
+    "/_astro/argocd-logo.CGQ_Hl3t.png",
+    "/_astro/fluxcd-logo.DRFXGrkq.png",
+    "/_astro/linux-logo.BJOoXGL7.png",
+    "/_astro/terraform-logo.D4Et8ZZ5.png",
+    "/_astro/pulumi-logo.BuWYyUIG.svg",
+    "/_astro/grafana-logo.DS8Y-0eK.png",
+    "/_astro/ansible-logo.BqQsvv3o.png",
+    "/_astro/prometheus-logo.B3-1b97w.png",
+    "/_astro/design-img-2-min.CX8nGKsd.jpg",
+    "/_astro/vault-logo.CHYdeJ__.svg",
+    "/_astro/packer-logo.IMdWJS5i.svg",
+    "/_astro/logo-loki.REN5HifU.svg",
+    "/_astro/redis-logo.CTCaBrUj.png",
+    "/_astro/rancher-logo.BXKB0vcZ.svg",
+    "/_astro/podman-logo.BahHIGVP.svg",
+    "/_astro/newrelic-logo.LUs6hRJ5.svg",
+    "/_astro/postgresql-logo.BRYoHN92.png",
+    "/_astro/mysql-logo.Cxmj2-NP.png",
+    "/_astro/sqlite-logo.C042t962.png",
+    "/_astro/rke2-logo.BAJuosEz.svg",
+    "/_astro/k3s-logo.BkYJ6EOW.svg",
+    "/_astro/avatar.B5oQLnLT.jpeg",
+    "/_astro/traefik-logo.5VA7Ntof.png",
+    "/_astro/heroImage.CDuGHDie.jpg",
+    "/_astro/image.Du_JiOD3.png",
+    "/_astro/image.CBYuc7Oc.png",
+    "/_astro/heroImage.nty55YeL.png",
+    "/_astro/image.DFGwvT4B.png",
+    "/_astro/jordon.DzgmeC7Q.jpeg",
+    "/_astro/trevor.DI8YlRkP.jpeg",
+    "/_astro/savpril.A48F5okm.jpeg",
+    "/_astro/wally.CLlp3GQL.jpeg",
+    "/_astro/nick.w47UeKIu.jpeg",
+    "/_astro/image.BKPTbb1K.png",
+    "/_astro/hardik.g472mzBz.jpeg",
+    "/_astro/image.Cs8GpjcD.png",
+    "/_astro/image.WL6hIS43.png",
+    "/_astro/chevron-down.BlhSdpBn.svg",
+    "/_astro/blog-post-2.DXGNb5MA.css",
+    "/Andrew-Gluck-Resume-2025.pdf",
+    "/robots.txt",
+    "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.CeHdR2et.js",
+    "/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js",
+    "/_astro/TestimonialSwiper.DHBATib1.css",
+    "/_astro/TestimonialSwiper.astro_astro_type_script_index_0_lang.DPaL8brA.js",
+    "/_astro/Tools.astro_astro_type_script_index_0_lang.bycda7-S.js",
+    "/_astro/_commonjsHelpers.Cpj98o6Y.js",
+    "/_astro/anime.es.BNELU3II.js",
+    "/_astro/client.itKZ9ine.js",
+    "/_astro/index.astro_astro_type_script_index_0_lang.D_sd3W9n.js",
+    "/_astro/index.wKVtu_rZ.js",
+    "/_astro/keystatic-page.CJkI6knS.js",
+    "/favicons/android-chrome-192x192.png",
+    "/favicons/android-chrome-512x512.png",
+    "/favicons/apple-touch-icon.png",
+    "/favicons/favicon-16x16.png",
+    "/favicons/favicon-32x32.png",
+    "/favicons/favicon.ico",
+    "/favicons/site.webmanifest",
+    "/images/cosmic-themes-logo.png",
+    "/404.html",
+    "/blog/index.html",
+    "/categories/index.html",
+    "/contact/index.html",
+    "/examples/blog-index-2/index.html",
+    "/examples/blog-post-2/index.html",
+    "/examples/blog2/index.html",
+    "/examples/hero-sections/index.html",
+    "/examples/landing2/index.html",
+    "/examples/landing3/index.html",
+    "/examples/pricing-faq/index.html",
+    "/examples/project-process/index.html",
+    "/examples/projects-index-2/index.html",
+    "/examples/testimonial-logo-sections/index.html",
+    "/projects/index.html",
+    "/resume/index.html",
+    "/rss.xml",
+    "/work/index.html",
+    "/index.html",
+  ],
+  i18n: {
+    fallbackType: "redirect",
+    strategy: "pathname-prefix-other-locales",
+    locales: ["en"],
+    defaultLocale: "en",
+    domainLookupTable: {},
+  },
+  buildFormat: "directory",
+  checkOrigin: true,
+  serverIslandNameMap: [],
+  key: "153OaLwM17bEjdGRJ2JojCT94l7J43LQ99JVZQs+1II=",
+  sessionConfig: {
+    driver: "fs-lite",
+    options: {
+      base: "/home/agluck/projects/glucktek/Andrew-Portfolio/node_modules/.astro/sessions",
+    },
+  },
+});
+if (manifest.sessionConfig)
+  manifest.sessionConfig.driverModule = () =>
+    import("./chunks/fs-lite_COtHaKzy.mjs");
 
 export { manifest };

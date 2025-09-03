@@ -23,13 +23,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "name",
-        "avatar",
-        "about",
-        "email",
-        "authorLink"
-      ],
+      "required": ["name", "avatar", "about", "email", "authorLink"],
       "additionalProperties": false
     }
   },

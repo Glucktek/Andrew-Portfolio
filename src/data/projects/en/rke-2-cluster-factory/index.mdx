@@ -22,6 +22,7 @@ keyFeatures:
 order: 3
 draft: false
 ---
+
 #### Overview
 
 This project is a fully automated system for provisioning, managing, and scaling Kubernetes clusters using RKE2, Rancher, Ansible, and Terraform. It’s designed to turn bare metal or virtual machines into a production-ready, GitOps-enabled Kubernetes environment with minimal manual intervention. Primarily focused taking the complexity out of standing up multi cluster Kubernetes environments. I can not attach the actual code here because it is not publicly accessible.&#x20;
@@ -30,26 +31,26 @@ This project is a fully automated system for provisioning, managing, and scaling
 
 #### Technical Highlights
 
-* **End-to-End Automation:**\
+- **End-to-End Automation:**\
   The entire lifecycle—from initial cluster bootstrap to multi-cluster management and app deployment—is automated. No click-ops, no snowflake clusters.
-* **Ansible-Driven Bootstrap:**\
+- **Ansible-Driven Bootstrap:**\
   Ansible playbooks handle the initial provisioning of a parent RKE2 cluster. This includes installing Rancher for cluster management, MetalLB for load balancing, NGINX Ingress for traffic routing, and other supporting tools. The playbooks are modular and idempotent, making them easy to extend or rerun safely.
-* **Terraform + Rancher API:**\
+- **Terraform + Rancher API:**\
   Terraform takes over to interact with Rancher’s API, dynamically creating and registering additional RKE2 clusters as managed resources. This approach allows for infrastructure-as-code management of not just the clusters, but also their Rancher integration.
-* **Dynamic Cluster Configuration:**\
+- **Dynamic Cluster Configuration:**\
   For each new child cluster, Terraform generates Ansible inventories and playbooks on the fly. Ansible then configures each cluster, installing MetalLB, ArgoCD (for GitOps), and any other required tools. This ensures every cluster is consistently configured and production-ready.
-* **GitOps Ready:**\
+- **GitOps Ready:**\
   ArgoCD is deployed automatically to all clusters, enabling continuous delivery and declarative application management from the start. I chose to use a hub and spoke model for this implementation. The core ArgoCD application lived in our root cluster, and the spokes were automatically deployed to each of the child clusters.&#x20;
-* **Scalable and Repeatable:**\
+- **Scalable and Repeatable:**\
   The system is designed to scale horizontally—spin up as many clusters as you need, all managed centrally through Rancher. The automation is fully repeatable, making it easy to rebuild or expand your environment.
-* **Bare Metal Friendly:**\
+- **Bare Metal Friendly:**\
   MetalLB provides load balancing without the need for cloud provider integrations, making this stack ideal for on-premises or hybrid environments.
 
 ---
 
 #### Why This Project Stands Out to me
 
-* **Demonstrates advanced automation and orchestration skills across multiple tools and platforms.**
-* **Bridges the gap between infrastructure provisioning and application delivery.**
-* **Showcases expertise in Kubernetes, infrastructure as code, and DevOps best practices.**
-* **Ready for real-world, production-grade use cases—on-prem, cloud, or hybrid.**
+- **Demonstrates advanced automation and orchestration skills across multiple tools and platforms.**
+- **Bridges the gap between infrastructure provisioning and application delivery.**
+- **Showcases expertise in Kubernetes, infrastructure as code, and DevOps best practices.**
+- **Ready for real-world, production-grade use cases—on-prem, cloud, or hybrid.**

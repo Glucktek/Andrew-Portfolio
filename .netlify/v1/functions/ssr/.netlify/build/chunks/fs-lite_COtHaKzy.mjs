@@ -1,5 +1,5 @@
-import { promises, existsSync } from 'node:fs';
-import { resolve, dirname, join } from 'node:path';
+import { promises, existsSync } from "node:fs";
+import { resolve, dirname, join } from "node:path";
 
 function defineDriver(factory) {
   return factory;
@@ -15,7 +15,7 @@ function createRequiredError(driver, name) {
   if (Array.isArray(name)) {
     return createError(
       driver,
-      `Missing some of the required options ${name.map((n) => "`" + n + "`").join(", ")}`
+      `Missing some of the required options ${name.map((n) => "`" + n + "`").join(", ")}`,
     );
   }
   return createError(driver, `Missing required option \`${name}\`.`);
@@ -38,7 +38,10 @@ function unlink(path) {
   return promises.unlink(path).catch(ignoreNotfound);
 }
 function readdir(dir) {
-  return promises.readdir(dir, { withFileTypes: true }).catch(ignoreNotfound).then((r) => r || []);
+  return promises
+    .readdir(dir, { withFileTypes: true })
+    .catch(ignoreNotfound)
+    .then((r) => r || []);
 }
 async function ensuredir(dir) {
   if (existsSync(dir)) {
@@ -61,7 +64,7 @@ async function readdirRecursive(dir, ignore, maxDepth) {
           const dirFiles = await readdirRecursive(
             entryPath,
             ignore,
-            maxDepth === void 0 ? void 0 : maxDepth - 1
+            maxDepth === void 0 ? void 0 : maxDepth - 1,
           );
           files.push(...dirFiles.map((f) => entry.name + "/" + f));
         }
@@ -70,7 +73,7 @@ async function readdirRecursive(dir, ignore, maxDepth) {
           files.push(entry.name);
         }
       }
-    })
+    }),
   );
   return files;
 }
@@ -84,7 +87,7 @@ async function rmRecursive(dir) {
       } else {
         return promises.unlink(entryPath);
       }
-    })
+    }),
   );
 }
 
@@ -99,7 +102,7 @@ const fsLite = defineDriver((opts = {}) => {
     if (PATH_TRAVERSE_RE.test(key)) {
       throw createError(
         DRIVER_NAME,
-        `Invalid key: ${JSON.stringify(key)}. It should not contain .. segments`
+        `Invalid key: ${JSON.stringify(key)}. It should not contain .. segments`,
       );
     }
     const resolved = join(opts.base, key.replace(/:/g, "/"));
@@ -109,7 +112,7 @@ const fsLite = defineDriver((opts = {}) => {
     name: DRIVER_NAME,
     options: opts,
     flags: {
-      maxDepth: true
+      maxDepth: true,
     },
     hasItem(key) {
       return existsSync(r(key));
@@ -121,7 +124,9 @@ const fsLite = defineDriver((opts = {}) => {
       return readFile(r(key));
     },
     async getMeta(key) {
-      const { atime, mtime, size, birthtime, ctime } = await promises.stat(r(key)).catch(() => ({}));
+      const { atime, mtime, size, birthtime, ctime } = await promises
+        .stat(r(key))
+        .catch(() => ({}));
       return { atime, mtime, size, birthtime, ctime };
     },
     setItem(key, value) {
@@ -150,7 +155,7 @@ const fsLite = defineDriver((opts = {}) => {
         return;
       }
       await rmRecursive(r("."));
-    }
+    },
   };
 });
 
