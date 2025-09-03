@@ -19,7 +19,11 @@
                 "type": "number"
               }
             },
-            "required": ["title", "school", "year"],
+            "required": [
+              "title",
+              "school",
+              "year"
+            ],
             "additionalProperties": false
           }
         },
@@ -35,7 +39,10 @@
                 "type": "number"
               }
             },
-            "required": ["title", "year"],
+            "required": [
+              "title",
+              "year"
+            ],
             "additionalProperties": false
           }
         },
@@ -91,7 +98,10 @@
                 "maximum": 100
               }
             },
-            "required": ["skill", "percentage"],
+            "required": [
+              "skill",
+              "percentage"
+            ],
             "additionalProperties": false
           }
         },
@@ -107,7 +117,10 @@
                 "type": "string"
               }
             },
-            "required": ["skill", "icon"],
+            "required": [
+              "skill",
+              "icon"
+            ],
             "additionalProperties": false
           }
         },
@@ -125,7 +138,10 @@
                 "maximum": 10
               }
             },
-            "required": ["language", "level"],
+            "required": [
+              "language",
+              "level"
+            ],
             "additionalProperties": false
           }
         },
@@ -148,7 +164,12 @@
                 "format": "uri"
               }
             },
-            "required": ["name", "category", "image", "link"],
+            "required": [
+              "name",
+              "category",
+              "image",
+              "link"
+            ],
             "additionalProperties": false
           }
         },

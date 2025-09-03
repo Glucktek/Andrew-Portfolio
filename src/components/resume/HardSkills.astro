@@ -2,7 +2,7 @@
 import { type CollectionEntry } from "astro:content";
 
 interface Props {
-	hardSkills: CollectionEntry<"resume">["data"]["hardSkills"];
+  hardSkills: CollectionEntry<"resume">["data"]["hardSkills"];
 }
 
 const { hardSkills } = Astro.props;
@@ -14,46 +14,46 @@ const rightColumn = hardSkills.slice(midpoint);
 ---
 
 <div class="space-y-4">
-	<h2 class="h3">Skills</h2>
-	<div class="grid gap-8 md:grid-cols-2">
-		<!-- Left Column -->
-		<div class="space-y-6">
-			{
-				leftColumn.map((skill) => (
-					<div class="space-y-2">
-						<div class="flex justify-between">
-							<span class="font-medium opacity-70">{skill.skill}</span>
-							<span class="text-primary">{skill.percentage}%</span>
-						</div>
-						<div class="bg-base-200/50 dark:bg-base-900 h-2 overflow-hidden rounded-full">
-							<div
-								class="bg-primary h-full rounded-full transition-all duration-500"
-								style={`width: ${skill.percentage}%`}
-							/>
-						</div>
-					</div>
-				))
-			}
-		</div>
-		
-		<!-- Right Column -->
-		<div class="space-y-6">
-			{
-				rightColumn.map((skill) => (
-					<div class="space-y-2">
-						<div class="flex justify-between">
-							<span class="font-medium opacity-70">{skill.skill}</span>
-							<span class="text-primary">{skill.percentage}%</span>
-						</div>
-						<div class="bg-base-200/50 dark:bg-base-900 h-2 overflow-hidden rounded-full">
-							<div
-								class="bg-primary h-full rounded-full transition-all duration-500"
-								style={`width: ${skill.percentage}%`}
-							/>
-						</div>
-					</div>
-				))
-			}
-		</div>
-	</div>
+  <h2 class="h3">Technical Skills</h2>
+  <div class="grid gap-8 md:grid-cols-2">
+    <!-- Left Column -->
+    <div class="space-y-6">
+      {
+        leftColumn.map((skill) => (
+          <div class="space-y-2">
+            <div class="flex justify-between">
+              <span class="font-medium opacity-70">{skill.skill}</span>
+              <span class="text-primary">{skill.percentage}%</span>
+            </div>
+            <div class="bg-base-200/50 dark:bg-base-900 h-2 overflow-hidden rounded-full">
+              <div
+                class="bg-primary h-full rounded-full transition-all duration-500"
+                style={`width: ${skill.percentage}%`}
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Right Column -->
+    <div class="space-y-6">
+      {
+        rightColumn.map((skill) => (
+          <div class="space-y-2">
+            <div class="flex justify-between">
+              <span class="font-medium opacity-70">{skill.skill}</span>
+              <span class="text-primary">{skill.percentage}%</span>
+            </div>
+            <div class="bg-base-200/50 dark:bg-base-900 h-2 overflow-hidden rounded-full">
+              <div
+                class="bg-primary h-full rounded-full transition-all duration-500"
+                style={`width: ${skill.percentage}%`}
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
 </div>

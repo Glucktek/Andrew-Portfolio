@@ -32,6 +32,10 @@
       "dates": "September 2022 - August 2025",
       "location": "California, United States",
       "responsibilities": [
+        "Mentored junior DevOps engineers through pairing, design reviews, and structured learning paths; accelerated their readiness to own services independently and reduced handoff overhead across teams.",
+        "Led cross-functional initiatives with AppSec, SRE, and platform teams to align guardrails with product velocity; established metrics for change fail rate, MTTR, and deployment frequency and used them to drive continuous improvement.",
+        "Facilitated architectural decisions, and technical design sessions; ensured decisions were documented, reversible, and tied to measurable business outcomes.",
+        "Championed a coaching culture by instituting regular knowledge share sessions with engineers. I aslo lead incident postmortem walkthroughs to improve shared understanding of reliability practices and reduced repeat incidents.",
         "Orchestrated end-to-end cloud automation for an entire department using Pulumi (TypeScript), delivering fully reproducible, policy-compliant infrastructure with zero-touch environments.",
         "Engineered robust CI/CD pipelines for a microservices ecosystem, standardizing builds, testing, security scanning, and deployments to dramatically increase release reliability and speed.",
         "Stood up a Rancher-managed Kubernetes platform (RKE2/k3s), automating management-cluster bootstrap and downstream cluster provisioning with Ansible and Terraform for repeatable, auditable cluster lifecycle management.",
@@ -54,12 +58,15 @@
       ]
     },
     {
-      "title": "Principal DevOps Engineer",
+      "title": "Principal DevOps Engineer ",
       "company": "Quanterix",
       "companyImage": "./quanterix-logo.png",
       "dates": "September 2021 - August 2022",
       "location": "Boston, Massachusetts, United States",
       "responsibilities": [
+        "Built the DevOps function from the ground up: helped define team charter, hiring profile, operating model, and technical standards; onboarded and coached engineers to a high-performance cadence.",
+        "Stood up and led the DevOps team, establishing ownership boundaries (platform, pipelines, SRE-lite) and SLAs that clarified accountability and improved stakeholder confidence.",
+        "Managed a strategic third-party agency relationship: set outcomes and KPIs, negotiated scope and SOWs, implemented sprint cadences, and enforced quality gates—delivering on time and within budget.",
         "Pioneered DevOps across the organization—established the philosophy, operating model, and end-to-end pipelines; evangelized best practices to leadership and engineering to drive company-wide adoption.",
         "Converted manual, days-long release processes into fully automated pipelines, shrinking deployments and validations to minutes while increasing reliability and repeatability.",
         "Designed developer-centric workflows (branching, reviews, environments, artifact/version strategy) that streamlined delivery, improved feedback loops, and unlocked self-service.",
@@ -154,27 +161,35 @@
   "softSkills": [
     {
       "skill": "Leadership",
-      "icon": "tabler:user-star"
+      "icon": "tabler/star-filled"
     },
     {
       "skill": "Team Collaboration",
-      "icon": "tabler:users"
+      "icon": "tabler/user"
     },
     {
       "skill": "Mentoring",
-      "icon": "tabler:school"
+      "icon": "tabler/clipboard"
+    },
+    {
+      "skill": "Vendor Management",
+      "icon": "tabler/clipboard"
+    },
+    {
+      "skill": "Stakeholder Management",
+      "icon": "tabler/briefcase"
     },
     {
       "skill": "Problem Solving",
-      "icon": "tabler:bulb"
+      "icon": "tabler/bulb"
     },
     {
       "skill": "Process Improvement",
-      "icon": "tabler:trending-up"
+      "icon": "tabler/arrow-up-right"
     },
     {
       "skill": "Strategic Planning",
-      "icon": "tabler:target"
+      "icon": "tabler/layout"
     }
   ],
   "languages": [

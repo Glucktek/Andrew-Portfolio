@@ -12,6 +12,7 @@ import Diplomas from "@components/resume/Diplomas.astro";
 import Certifications from "@components/resume/Certifications.astro";
 import Experience from "@components/resume/Experience.astro";
 import HardSkills from "@components/resume/HardSkills.astro";
+import SoftSkills from "@components/resume/SoftSkills.astro";
 
 import Tools from "@components/resume/Tools.astro";
 
@@ -63,6 +64,7 @@ const currLocale = getLocaleFromUrl(Astro.url);
       <!-- Resume Sections -->
       <div class="space-y-16 pb-10">
         <HardSkills {hardSkills} />
+        <SoftSkills {softSkills} />
 
         <Experience {experience} />
 

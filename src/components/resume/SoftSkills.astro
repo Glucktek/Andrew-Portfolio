@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
 
 interface Props {
 	softSkills: CollectionEntry<"resume">["data"]["softSkills"];
@@ -14,7 +15,7 @@ const { softSkills } = Astro.props;
 		{
 			softSkills.map((skill) => (
 				<div class="hover:border-primary/30 hover:shadow-primary/5 dark:bg-base-900 flex items-center gap-4 rounded-lg border bg-white p-4 transition-all hover:shadow-lg">
-					<span class="text-2xl">{skill.icon}</span>
+					<Icon name={skill.icon} class="size-6 text-primary flex-shrink-0" aria-hidden="true" />
 					<span class="font-medium opacity-70">{skill.skill}</span>
 				</div>
 			))
