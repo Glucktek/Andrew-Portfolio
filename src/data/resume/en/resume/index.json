@@ -28,7 +28,7 @@
     {
       "title": "Sr Software DevOps Engineer",
       "company": "Magnit",
-      "companyImage": "./magnit-logo.png",
+      "companyImage": "@images/resume/magnit-logo.png",
       "dates": "September 2022 - August 2025",
       "location": "California, United States",
       "responsibilities": [
@@ -47,7 +47,7 @@
     {
       "title": "Senior DevOps Engineer",
       "company": "Voxr AI Corp",
-      "companyImage": "./voxr-logo.png",
+      "companyImage": "@images/resume/voxr-logo.png",
       "dates": "February 2024 - June 2025",
       "location": "Louisville Metropolitan Area",
       "responsibilities": [
@@ -60,7 +60,7 @@
     {
       "title": "Principal DevOps Engineer ",
       "company": "Quanterix",
-      "companyImage": "./quanterix-logo.png",
+      "companyImage": "@images/resume/quanterix-logo.png",
       "dates": "September 2021 - August 2022",
       "location": "Boston, Massachusetts, United States",
       "responsibilities": [
@@ -77,7 +77,7 @@
     {
       "title": "Lead DevOps Engineer",
       "company": "EAGLE6",
-      "companyImage": "./rocket-icon.png",
+      "companyImage": "@images/resume/rocket-icon.png",
       "dates": "March 2018 - September 2021",
       "location": "Louisville, Kentucky Area",
       "responsibilities": [
@@ -94,7 +94,7 @@
     {
       "title": "Full-stack Developer",
       "company": "ALTOUR",
-      "companyImage": "./rocket-icon.png",
+      "companyImage": "@images/resume/rocket-icon.png",
       "dates": "September 2017 - January 2018",
       "location": "Louisville, Kentucky Area",
       "responsibilities": [
@@ -202,265 +202,265 @@
     {
       "name": "AWS",
       "category": "Cloud",
-      "image": "./aws-logo.png",
+      "image": "@images/resume/aws-logo.png",
       "link": "https://aws.amazon.com"
     },
     {
       "name": "Python",
       "category": "Programming",
-      "image": "./python-logo.png",
+      "image": "@images/resume/python-logo.png",
       "link": "https://python.org"
     },
     {
       "name": "Golang",
       "category": "Programming",
-      "image": "./golang-logo.png",
+      "image": "@images/resume/golang-logo.png",
       "link": "https://golang.org"
     },
     {
       "name": "TypeScript",
       "category": "Programming",
-      "image": "./typescript-logo.png",
+      "image": "@images/resume/typescript-logo.png",
       "link": "https://typescriptlang.org"
     },
     {
       "name": "JavaScript",
       "category": "Programming",
-      "image": "./javascript-logo.png",
+      "image": "@images/resume/javascript-logo.png",
       "link": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
     },
     {
       "name": "Bash",
       "category": "Programming",
-      "image": "./bash-logo.png",
+      "image": "@images/resume/bash-logo.png",
       "link": "https://www.gnu.org/software/bash/"
     },
     {
       "name": "Astro",
       "category": "Programming",
-      "image": "./astro-logo.svg",
+      "image": "@images/resume/astro-logo.svg",
       "link": "https://astro.build"
     },
     {
       "name": "Bun",
       "category": "Programming",
-      "image": "./bun-logo.svg",
+      "image": "@images/resume/bun-logo.svg",
       "link": "https://bun.sh"
     },
     {
       "name": "React",
       "category": "Programming",
-      "image": "./react-logo.png",
+      "image": "@images/resume/react-logo.png",
       "link": "https://react.dev"
     },
     {
       "name": "React Native",
       "category": "Programming",
-      "image": "./react-logo.png",
+      "image": "@images/resume/react-logo.png",
       "link": "https://reactnative.dev"
     },
     {
       "name": "TailwindCSS",
       "category": "Programming",
-      "image": "./tailwind-logo.png",
+      "image": "@images/resume/tailwind-logo.png",
       "link": "https://tailwindcss.com"
     },
     {
       "name": "HTML5",
       "category": "Programming",
-      "image": "./html5-logo.png",
+      "image": "@images/resume/html5-logo.png",
       "link": "https://developer.mozilla.org/en-US/docs/Web/HTML"
     },
     {
       "name": "CSS3",
       "category": "Programming",
-      "image": "./css3-logo.png",
+      "image": "@images/resume/css3-logo.png",
       "link": "https://developer.mozilla.org/en-US/docs/Web/CSS"
     },
     {
       "name": "ECS",
       "category": "Cloud",
-      "image": "./ecs-logo.png",
+      "image": "@images/resume/ecs-logo.png",
       "link": "https://aws.amazon.com/ecs/"
     },
     {
       "name": "EKS",
       "category": "Cloud",
-      "image": "./eks-logo.png",
+      "image": "@images/resume/eks-logo.png",
       "link": "https://aws.amazon.com/eks/"
     },
     {
       "name": "CloudFormation",
       "category": "Cloud",
-      "image": "./aws-logo.png",
+      "image": "@images/resume/aws-logo.png",
       "link": "https://aws.amazon.com/cloudformation/"
     },
     {
       "name": "Docker",
       "category": "DevOps",
-      "image": "./docker-logo.png",
+      "image": "@images/resume/docker-logo.png",
       "link": "https://docker.com"
     },
     {
       "name": "Kubernetes",
       "category": "DevOps",
-      "image": "./kubernetes-logo.png",
+      "image": "@images/resume/kubernetes-logo.png",
       "link": "https://kubernetes.io"
     },
     {
       "name": "Helm",
       "category": "DevOps",
-      "image": "./helm-logo.png",
+      "image": "@images/resume/helm-logo.png",
       "link": "https://helm.sh"
     },
     {
       "name": "Jenkins",
       "category": "DevOps",
-      "image": "./jenkins-logo.png",
+      "image": "@images/resume/jenkins-logo.png",
       "link": "https://jenkins.io"
     },
     {
       "name": "GitHub Actions",
       "category": "DevOps",
-      "image": "./github-logo.png",
+      "image": "@images/resume/github-logo.png",
       "link": "https://github.com/features/actions"
     },
     {
       "name": "GitLab CI",
       "category": "DevOps",
-      "image": "./gitlab-logo.png",
+      "image": "@images/resume/gitlab-logo.png",
       "link": "https://docs.gitlab.com/ee/ci/"
     },
     {
       "name": "ArgoCD",
       "category": "DevOps",
-      "image": "./argocd-logo.png",
+      "image": "@images/resume/argocd-logo.png",
       "link": "https://argoproj.github.io/cd"
     },
     {
       "name": "FluxCD",
       "category": "DevOps",
-      "image": "./fluxcd-logo.png",
+      "image": "@images/resume/fluxcd-logo.png",
       "link": "https://fluxcd.io"
     },
     {
       "name": "Linux",
       "category": "DevOps",
-      "image": "./linux-logo.png",
+      "image": "@images/resume/linux-logo.png",
       "link": "https://kernel.org"
     },
     {
       "name": "Terraform",
       "category": "DevOps",
-      "image": "./terraform-logo.png",
+      "image": "@images/resume/terraform-logo.png",
       "link": "https://terraform.io"
     },
     {
       "name": "Pulumi",
       "category": "DevOps",
-      "image": "./pulumi-logo.svg",
+      "image": "@images/resume/pulumi-logo.svg",
       "link": "https://pulumi.com"
     },
     {
       "name": "Ansible",
       "category": "DevOps",
-      "image": "./ansible-logo.png",
+      "image": "@images/resume/ansible-logo.png",
       "link": "https://ansible.com"
     },
     {
       "name": "Grafana",
       "category": "DevOps",
-      "image": "./grafana-logo.png",
+      "image": "@images/resume/grafana-logo.png",
       "link": "https://grafana.com"
     },
     {
       "name": "Prometheus",
       "category": "DevOps",
-      "image": "./prometheus-logo.png",
+      "image": "@images/resume/prometheus-logo.png",
       "link": "https://prometheus.io"
     },
     {
       "name": "Vault",
       "category": "DevOps",
-      "image": "./vault-logo.svg",
+      "image": "@images/resume/vault-logo.svg",
       "link": "https://vaultproject.io"
     },
     {
       "name": "Packer",
       "category": "DevOps",
-      "image": "./packer-logo.svg",
+      "image": "@images/resume/packer-logo.svg",
       "link": "https://packer.io"
     },
     {
       "name": "Loki",
       "category": "DevOps",
-      "image": "./logo-loki.svg",
+      "image": "@images/resume/logo-loki.svg",
       "link": "https://grafana.com/oss/loki"
     },
     {
       "name": "Redis",
       "category": "DevOps",
-      "image": "./redis-logo.png",
+      "image": "@images/resume/redis-logo.png",
       "link": "https://redis.io"
     },
     {
       "name": "Rancher",
       "category": "DevOps",
-      "image": "./rancher-logo.svg",
+      "image": "@images/resume/rancher-logo.svg",
       "link": "https://rancher.com"
     },
     {
       "name": "Podman",
       "category": "DevOps",
-      "image": "./podman-logo.svg",
+      "image": "@images/resume/podman-logo.svg",
       "link": "https://podman.io"
     },
     {
       "name": "New Relic",
       "category": "DevOps",
-      "image": "./newrelic-logo.svg",
+      "image": "@images/resume/newrelic-logo.svg",
       "link": "https://newrelic.com"
     },
     {
       "name": "PostgreSQL",
       "category": "DevOps",
-      "image": "./postgresql-logo.png",
+      "image": "@images/resume/postgresql-logo.png",
       "link": "https://postgresql.org"
     },
     {
       "name": "MySQL",
       "category": "DevOps",
-      "image": "./mysql-logo.png",
+      "image": "@images/resume/mysql-logo.png",
       "link": "https://mysql.com"
     },
     {
       "name": "SQLite",
       "category": "DevOps",
-      "image": "./sqlite-logo.png",
+      "image": "@images/resume/sqlite-logo.png",
       "link": "https://sqlite.org"
     },
     {
       "name": "K3s",
       "category": "DevOps",
-      "image": "./k3s-logo.svg",
+      "image": "@images/resume/k3s-logo.svg",
       "link": "https://k3s.io"
     },
     {
       "name": "RKE2",
       "category": "DevOps",
-      "image": "./rke2-logo.svg",
+      "image": "@images/resume/rke2-logo.svg",
       "link": "https://docs.rke2.io"
     },
     {
       "name": "MinIO",
       "category": "DevOps",
-      "image": "./prometheus-logo.png",
+      "image": "@images/resume/prometheus-logo.png",
       "link": "https://min.io"
     },
     {
       "name": "Traefik",
       "category": "DevOps",
-      "image": "./traefik-logo.png",
+      "image": "@images/resume/traefik-logo.png",
       "link": "https://traefik.io"
     }
   ]
