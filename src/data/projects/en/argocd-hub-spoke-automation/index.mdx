@@ -1,0 +1,63 @@
+---
+title: ArgoCD Automated for Hybrid Kubernetes Platform
+description: End-to-end automated GitOps platform that deploys and configures ArgoCD across a hybrid on‑prem and Amazon EKS estate, using Ansible, Helm, Terraform, and the ArgoCD API to bootstrap a central hub, register spoke clusters, and continuously deliver applications with an app-of-apps pattern from GitLab.
+image: ./image.png
+technologies:
+  - Kubernetes
+  - ArgoCD
+  - Ansible
+  - Helm
+  - Terraform
+  - GitLab CI/CD
+  - GitOps
+  - Amazon EKS
+  - On‑prem
+completionDate: 2025-06-30
+keyFeatures:
+  - Automated ArgoCD installation and bootstrap via Ansible and Helm
+  - Central "hub" ArgoCD on a core management cluster with programmatic bootstrap
+  - Spoke ArgoCD instances on environment clusters (Dev, QA, UAT, Prod) auto-joined
+  - Cluster registration and project/app creation via ArgoCD API and Terraform
+  - App-of-apps pattern sourcing manifests from GitLab repos
+  - Policy, RBAC, and secret management wired at bootstrap time
+  - Works across on‑prem and EKS with consistent workflows
+order: 1
+draft: false
+---
+
+### Problem
+
+I needed a reliable way to deliver applications into multiple Kubernetes environments that live across data center and cloud. Manual setup did not scale and produced configuration drift. I wanted each new cluster to become GitOps-enabled automatically, and I wanted one place to observe and drive change.
+
+### Approach
+
+I built a hub-and-spoke GitOps platform centered on ArgoCD. The core (hub) ArgoCD runs on a management cluster. As I provision environment clusters like Dev, QA, UAT, and Prod, the system deploys a local ArgoCD (spoke) and wires it to the hub’s GitOps workflow.
+
+- Bootstrap: Ansible installs ArgoCD on the hub using Helm charts. It applies initial Projects, RBAC, and repository credentials using the ArgoCD API.
+- Cluster onboarding: When a new cluster comes online (on‑prem or EKS), Terraform registers the cluster context and secrets, and Ansible deploys the spoke ArgoCD with environment overlays.
+- App-of-apps: I keep a core infrastructure repo that defines platform services (ingress, cert-manager, metrics, logging, external-dns, secrets integration). A root Application in the hub points to this repo and fans out to component Applications per cluster and per environment.
+- Application delivery: Product teams push changes to GitLab. The hub reconciles desired state and either drives deployment directly to spokes or delegates via app-of-apps in the spoke. Either way, Git is the single source of truth.
+
+### Implementation details
+
+- API automation: I use the ArgoCD API to create Projects, repo connections, cluster secrets, and Applications. This avoids click-ops and ensures reproducibility.
+- Terraform glue: Modules encapsulate cluster registration and ArgoCD objects. Outputs feed Ansible inventories so that bootstrap and configuration stay in lockstep.
+- Secrets and SSO: Secrets are mounted via external secret operators where available. SSO is configured centrally so developer access is consistent across clusters.
+- Safe rollouts: Progressive delivery is handled through Argo Rollouts where applicable, and sync windows protect sensitive environments.
+- Multi-tenancy: Projects and RBAC scopes keep app teams isolated, while shared platform services remain centrally managed.
+
+### Hub and spoke behavior
+
+- Hub: Hosts the root app-of-apps for core services and environment catalogs, provides centralized visibility, and drives policy.
+- Spokes: Run a minimal ArgoCD installation tuned to each environment. They reconcile their own app-of-apps definitions and report status back through the hub dashboards.
+
+### Results
+
+- New clusters become GitOps-ready in minutes with consistent guardrails.
+- Platform services deploy automatically and stay in sync across on‑prem and EKS.
+- Product applications promote cleanly across Dev, QA, UAT, and Prod by merging to Git branches and directories.
+- Operational noise drops because ArgoCD continuously detects and remediates drift.
+
+### Why this project stands out to me
+
+This is the synthesis of platform automation and practical GitOps. I like how the pieces fit together: Terraform handles registration; Ansible and Helm handle installation; the ArgoCD API provides a clear contract for Projects, clusters, and Applications; and the app-of-apps pattern keeps everything readable in Git. It lets me scale from a single cluster to many without changing the workflow, and it keeps humans out of the critical path while still keeping everything transparent in version control.

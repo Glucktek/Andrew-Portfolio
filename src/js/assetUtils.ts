@@ -12,9 +12,12 @@ function isAliasPath(path: string): path is `${AliasPrefix}${string}` {
 
 function stripAlias(path: string): string {
   // Map alias to actual src-relative path roots
-  if (path.startsWith("@images/")) return `src/assets/images/${path.slice("@images/".length)}`;
-  if (path.startsWith("@assets/")) return `src/assets/${path.slice("@assets/".length)}`;
-  if (path.startsWith("@icons/")) return `src/icons/${path.slice("@icons/".length)}`;
+  if (path.startsWith("@images/"))
+    return `src/assets/images/${path.slice("@images/".length)}`;
+  if (path.startsWith("@assets/"))
+    return `src/assets/${path.slice("@assets/".length)}`;
+  if (path.startsWith("@icons/"))
+    return `src/icons/${path.slice("@icons/".length)}`;
   if (path.startsWith("@/")) return `src/${path.slice(2)}`;
   return path;
 }
@@ -58,7 +61,10 @@ export function resolveAssetSync(path?: string | null): string | null {
 
 // Build-time map for common resume images to avoid many async imports per render
 // This leverages Vite's import.meta.glob to eagerly import all resume assets
-const resumeImages = import.meta.glob("/src/assets/images/resume/**/*", { eager: true, import: "default" }) as Record<string, string>;
+const resumeImages = import.meta.glob("/src/assets/images/resume/**/*", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
 
 export function resolveResumeImage(path: string): string | null {
   if (!path) return null;

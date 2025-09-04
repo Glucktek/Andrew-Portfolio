@@ -12,39 +12,47 @@ import { getLocaleFromUrl } from "@js/localeUtils";
 const currLocale = getLocaleFromUrl(Astro.url);
 
 const projects = await getCollection("projects", ({ data }) => {
-	// filter out draft projects
-	return data.draft !== true;
+  // filter out draft projects
+  return data.draft !== true;
 });
 const filteredProjects = filterCollectionByLanguage(projects, currLocale);
 const sortedProjects = filteredProjects.sort(
-	(a, b) => (a.data.order ?? Infinity) - (b.data.order ?? Infinity),
+  (a, b) => (a.data.order ?? Infinity) - (b.data.order ?? Infinity),
 );
 const slicedProjects = sortedProjects.slice(0, 3); // Only show first 3 projects
 ---
 
 <section
-	id="showcase-side-image"
-	class="bg-background text-foreground relative overflow-hidden py-16 md:py-32"
+  id="showcase-side-image"
+  class="bg-background text-foreground relative overflow-hidden py-16 md:py-32"
 >
-	<div class="site-container relative mx-auto px-4">
-		<!-- Section Header -->
-		<div class="mx-auto mb-20 max-w-3xl text-center" data-aos="fade-in">
-			<h2 class="h2 mb-6">Featured Projects</h2>
-			<p class="description text-xl">Explore some of our recent work and creative solutions</p>
-		</div>
+  <div class="site-container relative mx-auto px-4">
+    <!-- Section Header -->
+    <div class="mx-auto mb-20 max-w-3xl text-center" data-aos="fade-in">
+      <h2 class="h2 mb-6">Featured Projects</h2>
+      <p class="description text-xl">
+        Explore some of my recent work and creative solutions
+      </p>
+    </div>
 
-		<!-- Projects Grid -->
-		<div class="space-y-24">
-			{
-				slicedProjects.map((project, index) => (
-					<ProjectCardSideImage project={project} imageSide={index % 2 === 0 ? "left" : "right"} />
-				))
-			}
-		</div>
+    <!-- Projects Grid -->
+    <div class="space-y-24">
+      {
+        slicedProjects.map((project, index) => (
+          <ProjectCardSideImage
+            project={project}
+            imageSide={index % 2 === 0 ? "left" : "right"}
+          />
+        ))
+      }
+    </div>
 
-		<!-- View All Link -->
-		<div class="mt-20 flex justify-center">
-			<Button href="/projects" variant="primary" arrow="right"> View All Projects </Button>
-		</div>
-	</div>
+    <!-- View All Link -->
+    <div class="mt-20 flex justify-center">
+      <Button href="/projects" variant="primary" arrow="right">
+        View All Projects
+      </Button>
+    </div>
+  </div>
 </section>
+
