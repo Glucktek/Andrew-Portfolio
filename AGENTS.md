@@ -1,20 +1,20 @@
 # AGENTS.md (for agentic contributors)
-
-- Build/dev/preview/lint/format: `bun run build|dev|preview|lint|format`. Type-check: via editors/ESLint; no script.
-- Testing: none configured. If adding Vitest: run all `bunx vitest run`; single `bunx vitest run path/to/file.test.ts -t "test name"`.
-- Projects structure: list page `src/pages/projects/index.astro`; detail route `src/pages/projects/[...slug].astro`; layout `src/layouts/ProjectLayout.astro`; card `src/components/projects/ProjectCard.astro`; tech/features components in same folder.
-- Projects data: Astro Content Collections from `src/data/projects/<locale>/<slug>/index.mdx` + `image.png`. Schema in `src/content.config.ts` collection `projects` (title, description, image, technologies[], demoUrl?, githubUrl?, completionDate: date, keyFeatures[], order?, draft?).
-- Data flow: list page `getCollection("projects")` -> filter drafts -> `filterCollectionByLanguage()` using locale from URL -> sort by `order` -> render `ProjectCard`. Detail page `getStaticPaths()` filters by defaultLocale, returns `props: project`; in page, `render(project)` to get `<Content />` (MDX body) and pass to `ProjectLayout`.
-- Slugs/locales: content files live under `src/data/projects/<locale>/...`; `filterCollectionByLanguage` removes locale prefix from `id` so routes are `/projects/<slug>`. Use `slugify` for card links.
-- Images: use `astro:assets` Image with MDX-imported `image` path; see `.astro/content-assets.mjs` mapping.
-- i18n: configured in `astro.config.mjs` (defaultLocale "en"); keep `siteSettings.json.ts` locales aligned; use `getLocaleFromUrl()` for runtime locale.
-- Imports: use tsconfig aliases (`@components/*`, `@js/*`, `@layouts/*`, `@config/*`, `@assets/*`, `@images/*`, `@videos/*`, `@/*`). Order: std, third-party, internal. Prefer `import type` for types.
-- Formatting: Prettier is source of truth; run `bun run format`. Keep Tailwind classes tidy; extract repeated patterns.
-- Linting: ESLint 9 with astro/typescript-eslint. Relaxed rules: no-explicit-any OFF, no-unused-vars OFF, ban-ts-comment OFF; in .astro, anchor-is-valid OFF. Fix a11y issues regardless.
-- Naming: files/folders kebab-case; components PascalCase; vars/functions camelCase; constants UPPER_SNAKE. Astro pages define routes under `src/pages`.
-- Types: strictNullChecks on. Prefer explicit return types for exported functions; narrow unknown; avoid any except template glue. Use discriminated unions for variants.
-- Error handling: fail fast for config/content issues; show friendly UI messages. Avoid throwing in Astro frontmatter unless build should fail.
-- Performance: keep islands small; prefer SSR/static; dynamic import heavy React; images via Astro assets; don’t enable CSS compression in compress() without testing.
-- Accessibility: maintain focus states and aria-\* on interactive elements.
-- Commit hygiene: small, focused commits; no secrets; run lint+format before commit; respect Docker/Netlify configs.
-- Cursor/Copilot: none found (.cursor/rules, .cursorrules, .github/copilot-instructions.md absent). Mirror them here if added later.
+- Build/dev/preview: `bun run dev|build|preview`; start alias `bun run start`.
+- Lint/format: `bun run lint`; `bun run format` (Prettier + astro + tailwind plugin).
+- Type-check: via ESLint; optional manual `bunx tsc --noEmit`.
+- Testing: none configured; when adding Vitest: all `bunx vitest run`; single `bunx vitest run path/to/file.test.ts -t "name"`.
+- Imports: std libs, external deps, then internal aliases (`@components`, `@js`, `@layouts`, `@config`, `@assets`, `@images`, `@videos`, `@/*`); use `import type`.
+- Naming: folders/files kebab-case; components PascalCase; variables/functions camelCase; constants UPPER_SNAKE; collection IDs match slug.
+- Content collections: projects at `src/data/projects/<locale>/<slug>/index.mdx` + `image.png`; filtered by `filterCollectionByLanguage`.
+- Routing: locale stripped; project routes `/projects/<slug>`; list page `src/pages/projects/index.astro`.
+- Images: prefer `astro:assets` Image; mapping in `.astro/content-assets.mjs`.
+- i18n: default locale "en"; keep locales synced (`astro.config.mjs`, `src/config/siteSettings.json.ts`); use `getLocaleFromUrl`.
+- Types: strict null checks; explicit returns for exports; favor unions/discriminated variants; avoid `any` except interop glue.
+- Error handling: fail fast on config/content issues; user-friendly UI messages; avoid throwing in frontmatter unless build must stop.
+- Performance: minimize islands; dynamic import heavy React; optimize images; test before enabling `@playform/compress` CSS compression.
+- Accessibility: maintain focus states, aria-* attributes, descriptive alt text.
+- Styling: Tailwind utilities grouped logically; extract repeated patterns; class order handled by Prettier Tailwind plugin.
+- Commit hygiene: small focused commits; run lint & format pre-commit; no secrets; respect Docker/Netlify configs.
+- Project schema: see `content.config.ts` (title, description, image, technologies[], demoUrl?, githubUrl?, completionDate, keyFeatures[], order?, draft?).
+- AI tooling: No Cursor/Copilot rule files present; mirror them here if later added.
+- When unsure, inspect existing components + `content.config.ts` before introducing new patterns.
