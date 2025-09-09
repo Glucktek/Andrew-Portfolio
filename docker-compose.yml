@@ -1,6 +1,36 @@
+version: "3.9"
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+
 services:
-  astro-app:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: andrew-portfolio-backend
+    restart: unless-stopped
+    expose:
+      - "4321" # only to internal docker network
+    environment:
+      - NODE_ENV=production
+      - PORT=4321
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    networks:
+      - internal
+
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile
+      target: frontend
+    image: andrew-portfolio-frontend
     restart: unless-stopped
+    ports:
+      - "8080:80" # public site
+    depends_on:
+      - backend
+    networks:
+      - internal

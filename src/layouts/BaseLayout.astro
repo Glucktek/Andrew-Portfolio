@@ -6,6 +6,7 @@ import BaseHead from "@layouts/BaseHead.astro";
 import Nav from "@components/nav/Nav.astro";
 import Footer from "@components/footer/Footer.astro";
 import CookieConsent from "@components/cookie-consent/CookieConsent.astro";
+import ChatButton from "@components/chat/ChatButton.astro";
 
 // style import
 import "@/styles/global.css";
@@ -68,6 +69,9 @@ const currLocale = getLocaleFromUrl(Astro.url);
 			</main>
 		</div>
 		<Footer />
+
+		<!-- Chat Interface -->
+		<ChatButton />
 
 		<!-- Scroll animations -->
 		<script>

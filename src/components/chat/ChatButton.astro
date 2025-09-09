@@ -1,0 +1,13 @@
+---
+import ChatInterface from "./ChatInterface.tsx";
+
+interface Props {
+  initialOpen?: boolean;
+  position?: "bottom-right" | "bottom-left";
+}
+
+const { initialOpen = false, position = "bottom-right" } = Astro.props as Props;
+---
+
+<ChatInterface client:load initialOpen={initialOpen} position={position} />
+

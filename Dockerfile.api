@@ -1,0 +1,23 @@
+# Backend API container for Astro SSR/APIs (Node runtime)
+# Use a slim Node image for runtime
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Only copy necessary files for install
+COPY package.json bun.lock ./
+
+# Install deps with bun to match lockfile, then use node to run
+RUN npm i -g bun && bun install --production
+
+# Copy source
+COPY . .
+
+ENV NODE_ENV=production
+# Astro server default port
+ENV PORT=4321
+EXPOSE 4321
+
+# Start only the API server; we'll rely on Astro's /api routes
+# If a dedicated API server script exists, replace the command accordingly
+CMD ["bun", "run", "preview"]
