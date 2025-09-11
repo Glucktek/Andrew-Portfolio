@@ -42,51 +42,6 @@ function isInScope(text: string): boolean {
   return !denyHit;
 }
 
-// Simple in-memory rate limiter per session/IP
-const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
-const RATE_LIMIT_MAX_REQUESTS = 15; // per window
-
-type Bucket = { count: number; resetAt: number };
-const buckets = new Map<string, Bucket>();
-
-function getClientKey(req: Request): string {
-  const url = new URL(req.url);
-  const cookie = req.headers.get("cookie") || "";
-  const m = /kira_sid=([^;]+)/.exec(cookie);
-  const sid = m?.[1];
-  const ip = (
-    req.headers.get("x-forwarded-for") ||
-    req.headers.get("cf-connecting-ip") ||
-    req.headers.get("x-real-ip") ||
-    ""
-  )
-    .split(",")[0]
-    .trim();
-  const ua = req.headers.get("user-agent") || "";
-  return [url.hostname, sid || ip || ua].filter(Boolean).join(":");
-}
-
-function checkRateLimit(
-  req: Request,
-): { ok: true } | { ok: false; retryAfter: number; remaining: number } {
-  const key = getClientKey(req);
-  const now = Date.now();
-  const b = buckets.get(key);
-  if (!b || now >= b.resetAt) {
-    buckets.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return { ok: true };
-  }
-  if (b.count < RATE_LIMIT_MAX_REQUESTS) {
-    b.count += 1;
-    return { ok: true };
-  }
-  return {
-    ok: false,
-    retryAfter: Math.max(0, Math.ceil((b.resetAt - now) / 1000)),
-    remaining: 0,
-  };
-}
-
 let cachedContext: { value: string; expires: number } | null = null;
 const CONTEXT_TTL_MS = 5 * 60000; // 5 minutes
 async function getContextBlock(): Promise<string> {
@@ -101,8 +56,8 @@ async function getContextBlock(): Promise<string> {
 import { assertInternal } from "@/js/internalSecret";
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const deny = assertInternal(request);
-    if (deny) return deny;
+    const authDeny = assertInternal(request);
+    if (authDeny) return authDeny;
 
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method not allowed" }), {
@@ -124,17 +79,6 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Missing "message"' }), {
         status: 400,
       });
-    }
-
-    const rl = checkRateLimit(request);
-    if (!rl.ok) {
-      return new Response(
-        JSON.stringify({
-          error: "Rate limit exceeded. Please wait and try again.",
-          retryAfter: rl.retryAfter,
-        }),
-        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } },
-      );
     }
 
     // Enforce scope
@@ -166,6 +110,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     const systemPrompt = `You are Kira, Andrew Gluck’s AI assistant.
 You must ONLY answer questions about Andrew’s projects, blog posts, and resume using the CONTEXT below.
+You take a light hearted, fun, whemisical personality. But don't make it to silly, this is still a professional site. 
 Rules:
 - Do not answer unrelated questions (news, weather, stocks, politics, celebrity, etc.).
 - Do not write general programming help or code unrelated to Andrew’s portfolio.
@@ -180,6 +125,8 @@ Rules:
 CONTEXT:
 ${contextBlock || "(No context loaded)"}`;
 
+    //we need to combine the system prompt as system, the chat history, and the users message.
+    //This then is sent to to the AI for a full context.
     const messages = [
       { role: "system", content: systemPrompt },
       ...(Array.isArray(history) ? history : []),
