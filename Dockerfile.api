@@ -1,23 +1,23 @@
-# Backend API container for Astro SSR/APIs (Node runtime)
-# Use a slim Node image for runtime
-FROM node:20-alpine
+# API service Dockerfile using Bun runtime for Astro node adapter
+FROM oven/bun:1.1-alpine AS base
 
 WORKDIR /app
 
-# Only copy necessary files for install
-COPY package.json bun.lock ./
-
-# Install deps with bun to match lockfile, then use node to run
-RUN npm i -g bun && bun install --production
+# Copy lockfiles & manifest first for caching
+COPY bun.lock package.json ./
+RUN bun install --frozen-lockfile
 
 # Copy source
 COPY . .
 
-ENV NODE_ENV=production
-# Astro server default port
-ENV PORT=4321
-EXPOSE 4321
+# Expose only API endpoints; build with node adapter standalone
+# We keep node adapter (already configured) which outputs a server entry.
+RUN bun run build
 
-# Start only the API server; we'll rely on Astro's /api routes
-# If a dedicated API server script exists, replace the command accordingly
-CMD ["bun", "run", "preview"]
+# Use the same image (could multi-stage slim if needed)
+ENV NODE_ENV=production
+EXPOSE 4321
+# Astro standalone bundle usually provides a "dist" with a server entry, but with node adapter standalone
+# it creates a server entry point ./.vercel/output or dist/server. We run the preview/start command.
+# Direct start: bun run start (Astro detects adapter) OR node ./dist/server/entry.mjs (depending on output)
+CMD ["bun", "run", "start", "--", "--port", "4321"]

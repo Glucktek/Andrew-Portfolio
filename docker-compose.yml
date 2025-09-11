@@ -1,21 +1,42 @@
-services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile.api
-    image: andrew-portfolio-backend
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=production
-      - PORT=4321
-      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+version: "3.9"
 
-  frontend:
+services:
+  web:
+    image: andrew-portfolio:latest
     build:
       context: .
       dockerfile: Dockerfile
-      target: frontend
-    image: andrew-portfolio-frontend
     restart: unless-stopped
-    depends_on:
-      - backend
+    environment:
+      - NODE_ENV=production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.andrew.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.andrew.entrypoints=websecure"
+      - "traefik.http.routers.andrew.tls=true"
+      - "traefik.http.routers.andrew.tls.certresolver=${TLS_RESOLVER:-letsencrypt}"
+      - "traefik.http.services.andrew.loadbalancer.server.port=80"
+
+  # Optional: API container serving /api for chat functionality used by nginx proxy_pass
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: andrew-portfolio-api:latest
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - INTERNAL_API_TOKEN
+      - OPENROUTER_API_KEY
+    expose:
+      - "4321"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.andrew-api.rule=Host(`${DOMAIN}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.andrew-api.entrypoints=websecure"
+      - "traefik.http.routers.andrew-api.tls=true"
+      - "traefik.http.routers.andrew-api.tls.certresolver=${TLS_RESOLVER:-letsencrypt}"
+      - "traefik.http.services.andrew-api.loadbalancer.server.port=4321"
+      - "traefik.http.middlewares.internal-api.headers.customrequestheaders.X-Internal-Secret=${INTERNAL_API_TOKEN}"
+      - "traefik.http.routers.andrew-api.middlewares=internal-api@docker"
+

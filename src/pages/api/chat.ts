@@ -1,11 +1,13 @@
 import type { APIRoute } from "astro";
 export const prerender = false;
 
-// Looser scope enforcement: deny-only for obvious unrelated or unsafe topics
 function isInScope(text: string): boolean {
   if (!text) return false;
   const t = text.toLowerCase();
 
+  //This funciton and list let's me auto deny many different things that could be asked to abuse the
+  //System. If these keys are hit we never even get through to the AI.
+  //The prompt handles many of the other edge cases.
   const deny = [
     // unrelated general topics
     "current weather",
@@ -41,7 +43,7 @@ function isInScope(text: string): boolean {
 }
 
 // Simple in-memory rate limiter per session/IP
-const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 15; // per window
 
 type Bucket = { count: number; resetAt: number };
@@ -85,9 +87,8 @@ function checkRateLimit(
   };
 }
 
-// Minimal memoization for portfolio context within a short TTL
 let cachedContext: { value: string; expires: number } | null = null;
-const CONTEXT_TTL_MS = 5 * 60_000; // 5 minutes
+const CONTEXT_TTL_MS = 5 * 60000; // 5 minutes
 async function getContextBlock(): Promise<string> {
   const now = Date.now();
   if (cachedContext && now < cachedContext.expires) return cachedContext.value;
@@ -97,8 +98,12 @@ async function getContextBlock(): Promise<string> {
   return value;
 }
 
+import { assertInternal } from "@/js/internalSecret";
 export const POST: APIRoute = async ({ request }) => {
   try {
+    const deny = assertInternal(request);
+    if (deny) return deny;
+
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ error: "Method not allowed" }), {
         status: 405,
@@ -121,7 +126,6 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Rate limit per session/IP
     const rl = checkRateLimit(request);
     if (!rl.ok) {
       return new Response(
@@ -171,6 +175,7 @@ Rules:
 - If a question is outside scope or data is missing in CONTEXT, reply briefly that you can only answer questions about Andrew’s projects, blog, or resume.
 - Format responses with simple Markdown where helpful (bold, bullet/numbered lists, short code spans).
 - Keep answers conscise when possible, as long as it does not lose meaning. 
+- Do not use tables in your responses
 
 CONTEXT:
 ${contextBlock || "(No context loaded)"}`;
@@ -181,7 +186,7 @@ ${contextBlock || "(No context loaded)"}`;
       { role: "user", content: String(message) },
     ];
 
-    const model = "deepseek/deepseek-chat-v3.1:free";
+    const model = "openai/gpt-oss-20b:free";
 
     const resp = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
