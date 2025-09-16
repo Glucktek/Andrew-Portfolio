@@ -12,6 +12,3 @@ services:
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
     expose:
       - "4321" # internal port; Traefik will route to this
-    labels:
-      - "traefik.http.middlewares.api-headers.headers.customrequestheaders.X-Internal-Auth=${INTERNAL_API_TOKEN}"
-      - traefik.http.routers.api.middlewares=api-headers@docker
