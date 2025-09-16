@@ -10,8 +10,6 @@ services:
       - PUBLIC_DEV_ODME=false
       - INTERNAL_API_TOKEN=${INTERNAL_API_TOKEN} # ← Add the = and ${...}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
-    volumes:
-      - ./middlewares.yml:/etc/traefik/dynamic/middlewares.yml:ro
     expose:
       - "4321" # internal port; Traefik will route to this
     labels:
