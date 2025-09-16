@@ -16,7 +16,7 @@ COPY package.json bun.lock* ./
 RUN npm i -g bun@latest
 
 # Install dependencies (frozen lockfile)
-RUN bun install --frozen-lockfile
+RUN bun install --ci
 
 # Copy the rest of the project
 COPY . .
