@@ -1,4 +1,6 @@
 const CURRENT = process.env.INTERNAL_API_TOKEN ?? "";
+const DEV_BYPASS = (process.env.INTERNAL_API_DEV_BYPASS ?? "0").toString() === "1";
+const IS_PROD = process.env.NODE_ENV === "production";
 
 function constantTimeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
@@ -10,6 +12,9 @@ function constantTimeEqual(a: string, b: string): boolean {
 }
 
 export function assertInternal(request: Request): Response | null {
+  // Allow bypass only in non-production AND when explicitly enabled
+  if (!IS_PROD && DEV_BYPASS) return null;
+
   if (!CURRENT) {
     return new Response("Server misconfiguration", { status: 500 });
   }

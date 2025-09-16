@@ -6,16 +6,14 @@ import mdx from "@astrojs/mdx";
 import AutoImport from "astro-auto-import";
 import react from "@astrojs/react";
 import keystatic from "@keystatic/astro";
-import netlify from "@astrojs/netlify";
+import node from "@astrojs/node";
 import compress from "@playform/compress";
 import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://voyager.cosmicthemes.com",
-  adapter: netlify({
-    imageCDN: false,
-  }),
+  site: "https://andrew-gluck.com",
+  adapter: node({ mode: "standalone" }),
   redirects: {
     "/admin": "/keystatic",
   },

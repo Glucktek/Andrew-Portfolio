@@ -85,9 +85,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     // Call backend API
     (async () => {
       try {
+        const headers: Record<string, string> = { "Content-Type": "application/json" };
+        
+        // Dev mode is now handled entirely on the backend
+        // No need to send headers - backend checks environment variables
+        console.log('Sending chat request (dev mode handled by backend)');
+        
         const res = await fetch("/api/chat", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({
             message: newMessage.content,
             history: chatState.messages.map((m) => ({

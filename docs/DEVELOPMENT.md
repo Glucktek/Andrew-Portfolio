@@ -230,6 +230,37 @@ Static Page Generation
    git commit -m "content: add new blog post"
    ```
 
+### Chat API Development Mode
+
+The portfolio includes a chat interface powered by AI that requires API authentication for security. For local development, you can enable dev mode to bypass authentication requirements:
+
+#### Setup Dev Mode
+1. **Copy environment variables**:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Configure dev mode variables**:
+   ```bash
+   # In your .env file
+   INTERNAL_API_TOKEN=your_secure_token_here
+   PUBLIC_INTERNAL_API_TOKEN=your_secure_token_here  # Same as above
+   PUBLIC_DEV_MODE=true  # Set to 'false' to disable dev mode
+   INTERNAL_API_DEV_BYPASS=0  # Keep as 0 for header-based auth
+   ```
+
+#### How Dev Mode Works
+- **Development Environment**: When `NODE_ENV !== "production"` AND `PUBLIC_DEV_MODE !== "false"`, authentication is completely skipped
+- **Manual Override**: Set `PUBLIC_DEV_MODE=false` to disable dev mode even in development
+- **Production Safety**: In production, authentication is always required
+- **Clean Separation**: Dev mode check happens before any authentication logic runs
+
+#### Testing Chat Functionality
+- Open the chat interface in your browser
+- Send test messages to verify API connectivity
+- Check browser network tab for proper header transmission
+- Monitor console for any authentication errors
+
 ### Bug Fix Workflow
 
 1. **Issue Identification**

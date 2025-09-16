@@ -17,10 +17,11 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - INTERNAL_API_TOKEN
+      - PUBLIC_DEV_MODE=true
+      - API_INTERNAL_TOKEN
       - OPENROUTER_API_KEY
-    ports:
-      - "4321:4321"  # Expose API for local testing (remove in production if undesired)
     labels:
-      - "traefik.http.middlewares.internal-api.headers.customrequestheaders.X-Internal-Secret=${INTERNAL_API_TOKEN}"
-      - "traefik.http.routers.andrew-api.middlewares=internal-api@docker"
+      # Middleware: inject header with your secret (from env)
+      - traefik.http.middlewares.api-headers.headers.customrequestheaders.X-Internal-Auth=${API_INTERNAL_TOKEN}
+      # Attach middleware to router
+      - traefik.http.routers.api.middlewares=api-headers@docker
