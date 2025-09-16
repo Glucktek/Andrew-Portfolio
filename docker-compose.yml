@@ -8,10 +8,10 @@ services:
     environment:
       - NODE_ENV=production
       - PUBLIC_DEV_MODE=false
-      - API_INTERNAL_TOKEN
+      - INTERNAL_API_TOKEN
       - OPENROUTER_API_KEY
     expose:
       - "4321" # internal port; Traefik will route to this
     labels:
-      - traefik.http.middlewares.api-headers.headers.customrequestheaders.X-Internal-Auth=${API_INTERNAL_TOKEN}
+      - traefik.http.middlewares.api-headers.headers.customrequestheaders.X-Internal-Auth=${INTERNAL_API_TOKEN}
       - traefik.http.routers.api.middlewares=api-headers@docker
