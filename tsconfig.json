@@ -6,6 +6,9 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@config/*": ["src/config/*"],

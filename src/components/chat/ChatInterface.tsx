@@ -91,7 +91,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         // No need to send headers - backend checks environment variables
         console.log('Sending chat request (dev mode handled by backend)');
         
-        const res = await fetch("/api/chat", {
+        const API_BASE = import.meta.env.PUBLIC_API_URL || "";
+        const endpoint = `${API_BASE}/api/chat`;
+        const res = await fetch(endpoint, {
           method: "POST",
           headers,
           body: JSON.stringify({

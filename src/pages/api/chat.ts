@@ -47,7 +47,7 @@ const CONTEXT_TTL_MS = 5 * 60000; // 5 minutes
 async function getContextBlock(): Promise<string> {
   const now = Date.now();
   if (cachedContext && now < cachedContext.expires) return cachedContext.value;
-  const { loadPortfolioContext } = await import("@/js/chatContextUtils.ts");
+  const { loadPortfolioContext } = await import("@/js/chatContextUtils");
   const value = await loadPortfolioContext();
   cachedContext = { value, expires: now + CONTEXT_TTL_MS };
   return value;
