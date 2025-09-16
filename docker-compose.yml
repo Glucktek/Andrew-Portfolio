@@ -15,4 +15,4 @@ services:
     expose:
       - "4321" # internal port; Traefik will route to this
     labels:
-      - "traefik.http.routers.*.middlewares: api-headers@file"
+      - "coolify.configuration.middlewares: api-headers@file"
