@@ -13,7 +13,5 @@ services:
     expose:
       - "4321" # internal port; Traefik will route to this
     labels:
-      # API sub-route on same host protected by header injection
-      - traefik.http.routers.api.rule=Host(`www.andrew-gluck.com`) && PathPrefix(`/api`)
       - traefik.http.middlewares.api-headers.headers.customrequestheaders.X-Internal-Auth=${API_INTERNAL_TOKEN}
       - traefik.http.routers.api.middlewares=api-headers@docker
