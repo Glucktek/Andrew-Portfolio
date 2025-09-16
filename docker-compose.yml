@@ -15,4 +15,4 @@ services:
     expose:
       - "4321" # internal port; Traefik will route to this
     labels:
-      - "traefik.http.routers.api-chat.middlewares=api-headers@file"
+      - "traefik.http.routers.*.middlewares: api-headers@file"
