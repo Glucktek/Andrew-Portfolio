@@ -13,4 +13,4 @@ services:
     expose:
       - "4321" # internal port; Traefik will route to this
     labels:
-      - "coolify.configuration.middlewares: api-headers@file"
+      - "coolify.configuration.middlewares: api-headers@docker"
