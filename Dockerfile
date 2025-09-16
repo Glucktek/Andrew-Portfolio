@@ -1,44 +1,27 @@
 # syntax=docker/dockerfile:1.7
-# Multi-stage build for Astro site
+# Single-container Bun image running Astro SSR (site + /api)
 
-# 1) Builder: install deps and build static site
-FROM node:22-alpine AS builder
+FROM oven/bun:1.1-alpine AS base
 WORKDIR /app
 
-# Install system deps for sharp (used by astro:assets)
-RUN apk add --no-cache libc6-compat \
-  vips vips-dev
+# System deps helpful for astro:assets
+RUN apk add --no-cache libc6-compat vips vips-dev
 
-# Copy package manifests first for better caching
-COPY package.json bun.lock* ./
+# Copy lock + manifest first for better caching
+COPY bun.lock package.json ./
 
-# Install bun for fast install
-RUN npm i -g bun@latest
-
-# Install dependencies (frozen lockfile)
+# Install dependencies reproducibly
 RUN bun install --ci
 
-# Copy the rest of the project
+# Copy source
 COPY . .
 
-# Build the site (outputs to dist/ with current adapter config)
-# If using @astrojs/node adapter, switch to static export when building container.
-# We temporarily override adapter by setting ASTRO_ADA jkPTER to static at build time.
+# Build the site with your configured adapter (SSR)
 ENV NODE_ENV=production
-RUN npx astro build
+RUN bun run build
 
-# 2) Runtime: nginx to serve static files, plus a lightweight internal API proxy path
-FROM nginx:1.27-alpine AS runtime
+# Expose SSR port (must match Compose/Traefik)
+EXPOSE 4321
 
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy built site to nginx html root
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Expose port 80 for Traefik to route to
-EXPOSE 80
-
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget -qO- http://127.0.0.1/ >/dev/null 2>&1 || exit 1
-
-CMD ["nginx", "-g", "daemon off;"]
+# Start Astro server (bind to all interfaces for Docker)
+CMD ["bun", "run", "start", "--", "--host", "0.0.0.0", "--port", "4321"]

@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   web:
     image: andrew-portfolio:latest
@@ -9,19 +7,13 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile.api
-    image: andrew-portfolio-api:latest
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=production
-      - PUBLIC_DEV_MODE=true
+      - PUBLIC_DEV_MODE=false
       - API_INTERNAL_TOKEN
       - OPENROUTER_API_KEY
+    expose:
+      - "4321" # internal port; Traefik will route to this
     labels:
-      # Middleware: inject header with your secret (from env)
+      # API sub-route on same host protected by header injection
+      - traefik.http.routers.api.rule=Host(`www.andrew-gluck.com`) && PathPrefix(`/api`)
       - traefik.http.middlewares.api-headers.headers.customrequestheaders.X-Internal-Auth=${API_INTERNAL_TOKEN}
-      # Attach middleware to router
       - traefik.http.routers.api.middlewares=api-headers@docker
